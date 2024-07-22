@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:55:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/07/22 09:11:53 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:41:45 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 int	keys_handler(int key_code, t_mlx *mlx)
 {
-	//show pressed key
-	ft_printf("Key pressed: %d\n", key_code);
+	//show pressed key, has to be removed
+	//ft_printf("Key pressed: %d\n", key_code);
 	if (key_code == XK_Escape)
-	{
-		ft_printf("\033[1;32mGame Closed by User.\033[0m\n");
 		ft_exit(mlx);
-	}
 	return (0);
 }

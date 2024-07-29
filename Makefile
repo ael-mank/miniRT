@@ -5,7 +5,7 @@ OBJ_DIR = ./obj/
 MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
 CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude
-SRC_FILES = main window/window_inputs memory/ft_exit
+SRC_FILES = main window/window_inputs memory/ft_exit my_mlx/my_mlx_pixel_put vectors/vectors vectors/vectors_operations ray/ray
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 NAME = miniRT
@@ -28,7 +28,7 @@ $(NAME): $(OBJ)
 	@echo "$(GREEN)Built MiniLibX ✅ $(NC)"
 	@cd ./libft && $(MAKE) > /dev/null && $(MAKE) bonus > /dev/null && $(MAKE) printf > /dev/null
 	@echo "$(GREEN)Built Libft ✅ $(NC)"
-	@$(CC) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx $(CFLAGS) -lX11 -lXext
+	@$(CC) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx $(CFLAGS) -lX11 -lXext -lm
 	@echo "$(BLUE)Compiled $(NAME) 🎮 $(NC)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c

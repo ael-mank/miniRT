@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   ray.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/07/29 14:13:48 by ael-mank         ###   ########.fr       */
+/*   Created: 2024/07/29 14:05:55 by ael-mank          #+#    #+#             */
+/*   Updated: 2024/07/29 14:05:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef RAY_H
+#define RAY_H
 
-# include "libft.h"
-# include "mlx.h"
-# include <X11/keysym.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "my_mlx.h"
-# include "vectors.h"
-# include "ray.h"
+#include "vectors.h"
 
-typedef struct s_mlx
-{
-	void			*mlx_ptr;
-	void			*win_ptr;
-}					t_mlx;
+typedef struct {
+    t_coord orig;
+    t_coord dir;
+} ray;
 
-//Memory
-int		ft_exit(t_mlx *mlx);
+void ray_init(ray* r, const t_coord* origin, const t_coord* direction);
+const t_coord* ray_origin(const ray* r);
+const t_coord* ray_direction(const ray* r);
+t_coord ray_at(const ray* r, double t);
 
-//Window
-int		keys_handler(int key_code, t_mlx *mlx);
-
-
-#endif
+#endif // RAY_H

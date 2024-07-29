@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   my_mlx.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/07/29 14:13:48 by ael-mank         ###   ########.fr       */
+/*   Created: 2024/07/29 13:37:46 by ael-mank          #+#    #+#             */
+/*   Updated: 2024/07/29 13:49:52 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef MY_MLX_H
+# define MY_MLX_H
 
-# include "libft.h"
-# include "mlx.h"
-# include <X11/keysym.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "my_mlx.h"
-# include "vectors.h"
-# include "ray.h"
+typedef struct	s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
 
-typedef struct s_mlx
-{
-	void			*mlx_ptr;
-	void			*win_ptr;
-}					t_mlx;
 
-//Memory
-int		ft_exit(t_mlx *mlx);
-
-//Window
-int		keys_handler(int key_code, t_mlx *mlx);
-
+void	write_colors(t_data *img, int x, int y, int r, int g, int b);
 
 #endif

@@ -1,39 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   vectors.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/07/29 14:13:48 by ael-mank         ###   ########.fr       */
+/*   Created: 2024/07/29 13:41:04 by ael-mank          #+#    #+#             */
+/*   Updated: 2024/07/29 13:41:05 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include "vectors.h"
 
-# include "libft.h"
-# include "mlx.h"
-# include <X11/keysym.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "my_mlx.h"
-# include "vectors.h"
-# include "ray.h"
-
-typedef struct s_mlx
+t_coord		gen_coord(double x, double y, double z)
 {
-	void			*mlx_ptr;
-	void			*win_ptr;
-}					t_mlx;
+	t_coord	coord;
 
-//Memory
-int		ft_exit(t_mlx *mlx);
+	coord.x = x;
+	coord.y = y;
+	coord.z = z;
+	return (coord);
+}
 
-//Window
-int		keys_handler(int key_code, t_mlx *mlx);
+double		v_len_sqr(t_coord v)
+{
+	return (v.x * v.x + v.y * v.y + v.z * v.z);
+}
 
+double		v_len(t_coord v)
+{
+	return (sqrt(v_len_sqr(v)));
+}
 
-#endif
+t_coord		v_norm(t_coord v)
+{
+	return (v_scale(v, 1 / v_len(v)));
+}

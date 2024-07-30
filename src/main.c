@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/07/29 17:52:35 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/07/30 16:41:01 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	calculate_image(t_win *win)
 		{
 			dst = win->img.addr + (y * win->img.line_length + x
 					* (win->img.bits_per_pixel / 8));
-			*(unsigned char *)dst = calculate_pixel(x, y, *win);
+			*(unsigned int *)dst = calculate_pixel(x, y, *win->scene);
 		}
 		x = 0;
 	}
@@ -37,7 +37,7 @@ int	calculate_image(t_win *win)
 	return (0);
 }
 
-void	win_init(t_win *win)
+void	win_init(t_win *win, t_scene *scene)
 {
 	win->mlx = mlx_init();
 	if (win->mlx == NULL)
@@ -48,6 +48,7 @@ void	win_init(t_win *win)
 		free(win->mlx);
 		exit(1);
 	}
+	win->scene = scene;
 	win->img.img = mlx_new_image(win->mlx, LENGTH, HEIGHT);
 	if (win->img.img == NULL)
 	{
@@ -60,12 +61,21 @@ void	win_init(t_win *win)
 	win->render = 1;
 }
 
+void	scene_init(t_scene *scene)
+{
+	scene->l = light_init();
+	scene->c = cam_init();
+	scene->v = viewport_init(scene->c);
+	scene->sp = sphere_init();
+}
+
 int main(void)
 {
 	t_win	win;
+	t_scene	scene;
 
-	win_init(&win);
-
+	scene_init(&scene);
+	win_init(&win, &scene);
 	mlx_loop_hook(win.mlx, calculate_image, &win);
 	mlx_hook(win.mlx_win, 17, 1L << 5, win_close, &win);
 	mlx_hook(win.mlx_win, 2, 1L << 0, key_event, &win);

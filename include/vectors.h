@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:40:11 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/05 12:34:40 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:47:04 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_vec3	vector_subtract(t_vec3 a, t_vec3 b);
 t_vec3	vector_scale(t_vec3 v, double scalar);
 t_vec3 vector_divide(t_vec3 v, double scalar);
 double	dot_product(t_vec3 a, t_vec3 b);
+double dot(t_vec3 a, t_vec3 b);
 t_vec3	cross_product(t_vec3 a, t_vec3 b);
 
 double	vector_length(t_vec3 v);

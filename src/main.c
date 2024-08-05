@@ -6,14 +6,25 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/05 12:37:45 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:57:29 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+int hit_sphere(t_vec3 center, double radius, t_ray r) {
+    t_vec3 oc = vector_subtract(center, r.org);
+    double a = dot(r.dir, r.dir);
+    double b = 2.0 * dot(r.dir, oc);
+    double c = dot(oc, oc) - radius * radius;
+    double discriminant = b * b - 4 * a * c;
+    return (discriminant >= 0);
+}
+
 t_vec3	ray_color(t_ray *r)
 {
+	if (hit_sphere(vec3(0, 0, -1), 0.5, *r))
+		return (vec3(1, 0, 0));
 	t_vec3	unit_direction = vector_normalize(r->dir);
 	double t = 0.5 * (unit_direction.y + 1.0);
 	return (vector_add(vector_scale(vec3(1.0, 1.0, 1.0), 1.0 - t), vector_scale(vec3(0.5, 0.7, 1.0), t)));
@@ -55,7 +66,7 @@ t_vec3 calculate_pixel_position(int i, int j, t_vec3 pixel00_loc, t_vec3 pixel_d
     return pixel_center;
 }
 
-void render_scene(t_data *img, int image_width, int image_height, t_vec3 pixel00_loc, t_vec3 pixel_delta_u, t_vec3 pixel_delta_v, t_point3 camera_center) {
+void render_scene(t_data *img, int image_width, int image_height, t_vec3 pixel00_loc, t_vec3 pixel_delta_u, t_vec3 pixel_delta_v, t_point3 camera_center,t_mlx *mlx) {
     t_ray r;
     for (int j = 0; j < image_height; j++) {
         for (int i = 0; i < image_width; i++) {
@@ -65,6 +76,8 @@ void render_scene(t_data *img, int image_width, int image_height, t_vec3 pixel00
             t_vec3 color = ray_color(&r);
             write_colors(img, i, j, color);
         }
+		usleep(900);
+		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, img->img, 50, 28);
     }
 }
 
@@ -81,10 +94,11 @@ int main(void) {
 
     init_camera(&aspect_ratio, &image_width, &image_height, &viewport_u, &viewport_v, &pixel_delta_u, &pixel_delta_v, &viewport_upper_left, &pixel00_loc, viewport_height);
     init_mlx(&mlx, &img, win_width, win_height, image_width, image_height);
-    render_scene(&img, image_width, image_height, pixel00_loc, pixel_delta_u, pixel_delta_v, vec3(0, 0, 0));
+    render_scene(&img, image_width, image_height, pixel00_loc, pixel_delta_u, pixel_delta_v, vec3(0, 0, 0), &mlx);
 
     int x = (win_width - image_width) / 2;
     int y = (win_height - image_height) / 2;
+	printf("x: %d, y: %d\n", x, y);
     mlx_put_image_to_window(mlx.mlx_ptr, mlx.win_ptr, img.img, x, y);
     mlx_key_hook(mlx.win_ptr, keys_handler, &mlx);
     mlx_hook(mlx.win_ptr, 17, 0, ft_exit, &mlx);

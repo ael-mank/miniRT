@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:41:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/05 12:23:22 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:46:50 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ t_vec3	cross_product(t_vec3 a, t_vec3 b)
 	result = vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y
 			* b.x);
 	return (result);
+}
+
+double dot(t_vec3 a, t_vec3 b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
 double	vector_length(t_vec3 v)

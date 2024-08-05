@@ -6,12 +6,14 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:37:46 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/07/29 13:49:52 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:50:39 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MY_MLX_H
 # define MY_MLX_H
+
+# include <vectors.h>
 
 typedef struct	s_data {
 	void	*img;
@@ -22,6 +24,6 @@ typedef struct	s_data {
 }				t_data;
 
 
-void	write_colors(t_data *img, int x, int y, int r, int g, int b);
+void	write_colors(t_data *img, int x, int y, t_vec3 color);
 
 #endif

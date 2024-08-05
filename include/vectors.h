@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:40:11 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/07/29 13:40:28 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:34:40 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,37 @@
 
 # include <math.h>
 
-typedef struct		s_coord
+typedef	struct s_vec3	t_point3;
+typedef	struct s_vec3	t_vec3;
+typedef struct s_ray	t_ray;
+
+typedef struct s_vec3
 {
-	double			x;
-	double			y;
-	double			z;
-}					t_coord;
+	double	x;
+	double	y;
+	double	z;
+}	t_vec3;
 
-t_coord				gen_coord(double x, double y, double z);
-double				v_len_sqr(t_coord v);
-double				v_len(t_coord v);
-t_coord				v_norm(t_coord v);
+typedef struct s_ray
+{
+	t_point3	org;
+	t_vec3		dir;
+}	t_ray;
 
-t_coord				v_add(t_coord v, t_coord u);
-t_coord				v_sub(t_coord v, t_coord u);
-t_coord				v_scale(t_coord v, double f);
-t_coord				v_cross(t_coord v, t_coord u);
-double				v_dot(t_coord v, t_coord u);
+t_vec3	vec3(double x, double y, double z);
+
+t_vec3	vector_add(t_vec3 a, t_vec3 b);
+
+t_vec3	vector_subtract(t_vec3 a, t_vec3 b);
+
+t_vec3	vector_scale(t_vec3 v, double scalar);
+t_vec3 vector_divide(t_vec3 v, double scalar);
+double	dot_product(t_vec3 a, t_vec3 b);
+t_vec3	cross_product(t_vec3 a, t_vec3 b);
+
+double	vector_length(t_vec3 v);
+t_vec3	vector_normalize(t_vec3 v);
+
+void	ray_init(t_ray *r, const t_point3 *origin, const t_point3 *direction);
 
 #endif

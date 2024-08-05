@@ -5,34 +5,66 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 13:41:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/07/29 13:41:05 by ael-mank         ###   ########.fr       */
+/*   Created: 2024/07/29 13:41:32 by ael-mank          #+#    #+#             */
+/*   Updated: 2024/08/05 12:23:22 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vectors.h"
 
-t_coord		gen_coord(double x, double y, double z)
+t_vec3	vec3(double x, double y, double z)
 {
-	t_coord	coord;
+	t_vec3	vec;
 
-	coord.x = x;
-	coord.y = y;
-	coord.z = z;
-	return (coord);
+	vec.x = x;
+	vec.y = y;
+	vec.z = z;
+	return (vec);
 }
 
-double		v_len_sqr(t_coord v)
+t_vec3	vector_add(t_vec3 a, t_vec3 b)
 {
-	return (v.x * v.x + v.y * v.y + v.z * v.z);
+	return (vec3(a.x + b.x, a.y + b.y, a.z + b.z));
 }
 
-double		v_len(t_coord v)
+t_vec3	vector_subtract(t_vec3 a, t_vec3 b)
 {
-	return (sqrt(v_len_sqr(v)));
+	return (vec3(a.x - b.x, a.y - b.y, a.z - b.z));
 }
 
-t_coord		v_norm(t_coord v)
+t_vec3	vector_scale(t_vec3 v, double scalar)
 {
-	return (v_scale(v, 1 / v_len(v)));
+	return (vec3(v.x * scalar, v.y * scalar, v.z * scalar));
+}
+
+t_vec3 vector_divide(t_vec3 v, double scalar)
+{
+	return (vec3(v.x / scalar, v.y / scalar, v.z / scalar));
+}
+
+double	dot_product(t_vec3 a, t_vec3 b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
+
+t_vec3	cross_product(t_vec3 a, t_vec3 b)
+{
+	t_vec3	result;
+
+	result = vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y
+			* b.x);
+	return (result);
+}
+
+double	vector_length(t_vec3 v)
+{
+	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
+}
+
+t_vec3	vector_normalize(t_vec3 v)
+{
+	double	length;
+
+	length = vector_length(v);
+	return (vec3(v.x / length, v.y / length, v.z / length));
 }

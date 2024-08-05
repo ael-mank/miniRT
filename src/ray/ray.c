@@ -6,33 +6,32 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 14:06:12 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/07/29 14:08:55 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:45:12 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "ray.h"
 
-void	ray_init(ray *r, const t_coord *origin, const t_coord *direction)
+void	ray_init(t_ray *r, const t_point3 *origin, const t_point3 *direction)
 {
 	if (r == NULL || origin == NULL || direction == NULL)
 	{
 		return ;
 	}
-	r->orig = *origin;
+	r->org = *origin;
 	r->dir = *direction;
 }
 
-const t_coord	*ray_origin(const ray *r)
+const t_point3	*ray_origin(t_ray *r)
 {
 	if (r == NULL)
 	{
 		return (NULL);
 	}
-	return (&r->orig);
+	return (&r->org);
 }
 
-const t_coord	*ray_direction(const ray *r)
+const t_point3	*ray_direction(t_ray *r)
 {
 	if (r == NULL)
 	{
@@ -41,9 +40,9 @@ const t_coord	*ray_direction(const ray *r)
 	return (&r->dir);
 }
 
-t_coord	ray_at(const ray *r, double t)
+t_point3	ray_at(t_ray *r, double t)
 {
-	t_coord	default_coord;
+	t_point3	default_coord;
 
 	default_coord.x = 0;
 	default_coord.y = 0;
@@ -52,5 +51,5 @@ t_coord	ray_at(const ray *r, double t)
 	{
 		return (default_coord);
 	}
-	return (v_add(r->orig, v_scale(r->dir, t)));
+	return (vector_add(r->org, vector_scale(r->dir, t)));
 }

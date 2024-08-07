@@ -6,101 +6,169 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/05 13:57:29 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:17:38 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int hit_sphere(t_vec3 center, double radius, t_ray r) {
-    t_vec3 oc = vector_subtract(center, r.org);
-    double a = dot(r.dir, r.dir);
-    double b = 2.0 * dot(r.dir, oc);
-    double c = dot(oc, oc) - radius * radius;
-    double discriminant = b * b - 4 * a * c;
-    return (discriminant >= 0);
+int	hit_sphere(t_vec3 center, double radius, t_ray r)
+{
+	t_vec3	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+
+	oc = vector_subtract(center, r.org);
+	a = dot(r.dir, r.dir);
+	b = 2.0 * dot(r.dir, oc);
+	c = dot(oc, oc) - radius * radius;
+	discriminant = b * b - 4 * a * c;
+	return (discriminant >= 0);
 }
 
 t_vec3	ray_color(t_ray *r)
 {
+	t_vec3	unit_direction;
+	double	t;
+
 	if (hit_sphere(vec3(0, 0, -1), 0.5, *r))
 		return (vec3(1, 0, 0));
-	t_vec3	unit_direction = vector_normalize(r->dir);
-	double t = 0.5 * (unit_direction.y + 1.0);
-	return (vector_add(vector_scale(vec3(1.0, 1.0, 1.0), 1.0 - t), vector_scale(vec3(0.5, 0.7, 1.0), t)));
+	unit_direction = vector_normalize(r->dir);
+	t = 0.5 * (unit_direction.y + 1.0);
+	return (vector_add(vector_scale(vec3(1.0, 1.0, 1.0), 1.0 - t),
+			vector_scale(vec3(0.5, 0.7, 1.0), t)));
 }
 
-void init_mlx(t_mlx *mlx, t_data *img, int win_width, int win_height, int image_width, int image_height) {
-    if (!(mlx->mlx_ptr = mlx_init()))
-        exit(EXIT_FAILURE);
-    if (!(mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, win_width, win_height, "MiniRT")))
-        exit(EXIT_FAILURE);
-    img->img = mlx_new_image(mlx->mlx_ptr, image_width, image_height);
-    img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+void	init_mlx(t_scene *scene, int win_width, int win_height)
+{
+	t_mlx	*mlx;
+	t_data	*img;
+
+	mlx = &scene->mlx;
+	img = &mlx->img;
+	mlx->mlx_ptr = mlx_init();
+	if (!mlx->mlx_ptr)
+		exit(EXIT_FAILURE);
+	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, win_width, win_height,
+			"MiniRT");
+	if (!mlx->win_ptr)
+		exit(EXIT_FAILURE);
+	img->img = mlx_new_image(mlx->mlx_ptr, scene->render.image_width,
+			scene->render.image_height);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+			&img->line_length, &img->endian);
 }
 
-void init_camera(double *aspect_ratio, int *image_width, int *image_height, t_vec3 *viewport_u, t_vec3 *viewport_v, t_vec3 *pixel_delta_u, t_vec3 *pixel_delta_v, t_vec3 *viewport_upper_left, t_vec3 *pixel00_loc, double viewport_height) {
-    *aspect_ratio = 16.0 / 9.0;
-    *image_height = (int)(*image_width / *aspect_ratio);
-    *image_height = (*image_height < 1) ? 1 : *image_height;
-    double viewport_width = viewport_height * (*image_width / (double)*image_height);
-    double focal_length = 1.0;
-    t_point3 camera_center = vec3(0, 0, 0);
-    *viewport_u = vec3(viewport_width, 0, 0);
-    *viewport_v = vec3(0, -viewport_height, 0);
-    *pixel_delta_u = vector_divide(*viewport_u, *image_width);
-    *pixel_delta_v = vector_divide(*viewport_v, *image_height);
-    viewport_upper_left->x = camera_center.x - (viewport_u->x / 2) - (viewport_v->x / 2);
-    viewport_upper_left->y = camera_center.y - (viewport_u->y / 2) - (viewport_v->y / 2);
-    viewport_upper_left->z = camera_center.z - focal_length - (viewport_u->z / 2) - (viewport_v->z / 2);
-    pixel00_loc->x = viewport_upper_left->x + 0.5 * (pixel_delta_u->x + pixel_delta_v->x);
-    pixel00_loc->y = viewport_upper_left->y + 0.5 * (pixel_delta_u->y + pixel_delta_v->y);
-    pixel00_loc->z = viewport_upper_left->z + 0.5 * (pixel_delta_u->z + pixel_delta_v->z);
+void	init_camera(t_camera *camera)
+{
+	camera->focal_length = 1.0;
+	camera->camera_center = vec3(0, 0, 0);
+	camera->viewport_upper_left.x = camera->camera_center.x
+		- (camera->viewport_u.x / 2) - (camera->viewport_v.x / 2);
+	camera->viewport_upper_left.y = camera->camera_center.y
+		- (camera->viewport_u.y / 2) - (camera->viewport_v.y / 2);
+	camera->viewport_upper_left.z = camera->camera_center.z
+		- camera->focal_length - (camera->viewport_u.z / 2)
+		- (camera->viewport_v.z / 2);
+	camera->pixel00_loc.x = camera->viewport_upper_left.x + 0.5
+		* (camera->pixel_delta_u.x + camera->pixel_delta_v.x);
+	camera->pixel00_loc.y = camera->viewport_upper_left.y + 0.5
+		* (camera->pixel_delta_u.y + camera->pixel_delta_v.y);
+	camera->pixel00_loc.z = camera->viewport_upper_left.z + 0.5
+		* (camera->pixel_delta_u.z + camera->pixel_delta_v.z);
 }
 
-t_vec3 calculate_pixel_position(int i, int j, t_vec3 pixel00_loc, t_vec3 pixel_delta_u, t_vec3 pixel_delta_v) {
-    t_vec3 pixel_center;
-    pixel_center.x = pixel00_loc.x + (i * pixel_delta_u.x) + (j * pixel_delta_v.x);
-    pixel_center.y = pixel00_loc.y + (i * pixel_delta_u.y) + (j * pixel_delta_v.y);
-    pixel_center.z = pixel00_loc.z + (i * pixel_delta_u.z) + (j * pixel_delta_v.z);
-    return pixel_center;
+void	init_viewport(t_camera *camera, t_render *render)
+{
+	camera->viewport_height = 2.0;
+	camera->viewport_width = camera->viewport_height * (render->image_width
+			/ (double)render->image_height);
+	camera->viewport_u = vec3(camera->viewport_width, 0, 0);
+	camera->viewport_v = vec3(0, -camera->viewport_height, 0);
+	camera->pixel_delta_u = vector_divide(camera->viewport_u,
+			render->image_width);
+	camera->pixel_delta_v = vector_divide(camera->viewport_v,
+			render->image_height);
 }
 
-void render_scene(t_data *img, int image_width, int image_height, t_vec3 pixel00_loc, t_vec3 pixel_delta_u, t_vec3 pixel_delta_v, t_point3 camera_center,t_mlx *mlx) {
-    t_ray r;
-    for (int j = 0; j < image_height; j++) {
-        for (int i = 0; i < image_width; i++) {
-            t_vec3 pixel_center = calculate_pixel_position(i, j, pixel00_loc, pixel_delta_u, pixel_delta_v);
-            t_vec3 ray_dir = vector_subtract(pixel_center, camera_center);
-            ray_init(&r, &camera_center, &ray_dir);
-            t_vec3 color = ray_color(&r);
-            write_colors(img, i, j, color);
-        }
-		usleep(900);
-		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, img->img, 50, 28);
-    }
+void	init_render(t_render *render)
+{
+	render->aspect_ratio = 16.0 / 9.0;
+	render->image_width = 860;
+	render->image_height = (int)(render->image_width / render->aspect_ratio);
+	if (render->image_height < 1)
+		render->image_height = 1;
 }
 
-int main(void) {
-    t_mlx mlx;
-    t_data img;
-    int win_width = 960;
-    int win_height = 540;
-    double aspect_ratio;
-    int image_width = 860;
-    int image_height;
-    double viewport_height = 2.0;
-    t_vec3 viewport_u, viewport_v, pixel_delta_u, pixel_delta_v, viewport_upper_left, pixel00_loc;
+void	init_scene(t_scene *scene)
+{
+	init_render(&scene->render);
+	init_viewport(&scene->camera, &scene->render);
+	init_camera(&scene->camera);
+}
 
-    init_camera(&aspect_ratio, &image_width, &image_height, &viewport_u, &viewport_v, &pixel_delta_u, &pixel_delta_v, &viewport_upper_left, &pixel00_loc, viewport_height);
-    init_mlx(&mlx, &img, win_width, win_height, image_width, image_height);
-    render_scene(&img, image_width, image_height, pixel00_loc, pixel_delta_u, pixel_delta_v, vec3(0, 0, 0), &mlx);
+t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
+{
+	t_vec3	pixel_center;
 
-    int x = (win_width - image_width) / 2;
-    int y = (win_height - image_height) / 2;
+	pixel_center.x = camera->pixel00_loc.x + (i * camera->pixel_delta_u.x) + (j
+			* camera->pixel_delta_v.x);
+	pixel_center.y = camera->pixel00_loc.y + (i * camera->pixel_delta_u.y) + (j
+			* camera->pixel_delta_v.y);
+	pixel_center.z = camera->pixel00_loc.z + (i * camera->pixel_delta_u.z) + (j
+			* camera->pixel_delta_v.z);
+	return (pixel_center);
+}
+
+void	render_scene(t_scene *scene)
+{
+	t_vec3	pixel_center;
+	t_vec3	ray_dir;
+	t_vec3	color;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (j < scene->render.image_height)
+	{
+		while (i < scene->render.image_width)
+		{
+			pixel_center = calculate_pixel_position(i, j, &scene->camera);
+			ray_dir = vector_subtract(pixel_center,
+					scene->camera.camera_center);
+			ray_init(&scene->r, &scene->camera.camera_center, &ray_dir);
+			color = ray_color(&scene->r);
+			write_colors(&scene->mlx.img, i, j, color);
+			i++;
+		}
+		mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
+			scene->mlx.img.img, 50, 28);
+		i = 0;
+		j++;
+	}
+}
+
+int	main(void)
+{
+	t_scene	scene;
+	int		win_width;
+	int		win_height;
+	int		x;
+	int		y;
+
+	ft_bzero(&scene, sizeof(t_scene));
+	win_width = 960;
+	win_height = 540;
+	init_scene(&scene);
+	init_mlx(&scene, win_width, win_height);
+	render_scene(&scene);
+	x = (win_width - scene.render.image_width) / 2;
+	y = (win_height - scene.render.image_height) / 2;
 	printf("x: %d, y: %d\n", x, y);
-    mlx_put_image_to_window(mlx.mlx_ptr, mlx.win_ptr, img.img, x, y);
-    mlx_key_hook(mlx.win_ptr, keys_handler, &mlx);
-    mlx_hook(mlx.win_ptr, 17, 0, ft_exit, &mlx);
-    mlx_loop(mlx.mlx_ptr);
+	mlx_key_hook(scene.mlx.win_ptr, keys_handler, &scene.mlx);
+	mlx_hook(scene.mlx.win_ptr, 17, 0, ft_exit, &scene.mlx);
+	mlx_loop(scene.mlx.mlx_ptr);
 }

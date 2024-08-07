@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/05 10:35:20 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:08:46 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,46 @@
 
 # include "libft.h"
 # include "mlx.h"
+# include "my_mlx.h"
+# include "vectors.h"
 # include <X11/keysym.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "my_mlx.h"
-# include "vectors.h"
-
-typedef struct s_mlx
+// structs
+typedef struct s_render
 {
-	void			*mlx_ptr;
-	void			*win_ptr;
-}					t_mlx;
+	double		aspect_ratio;
+	int			image_width;
+	int			image_height;
+}				t_render;
 
-//Memory management
+typedef struct s_camera
+{
+	double		focal_length;
+	double		viewport_height;
+	double		viewport_width;
+	t_point3	camera_center;
+	t_vec3		viewport_u;
+	t_vec3		viewport_v;
+	t_vec3		pixel_delta_u;
+	t_vec3		pixel_delta_v;
+	t_point3	viewport_upper_left;
+	t_point3	pixel00_loc;
+}				t_camera;
 
-int		ft_exit(t_mlx *mlx);
+typedef struct s_scene
+{
+	t_mlx		mlx;
+	t_camera	camera;
+	t_render	render;
+	t_ray		r;
+}				t_scene;
 
-//Window, mlx stuff
-int		keys_handler(int key_code, t_mlx *mlx);
+// Memory management
+int				ft_exit(t_mlx *mlx);
 
+// Window, mlx stuff
+int				keys_handler(int key_code, t_mlx *mlx);
 
 #endif

@@ -30,6 +30,7 @@ $(NAME): $(OBJ)
 	@echo "$(GREEN)Built Libft ✅ $(NC)"
 	@$(CC) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx $(CFLAGS) -lX11 -lXext -lm
 	@echo "$(BLUE)Compiled $(NAME) 🎮 $(NC)"
+	./miniRT
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(@D)

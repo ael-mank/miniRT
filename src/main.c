@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/07 12:16:25 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:17:32 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,9 @@ double	hit_sphere(t_vec3 center, double radius, t_ray r)
 	c = vector_length_squared(oc) - radius * radius;
 	discriminant = h*h - a * c;
 	if (discriminant < 0)
-	{
 		return (-1.0);
-	}
 	else
-	{
 		return (h - sqrt(discriminant)) / a;
-	}
 }
 
 t_vec3 ray_color(t_ray *r)
@@ -41,11 +37,17 @@ t_vec3 ray_color(t_ray *r)
     double a;
     double t;
 
-    t = hit_sphere(vec3(0, -100.5, -1), 100, *r);
+    t = hit_sphere(vec3(0, 0, -1), 0.5, *r);
     if (t > 0.0)
     {
         t_vec3 n;
         n = vector_normalize(vector_subtract(ray_at(r, t), vec3(0, 0, -1)));
+		if (dot(n, r->dir) > 0)
+		{
+			n.x = -n.x;
+			n.y = -n.y;
+			n.z = -n.z;
+		}
         return vector_scale(vec3(n.x + 1, n.y + 1, n.z + 1), 0.5);
     }
     unit_direction = vector_normalize(r->dir);

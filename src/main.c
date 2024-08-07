@@ -6,39 +6,52 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/07 11:17:38 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:16:25 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	hit_sphere(t_vec3 center, double radius, t_ray r)
+double	hit_sphere(t_vec3 center, double radius, t_ray r)
 {
 	t_vec3	oc;
 	double	a;
-	double	b;
+	double	h;
 	double	c;
 	double	discriminant;
 
 	oc = vector_subtract(center, r.org);
-	a = dot(r.dir, r.dir);
-	b = 2.0 * dot(r.dir, oc);
-	c = dot(oc, oc) - radius * radius;
-	discriminant = b * b - 4 * a * c;
-	return (discriminant >= 0);
+	a = vector_length_squared(r.dir);
+	h = dot(r.dir, oc);
+	c = vector_length_squared(oc) - radius * radius;
+	discriminant = h*h - a * c;
+	if (discriminant < 0)
+	{
+		return (-1.0);
+	}
+	else
+	{
+		return (h - sqrt(discriminant)) / a;
+	}
 }
 
-t_vec3	ray_color(t_ray *r)
+t_vec3 ray_color(t_ray *r)
 {
-	t_vec3	unit_direction;
-	double	t;
+    t_vec3 unit_direction;
+    double a;
+    double t;
 
-	if (hit_sphere(vec3(0, 0, -1), 0.5, *r))
-		return (vec3(1, 0, 0));
-	unit_direction = vector_normalize(r->dir);
-	t = 0.5 * (unit_direction.y + 1.0);
-	return (vector_add(vector_scale(vec3(1.0, 1.0, 1.0), 1.0 - t),
-			vector_scale(vec3(0.5, 0.7, 1.0), t)));
+    t = hit_sphere(vec3(0, -100.5, -1), 100, *r);
+    if (t > 0.0)
+    {
+        t_vec3 n;
+        n = vector_normalize(vector_subtract(ray_at(r, t), vec3(0, 0, -1)));
+        return vector_scale(vec3(n.x + 1, n.y + 1, n.z + 1), 0.5);
+    }
+    unit_direction = vector_normalize(r->dir);
+    a = 0.5 * (unit_direction.y + 1.0);
+    return vector_add(vector_scale(vec3(1.0, 1.0, 1.0), 1.0 - a),
+                      vector_scale(vec3(0.5, 0.7, 1.0), a));
 }
 
 void	init_mlx(t_scene *scene, int win_width, int win_height)

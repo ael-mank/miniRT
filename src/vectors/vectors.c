@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:41:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/05 13:46:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:01:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,19 @@ double	vector_length(t_vec3 v)
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }
 
-t_vec3	vector_normalize(t_vec3 v)
+double vector_length_squared(t_vec3 v)
 {
-	double	length;
+    return v.x * v.x + v.y * v.y + v.z * v.z;
+}
 
-	length = vector_length(v);
-	return (vec3(v.x / length, v.y / length, v.z / length));
+t_vec3 vector_normalize(t_vec3 v)
+{
+    double length;
+
+    length = vector_length(v);
+    if (length == 0)
+    {
+        return vec3(0, 0, 0); // Return a zero vector if the length is zero
+    }
+    return vec3(v.x / length, v.y / length, v.z / length);
 }

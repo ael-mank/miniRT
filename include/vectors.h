@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:40:11 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/05 13:47:04 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:02:08 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ double dot(t_vec3 a, t_vec3 b);
 t_vec3	cross_product(t_vec3 a, t_vec3 b);
 
 double	vector_length(t_vec3 v);
+double vector_length_squared(t_vec3 v);
 t_vec3	vector_normalize(t_vec3 v);
 
 void	ray_init(t_ray *r, const t_point3 *origin, const t_point3 *direction);
+t_point3	ray_at(t_ray *r, double t);
 
 #endif

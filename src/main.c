@@ -6,54 +6,46 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/07 14:17:32 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:42:19 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-double	hit_sphere(t_vec3 center, double radius, t_ray r)
-{
-	t_vec3	oc;
-	double	a;
-	double	h;
-	double	c;
-	double	discriminant;
-
-	oc = vector_subtract(center, r.org);
-	a = vector_length_squared(r.dir);
-	h = dot(r.dir, oc);
-	c = vector_length_squared(oc) - radius * radius;
-	discriminant = h*h - a * c;
-	if (discriminant < 0)
-		return (-1.0);
-	else
-		return (h - sqrt(discriminant)) / a;
+double hit_sphere(t_vec3 center, double radius, t_ray r) {
+    t_vec3 oc = vector_subtract(center, r.org);
+    double a = vector_length_squared(r.dir);
+    double h = dot(r.dir, oc);
+    double c = vector_length_squared(oc) - radius * radius;
+    double discriminant = h * h - a * c;
+    if (discriminant < 0) {
+        return -1.0;
+    } else {
+        return (h - sqrt(discriminant)) / a;
+    }
 }
 
-t_vec3 ray_color(t_ray *r)
-{
-    t_vec3 unit_direction;
-    double a;
-    double t;
+t_vec3 ray_color(t_ray *r, t_object *objects) {
+    t_object *current = objects;
 
-    t = hit_sphere(vec3(0, 0, -1), 0.5, *r);
-    if (t > 0.0)
-    {
-        t_vec3 n;
-        n = vector_normalize(vector_subtract(ray_at(r, t), vec3(0, 0, -1)));
-		if (dot(n, r->dir) > 0)
-		{
-			n.x = -n.x;
-			n.y = -n.y;
-			n.z = -n.z;
-		}
-        return vector_scale(vec3(n.x + 1, n.y + 1, n.z + 1), 0.5);
+    while (current) {
+        t_sphere *sphere = (t_sphere *)current->object;
+        t_vec3 center = vec3(sphere->x, sphere->y, sphere->z);
+        double t = hit_sphere(center, sphere->radius, *r);
+		//printf(" t val = %f", t);
+        if (t > 0.0) {
+			//printf("I hit\n");
+            t_vec3 hit_point = ray_at(r, t);
+            t_vec3 normal = vector_normalize(vector_subtract(hit_point, center));
+            return vector_scale(vector_add(normal, vec3(1, 1, 1)), 0.5);
+        }
+        current = current->next;
     }
-    unit_direction = vector_normalize(r->dir);
-    a = 0.5 * (unit_direction.y + 1.0);
-    return vector_add(vector_scale(vec3(1.0, 1.0, 1.0), 1.0 - a),
-                      vector_scale(vec3(0.5, 0.7, 1.0), a));
+
+    // Background gradient
+    t_vec3 unit_direction = vector_normalize(r->dir);
+    double t = 0.5 * (unit_direction.y + 1.0);
+    return vector_add(vector_scale(vec3(1.0, 1.0, 1.0), 1.0 - t), vector_scale(vec3(0.5, 0.7, 1.0), t));
 }
 
 void	init_mlx(t_scene *scene, int win_width, int win_height)
@@ -117,11 +109,61 @@ void	init_render(t_render *render)
 		render->image_height = 1;
 }
 
+t_object *init_objects() {
+    t_object *head = malloc(sizeof(t_object));
+    t_object *second = malloc(sizeof(t_object));
+    t_object *third = malloc(sizeof(t_object));
+    t_sphere *sphere1 = malloc(sizeof(t_sphere));
+    t_sphere *sphere2 = malloc(sizeof(t_sphere));
+    t_sphere *sphere3 = malloc(sizeof(t_sphere));
+
+    if (!head || !second || !third || !sphere1 || !sphere2 || !sphere3) {
+        // Handle memory allocation failure
+        exit(EXIT_FAILURE);
+    }
+
+    // Initialize the first sphere
+    sphere1->x = 0.0;
+    sphere1->y = 0.0;
+    sphere1->z = -1.0;
+    sphere1->radius = 0.5;
+
+    // Initialize the second sphere
+    sphere2->x = 1.0;
+    sphere2->y = 0.0;
+    sphere2->z = -1.0;
+    sphere2->radius = 0.5;
+
+    // Initialize the third sphere
+    sphere3->x = -1.0;
+    sphere3->y = 0.0;
+    sphere3->z = -1.0;
+    sphere3->radius = 0.5;
+
+    // Set up the first object
+    head->object = sphere1;
+    head->hit = hit_sphere;
+    head->next = second;
+
+    // Set up the second object
+    second->object = sphere2;
+    second->hit = hit_sphere;
+    second->next = third;
+
+    // Set up the third object
+    third->object = sphere3;
+    third->hit = hit_sphere;
+    third->next = NULL;
+
+    return head;
+}
+
 void	init_scene(t_scene *scene)
 {
 	init_render(&scene->render);
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);
+	scene->objects = init_objects();
 }
 
 t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
@@ -137,34 +179,25 @@ t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
 	return (pixel_center);
 }
 
-void	render_scene(t_scene *scene)
-{
-	t_vec3	pixel_center;
-	t_vec3	ray_dir;
-	t_vec3	color;
-	int		i;
-	int		j;
+void render_scene(t_scene *scene) {
+    t_vec3 pixel_center;
+    t_vec3 ray_dir;
+    t_vec3 color;
+    int i, j;
 
-	i = 0;
-	j = 0;
-	while (j < scene->render.image_height)
-	{
-		while (i < scene->render.image_width)
-		{
-			pixel_center = calculate_pixel_position(i, j, &scene->camera);
-			ray_dir = vector_subtract(pixel_center,
-					scene->camera.camera_center);
-			ray_init(&scene->r, &scene->camera.camera_center, &ray_dir);
-			color = ray_color(&scene->r);
-			write_colors(&scene->mlx.img, i, j, color);
-			i++;
-		}
-		mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
-			scene->mlx.img.img, 50, 28);
-		i = 0;
-		j++;
-	}
+    for (j = 0; j < scene->render.image_height; ++j) {
+        for (i = 0; i < scene->render.image_width; ++i) {
+            pixel_center = calculate_pixel_position(i, j, &scene->camera);
+            ray_dir = vector_subtract(pixel_center, scene->camera.camera_center);
+            ray_init(&scene->r, &scene->camera.camera_center, &ray_dir);
+            color = ray_color(&scene->r, scene->objects);
+            write_colors(&scene->mlx.img, i, j, color);
+        }
+    }
+    mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr, scene->mlx.img.img, 50, 28);
 }
+
+
 
 int	main(void)
 {

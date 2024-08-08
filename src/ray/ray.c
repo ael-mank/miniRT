@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 14:06:12 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/05 10:45:12 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:06:20 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ const t_point3	*ray_direction(t_ray *r)
 	return (&r->dir);
 }
 
-t_point3	ray_at(t_ray *r, double t)
+t_point3	ray_at(const t_ray *r, double t)
 {
 	t_point3	default_coord;
 

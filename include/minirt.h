@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/07 11:08:46 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:22:52 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "objects.h"
 // structs
 typedef struct s_render
 {
@@ -49,6 +50,7 @@ typedef struct s_scene
 	t_camera	camera;
 	t_render	render;
 	t_ray		r;
+	t_object	*objects;
 }				t_scene;
 
 // Memory management

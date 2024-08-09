@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/08 13:22:52 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/09 22:18:50 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 # include "libft.h"
 # include "mlx.h"
 # include "my_mlx.h"
+# include "objects.h"
 # include "vectors.h"
 # include <X11/keysym.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "objects.h"
 // structs
 typedef struct s_render
 {
@@ -54,9 +54,20 @@ typedef struct s_scene
 }				t_scene;
 
 // Memory management
-int				ft_exit(t_mlx *mlx);
+int				ft_exit(t_scene *scene);
+void			free_scene(t_object *objects);
 
 // Window, mlx stuff
-int				keys_handler(int key_code, t_mlx *mlx);
+int				keys_handler(int key_code, t_scene *scene);
 
+//init
+void			init_mlx(t_scene *scene, int win_width, int win_height);
+void			init_render(t_render *render);
+void			init_viewport(t_camera *camera, t_render *render);
+void			init_camera(t_camera *camera);
+t_object		*init_objects(void);
+void			init_scene(t_scene *scene);
+
+//render
+void			render_scene(t_scene *scene);
 #endif

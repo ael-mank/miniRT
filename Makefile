@@ -5,7 +5,7 @@ OBJ_DIR = ./obj/
 MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
 CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -g3
-SRC_FILES = main my_mlx/window_inputs memory/ft_exit my_mlx/my_mlx_pixel_put vectors/vectors vectors/ray init/init_mlx init/init_scene render/render
+SRC_FILES = main my_mlx/window_inputs memory/ft_exit my_mlx/my_mlx_pixel_put vectors/vectors vectors/ray init/init_mlx init/init_scene render/render interval/interval utility/utility
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 NAME = miniRT
@@ -25,11 +25,11 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@cd $(MLX_DIR) && ./configure > /dev/null 2>&1 
-	@echo "$(GREEN)Built MiniLibX ✅ $(NC)"
+	@echo -e "$(GREEN)Built MiniLibX ✅ $(NC)"
 	@cd ./libft && $(MAKE) > /dev/null && $(MAKE) bonus > /dev/null && $(MAKE) printf > /dev/null
-	@echo "$(GREEN)Built Libft ✅ $(NC)"
+	@echo -e "$(GREEN)Built Libft ✅ $(NC)"
 	@$(CC) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx $(CFLAGS) -lX11 -lXext -lm
-	@echo "$(BLUE)Compiled $(NAME) 🎮 $(NC)"
+	@echo -e "$(BLUE)Compiled $(NAME) 🎮 $(NC)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(@D)
@@ -37,14 +37,14 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 clean:
 	@$(RM) -rf $(OBJ_DIR)
-	@echo "$(MAGENTA)Cleaned object files ✅ $(NC)"
+	@echo -e "$(MAGENTA)Cleaned object files ✅ $(NC)"
 
 fclean: clean
 	@cd ./libft && $(MAKE) fclean > /dev/null
-	@echo "$(MAGENTA)Cleaned libft ❎ $(NC)"
+	@echo -e "$(MAGENTA)Cleaned libft ❎ $(NC)"
 	@cd $(MLX_DIR) && $(MAKE) clean > /dev/null
-	@echo "$(MAGENTA)Cleaned mlx ❎ $(NC)"
+	@echo -e "$(MAGENTA)Cleaned mlx ❎ $(NC)"
 	@$(RM) -f $(NAME)
-	@echo "$(MAGENTA)Cleaned $(NAME) ❎ $(NC)"
+	@echo -e "$(MAGENTA)Cleaned $(NAME) ❎ $(NC)"
 
 re: fclean all

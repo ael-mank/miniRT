@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_mlx.h                                           :+:      :+:    :+:   */
+/*   interval.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 13:37:46 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 14:30:27 by ael-mank         ###   ########.fr       */
+/*   Created: 2024/08/10 13:02:07 by ael-mank          #+#    #+#             */
+/*   Updated: 2024/08/10 13:49:50 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MY_MLX_H
-# define MY_MLX_H
+#ifndef INTERVAL_H
+# define INTERVAL_H
 
-# include <vectors.h>
+# include "minirt.h"
 
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-typedef struct s_mlx
+# define empty_interval (t_interval){0, 0}
+# define universe_interval (t_interval){0, INFINITY}
+
+typedef struct s_interval
 {
-	void			*mlx_ptr;
-	void			*win_ptr;
-	t_data			img;
-}					t_mlx;
+	double	min;
+	double	max;
+}				t_interval;
 
+double size(t_interval interval);
 
+int contains(t_interval interval, double x);
 
+int surrond(t_interval a, t_interval b);
 
-void	write_colors(t_data *img, int x, int y, t_vec3 color, int samples_per_pixel);
+double clamp(double x, double min, double max);
 
 #endif

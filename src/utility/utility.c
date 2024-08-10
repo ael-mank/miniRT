@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_mlx.h                                           :+:      :+:    :+:   */
+/*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 13:37:46 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 14:30:27 by ael-mank         ###   ########.fr       */
+/*   Created: 2024/08/10 11:40:42 by ael-mank          #+#    #+#             */
+/*   Updated: 2024/08/10 13:48:35 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MY_MLX_H
-# define MY_MLX_H
+#include "minirt.h"
+#include <math.h>
 
-# include <vectors.h>
-
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-typedef struct s_mlx
+double 	deg_to_rad(double degrees)
 {
-	void			*mlx_ptr;
-	void			*win_ptr;
-	t_data			img;
-}					t_mlx;
+	return (degrees * M_PI / 180);
+}
 
+double rand_double(double min, double max)
+{
+	return (min + (max - min) * random_double());
+}
 
-
-
-void	write_colors(t_data *img, int x, int y, t_vec3 color, int samples_per_pixel);
-
-#endif
+double random_double(void)
+{
+	return (rand() / (RAND_MAX + 1.0));
+}

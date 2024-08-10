@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/09 22:19:08 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/10 16:20:40 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	init_render(t_render *render)
 	render->aspect_ratio = 16.0 / 9.0;
 	render->image_width = 860;
 	render->image_height = (int)(render->image_width / render->aspect_ratio);
+	printf("image height: %d\n", render->image_height);
 	if (render->image_height < 1)
 		render->image_height = 1;
 }
@@ -32,6 +33,7 @@ void	init_viewport(t_camera *camera, t_render *render)
 											render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 											render->image_height);
+	camera->samples_per_pixel = 25;
 }
 
 void	init_camera(t_camera *camera)
@@ -53,54 +55,53 @@ void	init_camera(t_camera *camera)
 		* (camera->pixel_delta_u.z + camera->pixel_delta_v.z);
 }
 
+t_object *add_object_end(t_object *head, t_object *new_object)
+{
+	t_object *current = head;
+	if (!head)
+	{
+		head = new_object;
+		return (head);
+	}
+	while (current->next)
+		current = current->next;
+	current->next = new_object;
+	return (head);
+}
+
+double hit_sphere_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord *rec)
+{
+	return (hit_sphere(r, *(t_sphere *)object, ray_t, rec));
+}
+
+t_object *add_object(t_object *head, t_point3 center , double radius)
+{
+	t_object *new_object = malloc(sizeof(t_object));
+	if (!new_object)
+		return (NULL);
+	new_object->object = malloc(sizeof(t_sphere));
+	if (!new_object->object)
+	{
+		free(new_object);
+		return (NULL);
+	}
+	((t_sphere *)new_object->object)->x = center.x;
+	((t_sphere *)new_object->object)->y = center.y;
+	((t_sphere *)new_object->object)->z = center.z;
+	((t_sphere *)new_object->object)->center = center;
+	((t_sphere *)new_object->object)->radius = radius;
+	new_object->center = center;
+	new_object->hit = hit_sphere_wrapper;
+	new_object->next = NULL;
+	return (add_object_end(head, new_object));
+}
+
 //needs to be automated after by reading the .rt file
 t_object	*init_objects(void)
 {
-	t_object	*head;
-	t_object	*second;
-	t_object	*third;
-	t_sphere	*sphere1;
-	t_sphere	*sphere2;
-	t_sphere	*sphere3;
-
-	head = malloc(sizeof(t_object));
-	second = malloc(sizeof(t_object));
-	third = malloc(sizeof(t_object));
-	sphere1 = malloc(sizeof(t_sphere));
-	sphere2 = malloc(sizeof(t_sphere));
-	sphere3 = malloc(sizeof(t_sphere));
-	if (!head || !second || !third || !sphere1 || !sphere2 || !sphere3)
-	{
-		// Handle memory allocation failure
-		exit(EXIT_FAILURE);
-	}
-	// Initialize the first sphere
-	sphere1->x = 0.0;
-	sphere1->y = 0.0;
-	sphere1->z = -1.0;
-	sphere1->radius = 0.5;
-	// Initialize the second sphere
-	sphere2->x = 1.0;
-	sphere2->y = 0.0;
-	sphere2->z = -1.0;
-	sphere2->radius = 0.5;
-	// Initialize the third sphere
-	sphere3->x = -1.0;
-	sphere3->y = 0.0;
-	sphere3->z = -1.0;
-	sphere3->radius = 0.5;
-	// Set up the first object
-	head->object = sphere1;
-	head->hit = hit_sphere;
-	head->next = second;
-	// Set up the second object
-	second->object = sphere2;
-	second->hit = hit_sphere;
-	second->next = third;
-	// Set up the third object
-	third->object = sphere3;
-	third->hit = hit_sphere;
-	third->next = NULL;
+	t_object *head = NULL;
+	head = add_object(head, vec3(0, 0, -1), 0.5);
+	head = add_object(head, vec3(0, -100.5, -1), 100);
 	return (head);
 }
 

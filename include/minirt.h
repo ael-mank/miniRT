@@ -6,22 +6,26 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/09 22:18:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/10 16:06:24 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# include "interval.h"
 # include "libft.h"
 # include "mlx.h"
 # include "my_mlx.h"
 # include "objects.h"
 # include "vectors.h"
 # include <X11/keysym.h>
+# include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+//extern FILE *out;
 // structs
 typedef struct s_render
 {
@@ -42,6 +46,7 @@ typedef struct s_camera
 	t_vec3		pixel_delta_v;
 	t_point3	viewport_upper_left;
 	t_point3	pixel00_loc;
+	int			samples_per_pixel;
 }				t_camera;
 
 typedef struct s_scene
@@ -70,4 +75,10 @@ void			init_scene(t_scene *scene);
 
 //render
 void			render_scene(t_scene *scene);
+
+//utility
+double			deg_to_rad(double degrees);
+double			rand_double(double min, double max);
+double			random_double(void);
+
 #endif

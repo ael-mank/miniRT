@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/09 22:19:02 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:11:32 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ int	ft_exit(t_scene *scene)
 	//destroy display
 	mlx_destroy_display(mlx->mlx_ptr);
 	free(mlx->mlx_ptr);
-	printf("\033[1;32mGame Closed by User.\033[0m\n");
+	printf("\033[1;32mClosed by User.\033[0m\n");
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:02:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 13:49:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:10:20 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minirt.h"
 
 # define empty_interval (t_interval){0, 0}
-# define universe_interval (t_interval){0, INFINITY}
+# define universe_interval (t_interval){0.001, INFINITY}
 
 typedef struct s_interval
 {

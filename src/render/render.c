@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 16:08:24 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:10:10 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,31 @@ double	hit(t_ray r, t_object *objects, t_interval ray_t, t_hitrecord *rec)
 	return (hit_anything);
 }
 
-t_vec3	ray_color(t_ray *r, t_object *objects)
-{
-	t_hitrecord	rec;
-	t_vec3		unit_direction;
-	t_vec3		white;
-	t_vec3		blue;
-	double		t;
+t_vec3 ray_color(t_ray *r, int depth, t_object *objects) {
+    t_hitrecord rec;
+    t_vec3 unit_direction;
+    t_vec3 white;
+    t_vec3 blue;
+    double t;
 
-	white = vec3(1, 1, 1);
-	blue = vec3(0.5, 0.7, 1.0);
-	if (hit(*r, objects, universe_interval, &rec))
-		return (vector_scale(vector_add(rec.normal, vec3(1, 1, 1)), 0.5));
-	unit_direction = vector_normalize(r->dir);
-	t = 0.5 * (unit_direction.y + 1.0);
-	return (vector_add(vector_scale(white, 1.0 - t), vector_scale(blue, t)));
+    white = vec3(1, 1, 1);
+    blue = vec3(0.5, 0.7, 1.0);
+
+	if (depth <= 0) {
+		return vec3(0, 0, 0);
+	}
+
+    if (hit(*r, objects, universe_interval, &rec)) {
+       	t_ray scattered;
+        t_vec3 direction = random_on_hemisphere(rec.normal);
+		ray_init(&scattered, &rec.p, &direction);
+		t_vec3 bounce_color = ray_color(&scattered, depth - 1, objects);
+		return vector_scale(bounce_color, 0.5);
+    }
+
+    unit_direction = vector_normalize(r->dir);
+    t = 0.5 * (unit_direction.y + 1.0);
+    return vector_add(vector_scale(white, 1.0 - t), vector_scale(blue, t));
 }
 
 t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
@@ -131,10 +141,10 @@ void	render_scene(t_scene *scene)
 	t_vec3	color;
 	int		sample;
 	t_ray	r;
+	int    max_depth  = 10;
 
 	sample = 0;
 	int i, j = 0;
-	write(1, "Rendering scene\n", 16);
 	while (j < scene->render.image_height)
 	{
 		i = 0;
@@ -145,7 +155,7 @@ void	render_scene(t_scene *scene)
 			while (sample < scene->camera.samples_per_pixel)
 			{
 				r = get_ray(i, j, &scene->camera);
-				color = vector_add(color, ray_color(&r, scene->objects));
+				color = vector_add(color, ray_color(&r, max_depth, scene->objects));
 				sample++;
 			}
 			

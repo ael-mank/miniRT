@@ -6,11 +6,12 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:41:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/09 22:19:34 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:36:54 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vectors.h"
+#include "minirt.h"
 
 t_vec3	vec3(double x, double y, double z)
 {
@@ -81,4 +82,48 @@ t_vec3	vector_normalize(t_vec3 v)
 		return (vec3(0, 0, 0)); // Return a zero vector if the length is zero
 	}
 	return (vec3(v.x / length, v.y / length, v.z / length));
+}
+
+// static t_vec3 random_vec()
+// {
+// 	return (vec3(random_double(), random_double(), random_double()));
+// }
+
+static t_vec3 rand_vec(double min, double max)
+{
+	return (vec3(rand_double(min, max), rand_double(min, max),
+			rand_double(min, max)));
+}
+
+t_vec3	unit_vector(t_vec3 v)
+{
+	return (vector_divide(v, vector_length(v)));
+}
+
+t_vec3	random_in_unit_sphere()
+{
+	t_vec3 p;
+
+	while (1)
+	{
+		p = rand_vec(-1, 1);
+		if (vector_length_squared(p) >= 1)
+			return (p);
+	}
+}
+
+t_vec3	random_unit_vector()
+{
+	return (unit_vector(random_in_unit_sphere()));
+}
+
+t_vec3	random_on_hemisphere(t_vec3 normal)
+{
+	t_vec3 in_unit_sphere;
+
+	in_unit_sphere = random_in_unit_sphere();
+	if (dot(in_unit_sphere, normal) > 0.0)
+		return (in_unit_sphere);
+	else
+		return (vector_scale(in_unit_sphere, -1));
 }

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/11 06:01:51 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/11 14:18:28 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	init_viewport(t_camera *camera, t_render *render)
 											render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 											render->image_height);
-	camera->samples_per_pixel = 5;
-	camera->max_depth = 30;
+	camera->samples_per_pixel = 1000;
+	camera->max_depth = 90;
 }
 
 void	init_camera(t_camera *camera)
@@ -74,7 +74,20 @@ double hit_sphere_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord *
 	return (hit_sphere(r, *(t_sphere *)object, ray_t, rec));
 }
 
-t_object *add_object(t_object *head, t_point3 center , double radius)
+t_material *create_material(t_material_type type)
+{
+    t_material *mat = malloc(sizeof(t_material));
+    if (!mat)
+        return (NULL);
+    
+    if (type == MATTE)
+        mat->scatter = lambertian_scatter;
+    else if (type == METAL)
+        mat->scatter = metal_scatter;
+    return (mat);
+}
+
+t_object *add_object(t_object *head, t_point3 center , double radius, t_material_type type, t_vec3 color)
 {
 	t_object *new_object = malloc(sizeof(t_object));
 	if (!new_object)
@@ -85,6 +98,15 @@ t_object *add_object(t_object *head, t_point3 center , double radius)
 		free(new_object);
 		return (NULL);
 	}
+	new_object->mat = create_material(type);
+	if (!new_object->mat)
+	{
+		free(new_object->object);
+		free(new_object);
+		return (NULL);
+	}
+	((t_sphere *)new_object->object)->mat = new_object->mat;
+	((t_sphere *)new_object->object)->mat->albedo = color;
 	((t_sphere *)new_object->object)->x = center.x;
 	((t_sphere *)new_object->object)->y = center.y;
 	((t_sphere *)new_object->object)->z = center.z;
@@ -92,6 +114,8 @@ t_object *add_object(t_object *head, t_point3 center , double radius)
 	((t_sphere *)new_object->object)->radius = radius;
 	new_object->center = center;
 	new_object->hit = hit_sphere_wrapper;
+	
+	
 	new_object->next = NULL;
 	return (add_object_end(head, new_object));
 }
@@ -100,9 +124,9 @@ t_object *add_object(t_object *head, t_point3 center , double radius)
 t_object	*init_objects(void)
 {
 	t_object *head = NULL;
-	head = add_object(head, vec3(-0.5, 0, -1), 0.5);
-	head = add_object(head, vec3(0.5, 0, -1), 0.5);
-	head = add_object(head, vec3(0, -100.5, -1), 100);
+	head = add_object(head, vec3(-0.5, 0, -1), 0.5, MATTE, vec3(0.8, 0.0, 0.0)); // Left object, Red
+	head = add_object(head, vec3(0.5, 0, -1), 0.5, MATTE, vec3(0.0, 0.0, 0.8)); // Right object, Blue
+	head = add_object(head, vec3(0, -100.5, -1), 100, METAL, vec3(0.8, 0.8, 0.8));
 	return (head);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:41:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/11 05:54:08 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/11 14:09:23 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ t_vec3	cross_product(t_vec3 a, t_vec3 b)
 double	dot(t_vec3 a, t_vec3 b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
+
+t_vec3 vector_multiply(t_vec3 a, t_vec3 b)
+{
+	return (vec3(a.x * b.x, a.y * b.y, a.z * b.z));
 }
 
 double	vector_length(t_vec3 v)
@@ -128,4 +133,15 @@ t_vec3	random_on_hemisphere(t_vec3 normal)
 		return (in_unit_sphere);
 	else
 		return (vector_scale(in_unit_sphere, -1));
+}
+
+int near_zero(t_vec3 e)
+{
+	const double s = 1e-8;
+    return (fabs(e.x) < s && fabs(e.y) < s && fabs(e.z) < s);
+}
+
+t_vec3 reflect(t_vec3 v, t_vec3 n)
+{
+	return (vector_subtract(v, vector_scale(n, 2 * dot(v, n))));
 }

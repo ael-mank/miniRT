@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 18:11:32 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/11 10:57:29 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	free_scene(t_object *objects)
 	while (current)
 	{
 		next = current->next;
+		free(current->mat);
 		free(current->object);
 		free(current);
 		current = next;
@@ -40,6 +41,7 @@ int	ft_exit(t_scene *scene)
 	//destroy display
 	mlx_destroy_display(mlx->mlx_ptr);
 	free(mlx->mlx_ptr);
+	//close(out);
 	printf("\033[1;32mClosed by User.\033[0m\n");
 	exit(0);
 }

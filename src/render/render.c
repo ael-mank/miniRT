@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/11 06:03:42 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/11 14:15:33 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	set_face_normal(t_hitrecord *rec, t_ray *r, t_sphere sphere,
 	rec->t = root;
 	rec->p = ray_at(r, rec->t);
 	rec->normal = vector_divide(vector_subtract(rec->p, sphere.center),
-			sphere.radius);
+								sphere.radius);
 	rec->front_face = dot(r->dir, rec->normal) < 0;
 }
 
@@ -48,6 +48,8 @@ double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec)
 			return (0);
 	}
 	set_face_normal(rec, &r, sphere, root);
+	rec->mat = sphere.mat;
+	rec->mat->albedo = sphere.mat->albedo;
 	return (1);
 }
 
@@ -75,32 +77,57 @@ double	hit(t_ray r, t_object *objects, t_interval ray_t, t_hitrecord *rec)
 	return (hit_anything);
 }
 
-t_vec3 ray_color(t_ray *r, int depth, t_object *objects) {
+int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_vec3 albedo)
+{
+	(void)r;
+    t_vec3 direction;
+
+    direction = vector_add(rec->normal, random_unit_vector());
+	
+	if (near_zero(direction))
+		direction = rec->normal;
+    ray_init(scattered, &rec->p, &direction);
+    *attenuation = albedo;
+    return (1);
+}
+
+int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_vec3 albedo)
+{
+    t_vec3 direction;
+
+    direction = reflect(vector_normalize(r->dir), rec->normal);
+    ray_init(scattered, &rec->p, &direction);
+    *attenuation = albedo;
+    return (1);
+}
+
+t_vec3 ray_color(t_ray *r, int depth, t_object *objects)
+{
     t_hitrecord rec;
     t_vec3 unit_direction;
     t_vec3 white;
     t_vec3 blue;
+    t_vec3 attenuation;
     double t;
+    t_ray scattered;
 
     white = vec3(1, 1, 1);
     blue = vec3(0.5, 0.7, 1.0);
-
-	if (depth <= 0) {
-		return vec3(0, 0, 0);
-	}
-
-    if (hit(*r, objects, universe_interval, &rec)) {
-       	t_ray scattered;
-        //t_vec3 direction = random_on_hemisphere(rec.normal);
-		t_vec3 direction = vector_normalize(vector_add(rec.normal, random_unit_vector()));
-		ray_init(&scattered, &rec.p, &direction);
-		t_vec3 bounce_color = ray_color(&scattered, depth - 1, objects);
-		return vector_scale(bounce_color, 0.5);
+    if (depth <= 0)
+    {
+        return (vec3(0, 0, 0));
     }
-
+    if (hit(*r, objects, universe_interval, &rec))
+    {
+        if (rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat->albedo))
+        {
+            return (vector_multiply(attenuation, ray_color(&scattered, depth - 1, objects)));
+        }
+        return (vec3(0, 0, 0));
+    }
     unit_direction = vector_normalize(r->dir);
     t = 0.5 * (unit_direction.y + 1.0);
-    return vector_add(vector_scale(white, 1.0 - t), vector_scale(blue, t));
+    return (vector_add(vector_scale(white, 1.0 - t), vector_scale(blue, t)));
 }
 
 t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
@@ -123,14 +150,16 @@ t_vec3	sample_square(void)
 
 t_ray	get_ray(int i, int j, t_camera *camera)
 {
-	t_ray	r;
-	t_vec3	offset;
-	t_vec3	ray_origin;
-	t_vec3	ray_dir;
+	t_ray		r;
+	t_vec3		offset;
+	t_vec3		ray_origin;
+	t_vec3		ray_dir;
+	t_point3	pixel_sample;
 
 	offset = sample_square();
-	
-	t_point3 pixel_sample = vector_add(camera->pixel00_loc, vector_add(vector_scale(camera->pixel_delta_u, i + offset.x), vector_scale(camera->pixel_delta_v, j + offset.y)));
+	pixel_sample = vector_add(camera->pixel00_loc,
+			vector_add(vector_scale(camera->pixel_delta_u, i + offset.x),
+				vector_scale(camera->pixel_delta_v, j + offset.y)));
 	ray_origin = camera->camera_center;
 	ray_dir = vector_subtract(pixel_sample, camera->camera_center);
 	ray_init(&r, &ray_origin, &ray_dir);
@@ -142,10 +171,13 @@ void	render_scene(t_scene *scene)
 	t_vec3	color;
 	int		sample;
 	t_ray	r;
+	clock_t	start_time;
+	clock_t	end_time;
+	double	elapsed_time;
 
 	sample = 0;
 	int i, j = 0;
-	clock_t start_time = clock();
+	start_time = clock();
 	while (j < scene->render.image_height)
 	{
 		i = 0;
@@ -156,17 +188,18 @@ void	render_scene(t_scene *scene)
 			while (sample < scene->camera.samples_per_pixel)
 			{
 				r = get_ray(i, j, &scene->camera);
-				color = vector_add(color, ray_color(&r, scene->camera.max_depth, scene->objects));
+				color = vector_add(color, ray_color(&r, scene->camera.max_depth,
+							scene->objects));
 				sample++;
 			}
-			
-			write_colors(&scene->mlx.img, i, j, color, scene->camera.samples_per_pixel);
+			write_colors(&scene->mlx.img, i, j, color,
+					scene->camera.samples_per_pixel);
 			i++;
 		}
 		j++;
 	}
-	clock_t end_time = clock();
-	double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+	end_time = clock();
+	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 	printf("Time to render: %.2f seconds\n", elapsed_time);
 	mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
 			scene->mlx.img.img, 50, 28);

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:38:55 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 16:04:46 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/11 06:06:25 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
+//linear to gamma
+double linear_to_gamma(double linear) {
+	if (linear > 0)
+		return sqrt(linear);
+	return 0;
+}
+
 //write colors
 
 void write_colors(t_data *img, int x, int y, t_vec3 color, int samples_per_pixel) {
@@ -42,16 +49,18 @@ void write_colors(t_data *img, int x, int y, t_vec3 color, int samples_per_pixel
     color.x *= scale;
     color.y *= scale;
     color.z *= scale;
-
+	// Gamma correct the color values
+	color.x = linear_to_gamma(color.x);
+	color.y = linear_to_gamma(color.y);
+	color.z = linear_to_gamma(color.z);
     // Clamp and scale the color values
     r = (int)(256 * clamp(color.x, intensity.min, intensity.max));
     g = (int)(256 * clamp(color.y, intensity.min, intensity.max));
     b = (int)(256 * clamp(color.z, intensity.min, intensity.max));
-
     // Create the color value and write the pixel
     res = create_trgb(0, r, g, b);
     my_mlx_pixel_put(img, x, y, res);
-	//fprintf(out, "%d %d %d\n", r, g, b);
+	fprintf(out, "%d %d %d\n", r, g, b);
 }
 
 

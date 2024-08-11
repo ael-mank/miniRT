@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 18:04:53 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/11 06:01:51 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	init_render(t_render *render)
 	render->aspect_ratio = 16.0 / 9.0;
 	render->image_width = 860;
 	render->image_height = (int)(render->image_width / render->aspect_ratio);
-	printf("image height: %d\n", render->image_height);
 	if (render->image_height < 1)
 		render->image_height = 1;
 }
@@ -33,7 +32,8 @@ void	init_viewport(t_camera *camera, t_render *render)
 											render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 											render->image_height);
-	camera->samples_per_pixel = 25;
+	camera->samples_per_pixel = 5;
+	camera->max_depth = 30;
 }
 
 void	init_camera(t_camera *camera)
@@ -100,7 +100,8 @@ t_object *add_object(t_object *head, t_point3 center , double radius)
 t_object	*init_objects(void)
 {
 	t_object *head = NULL;
-	head = add_object(head, vec3(0, 0, -1), 0.5);
+	head = add_object(head, vec3(-0.5, 0, -1), 0.5);
+	head = add_object(head, vec3(0.5, 0, -1), 0.5);
 	head = add_object(head, vec3(0, -100.5, -1), 100);
 	return (head);
 }

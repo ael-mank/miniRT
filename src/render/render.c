@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 18:10:10 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/11 06:03:42 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ t_vec3 ray_color(t_ray *r, int depth, t_object *objects) {
 
     if (hit(*r, objects, universe_interval, &rec)) {
        	t_ray scattered;
-        t_vec3 direction = random_on_hemisphere(rec.normal);
+        //t_vec3 direction = random_on_hemisphere(rec.normal);
+		t_vec3 direction = vector_normalize(vector_add(rec.normal, random_unit_vector()));
 		ray_init(&scattered, &rec.p, &direction);
 		t_vec3 bounce_color = ray_color(&scattered, depth - 1, objects);
 		return vector_scale(bounce_color, 0.5);
@@ -141,10 +142,10 @@ void	render_scene(t_scene *scene)
 	t_vec3	color;
 	int		sample;
 	t_ray	r;
-	int    max_depth  = 10;
 
 	sample = 0;
 	int i, j = 0;
+	clock_t start_time = clock();
 	while (j < scene->render.image_height)
 	{
 		i = 0;
@@ -155,7 +156,7 @@ void	render_scene(t_scene *scene)
 			while (sample < scene->camera.samples_per_pixel)
 			{
 				r = get_ray(i, j, &scene->camera);
-				color = vector_add(color, ray_color(&r, max_depth, scene->objects));
+				color = vector_add(color, ray_color(&r, scene->camera.max_depth, scene->objects));
 				sample++;
 			}
 			
@@ -164,6 +165,9 @@ void	render_scene(t_scene *scene)
 		}
 		j++;
 	}
+	clock_t end_time = clock();
+	double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+	printf("Time to render: %.2f seconds\n", elapsed_time);
 	mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
 			scene->mlx.img.img, 50, 28);
 }

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 16:06:24 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/11 05:48:49 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <time.h>
 # include <unistd.h>
 
-//extern FILE *out;
+extern FILE *out;
 // structs
 typedef struct s_render
 {
@@ -47,6 +48,7 @@ typedef struct s_camera
 	t_point3	viewport_upper_left;
 	t_point3	pixel00_loc;
 	int			samples_per_pixel;
+	int			max_depth;
 }				t_camera;
 
 typedef struct s_scene

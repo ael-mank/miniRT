@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:41:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 17:36:54 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/11 05:54:08 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,11 @@ t_vec3	random_in_unit_sphere()
 	}
 }
 
-t_vec3	random_unit_vector()
-{
-	return (unit_vector(random_in_unit_sphere()));
+t_vec3 random_unit_vector() {
+    double a = ((double)rand() / RAND_MAX) * 2.0 * M_PI;
+    double z = ((double)rand() / RAND_MAX) * 2.0 - 1.0;
+    double r = sqrt(1.0 - z * z);
+    return vec3(r * cos(a), r * sin(a), z);
 }
 
 t_vec3	random_on_hemisphere(t_vec3 normal)

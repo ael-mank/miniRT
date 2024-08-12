@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/11 22:51:06 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:05:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	init_viewport(t_camera *camera, t_render *render)
 											render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 											render->image_height);
-	camera->samples_per_pixel = 5000;
-	camera->max_depth = 100;
+	camera->samples_per_pixel = 50;
+	camera->max_depth = 20;
 }
 
 void	init_camera(t_camera *camera)
@@ -79,52 +79,58 @@ t_material *create_material(t_material_type type)
     t_material *mat = malloc(sizeof(t_material));
     if (!mat)
         return (NULL);
-    
     if (type == MATTE)
         mat->scatter = lambertian_scatter;
     else if (type == METAL)
         mat->scatter = metal_scatter;
+	else
+	{
+		free(mat);
+		return (NULL);
+	}
     return (mat);
 }
 
-t_object *add_object(t_object *head, t_point3 center , double radius, t_material_type type, t_vec3 color)
+t_object *add_sphere(t_object *head, t_point3 center, double radius, t_material_type type, t_vec3 color)
 {
-	t_object *new_object = malloc(sizeof(t_object));
-	if (!new_object)
-		return (NULL);
-	new_object->object = malloc(sizeof(t_sphere));
-	if (!new_object->object)
-	{
-		free(new_object);
-		return (NULL);
-	}
-	new_object->mat = create_material(type);
-	if (!new_object->mat)
-	{
-		free(new_object->object);
-		free(new_object);
-		return (NULL);
-	}
-	((t_sphere *)new_object->object)->mat = new_object->mat;
-	((t_sphere *)new_object->object)->mat->albedo = color;
-	((t_sphere *)new_object->object)->x = center.x;
-	((t_sphere *)new_object->object)->y = center.y;
-	((t_sphere *)new_object->object)->z = center.z;
-	((t_sphere *)new_object->object)->center = center;
-	((t_sphere *)new_object->object)->radius = radius;
-	new_object->center = center;
-	new_object->hit = hit_sphere_wrapper;
-	new_object->next = NULL;
+    t_object *new_object = malloc(sizeof(t_object));
+    if (!new_object)
+        return NULL;
+
+    t_sphere *sphere = malloc(sizeof(t_sphere));
+    if (!sphere) {
+        free(new_object);
+        return NULL;
+    }
+
+    t_material *mat = create_material(type);
+    if (!mat) {
+        free(sphere);
+        free(new_object);
+        return NULL;
+    }
+
+    mat->albedo = color;
+    sphere->mat = mat;
+    sphere->center = center;
+    sphere->radius = radius;
+
+    new_object->object = sphere;
+    new_object->mat = mat;
+    new_object->center = center;
+    new_object->hit = hit_sphere_wrapper;
+    new_object->next = NULL;
+
 	return (add_object_end(head, new_object));
 }
 
 t_object	*init_objects(void)
 {
 	t_object *head = NULL;
-	head = add_object(head, vec3(0, 2, -5), 2, METAL, vec3(0.8, 0.8, 0.8));
-	head = add_object(head, vec3(0.5, 0, -1), 0.5, MATTE, vec3(0.5, 1, 0));
-	head = add_object(head, vec3(-0.5, 0, -1), 0.5, MATTE, vec3(1, 0.4, 0));
-	head = add_object(head, vec3(0, -100.5, -1), 100, MATTE, vec3(0.8, 0.8, 0.8));
+	head = add_sphere(head, vec3(0, 2, -5), 2, METAL, vec3(0.8, 0.8, 0.8));
+	head = add_sphere(head, vec3(0.5, 0, -1), 0.5, MATTE, vec3(0.5, 1, 0));
+	head = add_sphere(head, vec3(-0.5, 0, -1), 0.5, MATTE, vec3(1, 0.4, 0));
+	head = add_sphere(head, vec3(0, -100.5, -1), 100, MATTE, vec3(0.8, 0.8, 0.8));
 	return (head);
 }
 

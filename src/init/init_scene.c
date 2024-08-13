@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/12 16:05:56 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:18:06 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	init_viewport(t_camera *camera, t_render *render)
 											render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 											render->image_height);
-	camera->samples_per_pixel = 50;
-	camera->max_depth = 20;
+	camera->samples_per_pixel = 10;
+	camera->max_depth = 250;
 }
 
 void	init_camera(t_camera *camera)
@@ -74,6 +74,11 @@ double hit_sphere_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord *
 	return (hit_sphere(r, *(t_sphere *)object, ray_t, rec));
 }
 
+double hit_pyramid_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord *rec)
+{
+	return (hit_pyramid(r, *(t_pyramid *)object, ray_t, rec));
+}
+
 t_material *create_material(t_material_type type)
 {
     t_material *mat = malloc(sizeof(t_material));
@@ -85,6 +90,7 @@ t_material *create_material(t_material_type type)
         mat->scatter = metal_scatter;
 	else
 	{
+		write(1, "Invalid material type\n", 22);
 		free(mat);
 		return (NULL);
 	}
@@ -124,12 +130,66 @@ t_object *add_sphere(t_object *head, t_point3 center, double radius, t_material_
 	return (add_object_end(head, new_object));
 }
 
+t_object *create_pyramid(t_vec3 base_vertices[4], t_vec3 apex, t_material_type type, t_vec3 color)
+{
+    t_object *new_object = malloc(sizeof(t_object));
+    if (!new_object)
+        return NULL;
+
+    t_pyramid *pyramid_data = malloc(sizeof(t_pyramid));
+    if (!pyramid_data) {
+        free(new_object);
+        return NULL;
+    }
+
+    t_material *mat = create_material(type);
+    if (!mat) {
+        free(pyramid_data);
+        free(new_object);
+        return NULL;
+    }
+
+    mat->albedo = color;
+    pyramid_data->mat = mat;  // Assign the material to the pyramid
+
+    pyramid_data->vertices[0] = base_vertices[0];
+    pyramid_data->vertices[1] = base_vertices[1];
+    pyramid_data->vertices[2] = base_vertices[2];
+    pyramid_data->vertices[3] = base_vertices[3];
+    pyramid_data->apex = apex;
+
+    new_object->object = pyramid_data;
+    new_object->mat = mat;  // Assign the material to the object
+    new_object->hit = hit_pyramid_wrapper; // Assuming you have a hit function for the pyramid
+    new_object->next = NULL;
+
+    return new_object;
+}
+
+t_object *add_pyramid(t_object *head, t_vec3 center, float height, t_material_type material, t_vec3 color)
+{
+    float half_side = 0.5;  // Assuming the base is a square with side length 1
+    t_vec3 base_vertices[4] = {
+        vec3(center.x - half_side, center.y, center.z - half_side),  // Bottom-left
+        vec3(center.x + half_side, center.y, center.z - half_side),  // Bottom-right
+        vec3(center.x + half_side, center.y, center.z + half_side),  // Top-right
+        vec3(center.x - half_side, center.y, center.z + half_side)   // Top-left
+    };
+    t_vec3 apex = vec3(center.x, center.y + height, center.z);  // Apex above the center of the base
+
+    t_object *new_pyramid = create_pyramid(base_vertices, apex, material, color);
+    if (!new_pyramid)
+        return NULL;
+
+    return add_object_end(head, new_pyramid);
+}
+
 t_object	*init_objects(void)
 {
 	t_object *head = NULL;
-	head = add_sphere(head, vec3(0, 2, -5), 2, METAL, vec3(0.8, 0.8, 0.8));
-	head = add_sphere(head, vec3(0.5, 0, -1), 0.5, MATTE, vec3(0.5, 1, 0));
-	head = add_sphere(head, vec3(-0.5, 0, -1), 0.5, MATTE, vec3(1, 0.4, 0));
+	head = add_pyramid(head, vec3(-0.3, -0.4, -1), 1, METAL, vec3(0.8, 0.8, 0.8));
+	head = add_sphere(head, vec3(0, 1, 1.5), 0.2, MATTE, vec3(0.8, 0.2, 0.1));
+	head = add_sphere(head, vec3(0.6, 1, -1.5), 0.7, METAL, vec3(0.8, 0.8, 0.8));
 	head = add_sphere(head, vec3(0, -100.5, -1), 100, MATTE, vec3(0.8, 0.8, 0.8));
 	return (head);
 }

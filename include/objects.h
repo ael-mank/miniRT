@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/11 14:15:08 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/13 19:54:15 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ typedef struct s_sphere{
 	t_vec3 center;
 	t_material *mat;
 } t_sphere;
+
+typedef struct s_pyramid {
+    t_vec3 base_center; // Center of the base
+    t_vec3 vertices[4]; // Vertices of the base
+    t_vec3 apex;        // Apex of the pyramid
+    t_material *mat;    // Material of the pyramid
+} t_pyramid;
 
 typedef struct s_hitrecord {
     t_point3 p;
@@ -54,6 +61,7 @@ int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scatte
 int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_vec3 albedo);
 
 double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec);
+double 	hit_pyramid(t_ray r, t_pyramid pyramid, t_interval ray_t, t_hitrecord *rec);
 
 
 #endif

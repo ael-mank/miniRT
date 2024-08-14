@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/14 13:16:45 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:17:19 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	init_viewport(t_camera *camera, t_render *render)
 											render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 											render->image_height);
-	camera->samples_per_pixel = 100;
-	camera->max_depth = 55;
+	camera->samples_per_pixel = 30;
+	camera->max_depth = 5;
 }
 
 void	init_camera(t_camera *camera)
@@ -206,14 +206,28 @@ t_object	*add_pyramid(t_object *head, t_vec3 center, float height,
 
 t_object	*init_objects(void)
 {
-	t_object	*head;
+    t_object	*head;
 
-	head = NULL;
-	head = add_sphere(head, vec3(-0.5, 0, -1), 0.5, MATTE, vec3(0.1, 0.2, 0.5));
-	head = add_sphere(head, vec3(0.7, 0, -1), 0.5, MATTE, vec3(0.1, 0.2, 0.5));
-	head = add_sphere(head, vec3(0.6, 1, -1.5), 0.7, METAL, vec3(0.8, 0.8,0.8));
-	head = add_sphere(head, vec3(0, -100.5, -1), 100, MATTE, vec3(0.1, 0.8, 0.4));
-	return (head);
+    head = NULL;
+    // Ground sphere
+    head = add_sphere(head, vec3(0, -100.5, -1), 100, MATTE, vec3(0.8, 0.8, 0.0));
+
+    // Central large sphere
+    head = add_sphere(head, vec3(0, 0, -1), 0.5, MATTE, vec3(0.1, 0.2, 0.5));
+
+    // Metal spheres
+    head = add_sphere(head, vec3(-1.0, 0, -1.5), 0.5, METAL, vec3(0.8, 0.6, 0.2));
+    head = add_sphere(head, vec3(1.0, 0, -1.5), 0.5, METAL, vec3(0.8, 0.8, 0.8));
+
+    // Dielectric (glass) spheres
+    // head = add_sphere(head, vec3(-0.5, 0.5, -0.5), 0.5, DIELECTRIC, vec3(1.0, 1.0, 1.0));
+    // head = add_sphere(head, vec3(0.5, 0.5, -0.5), 0.5, DIELECTRIC, vec3(1.0, 1.0, 1.0));
+
+    // Small spheres for added detail
+    head = add_sphere(head, vec3(-0.5, 0.5, -0.8), 0.2, MATTE, vec3(0.7, 0.3, 0.3));
+    head = add_sphere(head, vec3(0.5, 0.5, -0.8), 0.2, METAL, vec3(0.3, 0.7, 0.3));
+
+    return (head);
 }
 
 void	init_scene(t_scene *scene)

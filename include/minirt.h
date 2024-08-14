@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/11 05:48:49 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:46:27 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@
 # include <time.h>
 # include <unistd.h>
 
-extern FILE *out;
-// structs
+extern FILE		*out;
+
+// Structs
 typedef struct s_render
 {
 	double		aspect_ratio;
@@ -67,19 +68,20 @@ void			free_scene(t_object *objects);
 // Window, mlx stuff
 int				keys_handler(int key_code, t_scene *scene);
 
-//init
-void			init_mlx(t_scene *scene, int win_width, int win_height);
-void			init_render(t_render *render);
-void			init_viewport(t_camera *camera, t_render *render);
+// Initialization
 void			init_camera(t_camera *camera);
 t_object		*init_objects(void);
+void			init_mlx(t_scene *scene, int win_width, int win_height);
+void			init_render(t_render *render);
 void			init_scene(t_scene *scene);
+void			init_viewport(t_camera *camera, t_render *render);
 
-//render
+// Rendering
 void			render_scene(t_scene *scene);
 
-//utility
+// Utility
 double			deg_to_rad(double degrees);
+double			ft_fmin(double a, double b);
 double			rand_double(double min, double max);
 double			random_double(void);
 

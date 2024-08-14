@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:40:11 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/14 12:33:16 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:55:47 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ void					ray_init(t_ray *r, const t_point3 *origin,
 t_point3				ray_at(const t_ray *r, double t);
 
 /* Random vector generation */
+t_vec3					rand_vec(double min, double max);
 t_vec3					random_on_hemisphere(t_vec3 normal);
+t_vec3					sample_square(void);
 t_vec3					random_unit_vector(void);
 
 /* Reflection */

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:02:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 18:10:20 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:21:53 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,26 @@
 
 # include "minirt.h"
 
+/* Define an empty interval with min and max set to 0 */
 # define empty_interval (t_interval){0, 0}
+
+/* Define a universe interval with min set to 0.001 and max set to infinity */
 # define universe_interval (t_interval){0.001, INFINITY}
 
 typedef struct s_interval
 {
-	double	min;
-	double	max;
+    double	min;
+    double	max;
 }				t_interval;
 
 double size(t_interval interval);
 
 int contains(t_interval interval, double x);
 
+/* Function to check if interval 'a' surrounds interval 'b' */
 int surrond(t_interval a, t_interval b);
 
+/* Function to clamp a value 'x' between 'min' and 'max' */
 double clamp(double x, double min, double max);
 
 #endif

@@ -5,7 +5,18 @@ OBJ_DIR = ./obj/
 MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
 CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -g3
-SRC_FILES = main my_mlx/window_inputs memory/ft_exit my_mlx/my_mlx_pixel_put vectors/vectors vectors/ray init/init_mlx init/init_scene render/render interval/interval utility/utility
+SRC_FILES = main \
+			my_mlx/window_inputs \
+			memory/ft_exit \
+			my_mlx/my_mlx_pixel_put \
+			vectors/vectors vectors/ray \
+			init/init_mlx init/init_scene \
+			render/render \
+			interval/interval \
+			utility/utility \
+			objects/sphere objects/pyramid \
+			materials/materials
+
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 NAME = miniRT

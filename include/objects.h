@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/14 12:37:24 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:33:48 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ typedef struct s_hitrecord {
 typedef enum e_material_type {
     MATTE,
 	METAL,
+	GLASS,
 } t_material_type;
 
 typedef struct s_material {
     int (*scatter)(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
 	t_vec3 albedo;
 	double	fuzz;
+	double	ref_indx;
 } t_material;
 
 typedef struct s_object

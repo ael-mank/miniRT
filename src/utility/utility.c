@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 11:40:42 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 13:48:35 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:45:23 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,12 @@ double rand_double(double min, double max)
 double random_double(void)
 {
 	return (rand() / (RAND_MAX + 1.0));
+}
+
+double	ft_fmin(double a, double b)
+{
+	if (a < b)
+		return (a);
+	else
+		return (b);
 }

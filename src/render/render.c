@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/13 20:00:05 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:55:35 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ double hit_pyramid(t_ray r, t_pyramid pyramid, t_interval ray_t, t_hitrecord *re
         }
     }
 
-    // Check intersection with the base (assuming it's a quadrilateral)
+    // Check intersection with the base (two triangles to make the square base)
     if (hit_triangle(&r, pyramid.vertices[0], pyramid.vertices[1], pyramid.vertices[2], ray_t, rec, pyramid.mat)) {
         hit_anything = 1;
         closest_so_far = rec->t;
@@ -146,7 +146,7 @@ double	hit(t_ray r, t_object *objects, t_interval ray_t, t_hitrecord *rec)
 	return (hit_anything);
 }
 
-int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_vec3 albedo)
+int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat)
 {
 	(void)r;
     t_vec3 direction;
@@ -156,18 +156,24 @@ int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *s
 	if (near_zero(direction))
 		direction = rec->normal;
     ray_init(scattered, &rec->p, &direction);
-    *attenuation = albedo;
+    *attenuation = mat->albedo;
     return (1);
 }
 
-int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_vec3 albedo)
+int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat)
 {
     t_vec3 direction;
 
-    direction = reflect(vector_normalize(r->dir), rec->normal);
+    if (mat->fuzz > 1)
+		mat->fuzz = 1;
+	direction = reflect(vector_normalize(r->dir), rec->normal);
+	direction = vector_add(unit_vector(direction),vector_scale(random_unit_vector(), mat->fuzz));
     ray_init(scattered, &rec->p, &direction);
-    *attenuation = albedo;
-    return (1);
+    *attenuation = mat->albedo;
+    if (dot(scattered->dir, rec->normal) > 0)
+        return (1);
+    else
+        return (0);
 }
 
 t_vec3 ray_color(t_ray *r, int depth, t_object *objects)
@@ -188,7 +194,7 @@ t_vec3 ray_color(t_ray *r, int depth, t_object *objects)
     }
     if (hit(*r, objects, universe_interval, &rec))
     {
-        if (rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat->albedo))
+        if (rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
         {
             return (vector_multiply(attenuation, ray_color(&scattered, depth - 1, objects)));
         }

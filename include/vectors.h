@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:40:11 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/11 14:11:44 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:33:16 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,36 @@ typedef struct s_ray
 	t_vec3				dir;
 }						t_ray;
 
+/* Vector creation and initialization */
 t_vec3					vec3(double x, double y, double z);
 
+/* Vector arithmetic operations */
 t_vec3					vector_add(t_vec3 a, t_vec3 b);
-
 t_vec3					vector_subtract(t_vec3 a, t_vec3 b);
-
+t_vec3					vector_multiply(t_vec3 a, t_vec3 b);
 t_vec3					vector_scale(t_vec3 v, double scalar);
 t_vec3					vector_divide(t_vec3 v, double scalar);
+
+/* Vector properties and utilities */
 double					dot_product(t_vec3 a, t_vec3 b);
 double					dot(t_vec3 a, t_vec3 b);
 t_vec3					cross_product(t_vec3 a, t_vec3 b);
-t_vec3					vector_multiply(t_vec3 a, t_vec3 b);
-
 double					vector_length(t_vec3 v);
 double					vector_length_squared(t_vec3 v);
 t_vec3					vector_normalize(t_vec3 v);
+t_vec3					unit_vector(t_vec3 v);
+int						near_zero(t_vec3 e);
 
+/* Ray operations */
 void					ray_init(t_ray *r, const t_point3 *origin,
 							const t_point3 *direction);
 t_point3				ray_at(const t_ray *r, double t);
+
+/* Random vector generation */
 t_vec3					random_on_hemisphere(t_vec3 normal);
 t_vec3					random_unit_vector(void);
-int						near_zero(t_vec3 e);
-t_vec3 reflect(t_vec3 v, t_vec3 n);
+
+/* Reflection */
+t_vec3					reflect(t_vec3 v, t_vec3 n);
+
 #endif

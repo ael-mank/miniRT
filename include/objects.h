@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/13 19:54:15 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:37:24 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ typedef enum e_material_type {
 } t_material_type;
 
 typedef struct s_material {
-    int (*scatter)(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_vec3 albedo);
+    int (*scatter)(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
 	t_vec3 albedo;
+	double	fuzz;
 } t_material;
 
 typedef struct s_object
@@ -57,8 +58,8 @@ typedef struct s_object
 	struct s_object *next;
 } t_object;
 
-int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_vec3 albedo);
-int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_vec3 albedo);
+int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
+int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
 
 double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec);
 double 	hit_pyramid(t_ray r, t_pyramid pyramid, t_interval ray_t, t_hitrecord *rec);

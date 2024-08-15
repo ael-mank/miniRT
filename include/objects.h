@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/14 15:33:48 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/15 00:53:53 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef enum e_material_type {
     MATTE,
 	METAL,
 	GLASS,
+	BUBBLE,
 } t_material_type;
 
 typedef struct s_material {
@@ -62,6 +63,7 @@ typedef struct s_object
 
 int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
 int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
+int glass_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
 
 double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec);
 double 	hit_pyramid(t_ray r, t_pyramid pyramid, t_interval ray_t, t_hitrecord *rec);

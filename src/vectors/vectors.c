@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:41:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/14 15:55:01 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/15 00:47:26 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,15 @@ t_vec3	rand_vec(double min, double max)
 
 t_vec3	reflect(t_vec3 v, t_vec3 n)
 {
-    return (vector_subtract(v, vector_scale(n, 2 * dot(v, n))));
+    return (vector_subtract(v, vector_scale(n, 2 * dot_product(v, n))));
 }
 
+t_vec3 refract(t_vec3 *uv, const t_vec3 *n, double etai_over_etat) {
+	double cos_theta = fmin(dot(vector_scale(*uv, -1), *n), 1.0);
+	t_vec3 r_out_perp = vector_scale(vector_add(*uv, vector_scale(*n, cos_theta)), etai_over_etat);
+	t_vec3 r_out_parallel = vector_scale(*n, -sqrt(fabs(1.0 - vector_length_squared(r_out_perp))));
+	return vector_add(r_out_perp, r_out_parallel);
+}
 int	near_zero(t_vec3 e)
 {
     const double s = 1e-8;

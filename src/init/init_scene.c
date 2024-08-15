@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/14 16:17:19 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/15 00:56:25 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	init_viewport(t_camera *camera, t_render *render)
 											render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 											render->image_height);
-	camera->samples_per_pixel = 30;
-	camera->max_depth = 5;
+	camera->samples_per_pixel = 1400;
+	camera->max_depth = 550;
 }
 
 void	init_camera(t_camera *camera)
@@ -94,11 +94,25 @@ t_material	*create_material(t_material_type type)
 	{
 		mat->scatter = lambertian_scatter;
 		mat->fuzz = 0;
+		mat->ref_indx = 0;
 	}
 	else if (type == METAL)
 	{
 		mat->scatter = metal_scatter;
 		mat->fuzz = 0;
+		mat->ref_indx = 0;
+	}
+	else if (type == GLASS)
+	{
+		mat->scatter = glass_scatter;
+		mat->fuzz = 0;
+		mat->ref_indx = 1.50;
+	}
+	else if (type == BUBBLE)
+	{
+		mat->scatter = glass_scatter;
+		mat->fuzz = 0;
+		mat->ref_indx = 1.00 / 1.50;
 	}
 	else
 	{
@@ -211,22 +225,10 @@ t_object	*init_objects(void)
     head = NULL;
     // Ground sphere
     head = add_sphere(head, vec3(0, -100.5, -1), 100, MATTE, vec3(0.8, 0.8, 0.0));
-
-    // Central large sphere
-    head = add_sphere(head, vec3(0, 0, -1), 0.5, MATTE, vec3(0.1, 0.2, 0.5));
-
-    // Metal spheres
-    head = add_sphere(head, vec3(-1.0, 0, -1.5), 0.5, METAL, vec3(0.8, 0.6, 0.2));
-    head = add_sphere(head, vec3(1.0, 0, -1.5), 0.5, METAL, vec3(0.8, 0.8, 0.8));
-
-    // Dielectric (glass) spheres
-    // head = add_sphere(head, vec3(-0.5, 0.5, -0.5), 0.5, DIELECTRIC, vec3(1.0, 1.0, 1.0));
-    // head = add_sphere(head, vec3(0.5, 0.5, -0.5), 0.5, DIELECTRIC, vec3(1.0, 1.0, 1.0));
-
-    // Small spheres for added detail
-    head = add_sphere(head, vec3(-0.5, 0.5, -0.8), 0.2, MATTE, vec3(0.7, 0.3, 0.3));
-    head = add_sphere(head, vec3(0.5, 0.5, -0.8), 0.2, METAL, vec3(0.3, 0.7, 0.3));
-
+	head = add_sphere(head, vec3(-1, 0, -1), 0.5, GLASS, vec3(1.0, 1.0, 1.0));
+	head = add_sphere(head, vec3(-1, 0, -1), 0.4, BUBBLE, vec3(1.0, 1.0, 1.0));
+    head = add_sphere(head, vec3(0, 0, -1.2), 0.5, MATTE, vec3(0.1, 0.2, 0.5));
+	head = add_sphere(head, vec3(1, 0, -1), 0.5, METAL, vec3(0.8, 0.6, 0.2));
     return (head);
 }
 

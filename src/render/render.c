@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/14 16:18:12 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/15 00:56:35 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,13 +126,13 @@ void	render_scene(t_scene *scene)
 					scene->camera.samples_per_pixel);
 			i++;
 		}
-		mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
-			scene->mlx.img.img, 50, 28);
 		j++;
 	}
 	end_time = clock();
 	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 	printf("Time to render: %.2f seconds\n", elapsed_time);
+	mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
+			scene->mlx.img.img, 50, 28);
 }
 
 // void old_render_scene(t_scene *scene) NO ANTIALIASING

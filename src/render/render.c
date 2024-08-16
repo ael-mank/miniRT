@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/15 00:56:35 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:06:46 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,28 @@ t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
 	return (pixel_center);
 }
 
+t_vec3 random_in_unit_disk()
+{
+	t_vec3 p;
+	while (1)
+	{
+		p = vec3(rand_double(-1, 1), rand_double(-1, 1), 0);
+		if (vector_length_squared(p) < 1)
+			break;
+	}
+	return (p);
+}
+
+t_vec3 defocus_disk_sample(t_camera *camera)
+{
+	t_vec3 p;
+	t_vec3 offset;
+	offset = random_in_unit_disk();
+	p = vector_add(camera->camera_center, vector_add(vector_scale(camera->defocus_disk_u, offset.x),
+			vector_scale(camera->defocus_disk_v, offset.y)));
+	return (p);
+}
+
 t_ray	get_ray(int i, int j, t_camera *camera)
 {
 	t_ray		r;
@@ -90,8 +112,8 @@ t_ray	get_ray(int i, int j, t_camera *camera)
 	pixel_sample = vector_add(camera->pixel00_loc,
 			vector_add(vector_scale(camera->pixel_delta_u, i + offset.x),
 				vector_scale(camera->pixel_delta_v, j + offset.y)));
-	ray_origin = camera->camera_center;
-	ray_dir = vector_subtract(pixel_sample, camera->camera_center);
+	ray_origin =  (camera->defocus_angle <= 0) ? camera->camera_center : defocus_disk_sample(camera);
+	ray_dir = vector_subtract(pixel_sample, ray_origin);
 	ray_init(&r, &ray_origin, &ray_dir);
 	return (r);
 }

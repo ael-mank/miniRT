@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/14 15:46:27 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/16 12:57:30 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,21 @@ typedef struct s_render
 
 typedef struct s_camera
 {
-	double		focal_length;
+	double		focus_dist;
+	double		defocus_angle;
+	t_vec3		defocus_disk_u;
+	t_vec3		defocus_disk_v;
 	double		viewport_height;
 	double		viewport_width;
+	double		fov;
+	double 		theta;
 	t_point3	camera_center;
+	t_point3	lookfrom;
+	t_point3	lookat;
+	t_point3	u;
+	t_point3	v;
+	t_point3	w;
+	t_vec3		v_up;
 	t_vec3		viewport_u;
 	t_vec3		viewport_v;
 	t_vec3		pixel_delta_u;

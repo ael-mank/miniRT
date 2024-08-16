@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/15 00:56:25 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:55:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,41 @@ void	init_render(t_render *render)
 
 void	init_viewport(t_camera *camera, t_render *render)
 {
-	camera->viewport_height = 2.0;
+	double	h;
+
+	camera->lookfrom = vec3(4, 2, 0);
+	camera->lookat = vec3(0, 0, -1);
+	camera->v_up = vec3(0, 1, 0);
+	camera->fov = 30;
+	camera->defocus_angle = 10;
+	camera->focus_dist = 4.6;
+	camera->theta = deg_to_rad(camera->fov);
+	h = tan(camera->theta / 2);
+	camera->viewport_height = 2.0 * h * camera->focus_dist;
 	camera->viewport_width = camera->viewport_height * (render->image_width
 			/ (double)render->image_height);
-	camera->viewport_u = vec3(camera->viewport_width, 0, 0);
-	camera->viewport_v = vec3(0, -camera->viewport_height, 0);
+	camera->w = unit_vector(vector_subtract(camera->lookfrom, camera->lookat));
+	camera->u = unit_vector(cross_product(camera->v_up, camera->w));
+	camera->v = cross_product(camera->w, camera->u);
+	camera->viewport_u = vector_scale(camera->u, camera->viewport_width);
+	camera->viewport_v = vector_scale(vector_scale(camera->v, -1), camera->viewport_height);
 	camera->pixel_delta_u = vector_divide(camera->viewport_u,
-											render->image_width);
+										render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
-											render->image_height);
-	camera->samples_per_pixel = 1400;
-	camera->max_depth = 550;
+										render->image_height);
+	camera->samples_per_pixel = 50;
+	camera->max_depth = 25;
 }
 
 void	init_camera(t_camera *camera)
 {
-	camera->focal_length = 1.0;
-	camera->camera_center = vec3(0, 0, 0);
-	camera->viewport_upper_left.x = camera->camera_center.x
-		- (camera->viewport_u.x / 2) - (camera->viewport_v.x / 2);
-	camera->viewport_upper_left.y = camera->camera_center.y
-		- (camera->viewport_u.y / 2) - (camera->viewport_v.y / 2);
-	camera->viewport_upper_left.z = camera->camera_center.z
-		- camera->focal_length - (camera->viewport_u.z / 2)
-		- (camera->viewport_v.z / 2);
+	double	defocus_radius;
+
+	defocus_radius = camera->focus_dist * tan(deg_to_rad(camera->defocus_angle / 2));
+	camera->defocus_disk_u = vector_scale(camera->u, defocus_radius);
+	camera->defocus_disk_v = vector_scale(camera->v, defocus_radius);
+	camera->camera_center = camera->lookfrom;
+	camera->viewport_upper_left = vector_subtract(vector_subtract(vector_subtract(camera->camera_center, vector_scale(camera->w, camera->focus_dist)),vector_divide(camera->viewport_u, 2)), vector_divide(camera->viewport_v, 2));
 	camera->pixel00_loc.x = camera->viewport_upper_left.x + 0.5
 		* (camera->pixel_delta_u.x + camera->pixel_delta_v.x);
 	camera->pixel00_loc.y = camera->viewport_upper_left.y + 0.5
@@ -189,9 +200,9 @@ t_object	*create_pyramid(t_vec3 base_vertices[4], t_vec3 apex,
 	pyramid_data->vertices[3] = base_vertices[3];
 	pyramid_data->apex = apex;
 	new_object->object = pyramid_data;
-	new_object->mat = mat;                 // Assign the material to the object
+	new_object->mat = mat; // Assign the material to the object
 	new_object->hit = hit_pyramid_wrapper;
-		// Assuming you have a hit function for the pyramid
+	// Assuming you have a hit function for the pyramid
 	new_object->next = NULL;
 	return (new_object);
 }
@@ -200,18 +211,19 @@ t_object	*add_pyramid(t_object *head, t_vec3 center, float height,
 		t_material_type material, t_vec3 color)
 {
 	t_object	*new_pyramid;
+	t_vec3		apex;
 
 	float half_side = 0.5; // Assuming the base is a square with side length 1
 	t_vec3 base_vertices[4] = {
 		vec3(center.x - half_side, center.y, center.z - half_side),
-			// Bottom-left
+		// Bottom-left
 		vec3(center.x + half_side, center.y, center.z - half_side),
-			// Bottom-right
+		// Bottom-right
 		vec3(center.x + half_side, center.y, center.z + half_side), // Top-right
 		vec3(center.x - half_side, center.y, center.z + half_side)  // Top-left
 	};
-	t_vec3 apex = vec3(center.x, center.y + height, center.z);
-		// Apex above the center of the base
+	apex = vec3(center.x, center.y + height, center.z);
+	// Apex above the center of the base
 	new_pyramid = create_pyramid(base_vertices, apex, material, color);
 	if (!new_pyramid)
 		return (NULL);
@@ -220,16 +232,17 @@ t_object	*add_pyramid(t_object *head, t_vec3 center, float height,
 
 t_object	*init_objects(void)
 {
-    t_object	*head;
+	t_object	*head;
 
-    head = NULL;
-    // Ground sphere
-    head = add_sphere(head, vec3(0, -100.5, -1), 100, MATTE, vec3(0.8, 0.8, 0.0));
+	head = NULL;
+	// Ground sphere
+	head = add_sphere(head, vec3(0, -100.5, -1), 100, MATTE, vec3(0.8, 0.8,
+				0.0));
 	head = add_sphere(head, vec3(-1, 0, -1), 0.5, GLASS, vec3(1.0, 1.0, 1.0));
 	head = add_sphere(head, vec3(-1, 0, -1), 0.4, BUBBLE, vec3(1.0, 1.0, 1.0));
-    head = add_sphere(head, vec3(0, 0, -1.2), 0.5, MATTE, vec3(0.1, 0.2, 0.5));
+	head = add_sphere(head, vec3(0, 0, -1.2), 0.5, MATTE, vec3(0.1, 0.2, 0.5));
 	head = add_sphere(head, vec3(1, 0, -1), 0.5, METAL, vec3(0.8, 0.6, 0.2));
-    return (head);
+	return (head);
 }
 
 void	init_scene(t_scene *scene)

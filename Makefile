@@ -10,7 +10,7 @@ SRC_FILES = main \
 			memory/ft_exit \
 			my_mlx/my_mlx_pixel_put \
 			vectors/vectors vectors/ray \
-			init/init_mlx init/init_scene \
+			init/init_mlx init/init init/init_objects\
 			render/render \
 			interval/interval \
 			utility/utility \

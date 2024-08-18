@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:30:38 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/09 22:19:06 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/17 18:32:33 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	init_mlx(t_scene *scene, int win_width, int win_height)
 {
-	t_mlx *mlx;
-	t_data *img;
+	t_mlx	*mlx;
+	t_data	*img;
 
 	mlx = &scene->mlx;
 	img = &mlx->img;

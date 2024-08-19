@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 08:02:10 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:15:50 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "my_mlx.h"
 # include "objects.h"
 # include "vectors.h"
+# include "aabb.h"
+# include "bvh.h"
 # include <X11/keysym.h>
 # include <math.h>
 # include <stdio.h>
@@ -70,6 +72,7 @@ typedef struct s_scene
 	t_render	render;
 	t_ray		r;
 	t_object	*objects;
+	t_bvh		*bvh;
 }				t_scene;
 
 // Memory management

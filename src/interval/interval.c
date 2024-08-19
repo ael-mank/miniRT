@@ -6,11 +6,20 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:04:34 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 10:48:57 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:11:29 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+t_interval	interval(double min, double max)
+{
+	t_interval	interval;
+
+	interval.min = min;
+	interval.max = max;
+	return (interval);
+}
 
 double	size(t_interval interval)
 {

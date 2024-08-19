@@ -6,13 +6,14 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 08:21:24 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:50:49 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
+#include "aabb.h"
 #include "minirt.h"
 
 typedef struct s_material t_material;
@@ -60,6 +61,7 @@ typedef struct s_object
 	t_vec3 center;
 	double (*hit)(t_ray r, void *object, t_interval ray_t, t_hitrecord *rec);
 	t_material *mat;
+	t_aabb box;
 	struct s_object *next;
 } t_object;
 

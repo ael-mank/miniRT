@@ -17,7 +17,8 @@ SRC_FILES = main \
 			interval/interval \
 			utility/utility \
 			objects/sphere objects/pyramid \
-			materials/materials
+			materials/materials \
+			aabbbvh/aabb aabbbvh/bvh 
 
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

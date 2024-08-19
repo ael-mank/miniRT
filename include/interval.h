@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:02:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/14 16:21:53 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:11:40 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct s_interval
     double	min;
     double	max;
 }				t_interval;
+
+t_interval	interval(double min, double max);
 
 double size(t_interval interval);
 

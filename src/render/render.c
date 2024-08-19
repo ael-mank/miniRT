@@ -6,37 +6,24 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 11:02:36 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 13:41:27 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-double	hit(t_ray r, t_object *objects, t_interval ray_t, t_hitrecord *rec)
+double hit(t_ray r, t_bvh *bvh, t_interval ray_t, t_hitrecord *rec)
 {
-	t_hitrecord	temp_rec;
-	int			hit_anything;
-	double		closest_so_far;
-
-	hit_anything = 0;
-	closest_so_far = ray_t.max;
-	while (objects)
-	{
-		if (objects->hit(r, objects->object, ray_t, &temp_rec))
-		{
-			hit_anything = 1;
-			if (temp_rec.t < closest_so_far)
-			{
-				closest_so_far = temp_rec.t;
-				*rec = temp_rec;
-			}
-		}
-		objects = objects->next;
-	}
-	return (hit_anything);
+    if (bvh_hit(bvh, r, ray_t, rec))
+    {
+        //write(1, "hit\n", 4);
+        return 1;
+    }
+    //write(1, "no hit\n", 7);
+    return 0;
 }
 
-t_vec3	ray_color(t_ray *r, int depth, t_object *objects)
+t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)
 {
 	t_hitrecord	rec;
 	t_vec3		unit_direction;
@@ -52,12 +39,12 @@ t_vec3	ray_color(t_ray *r, int depth, t_object *objects)
 	{
 		return (vec3(0, 0, 0));
 	}
-	if (hit(*r, objects, universe_interval, &rec))
+	if (hit(*r, bvh, universe_interval, &rec))
 	{
 		if (rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
 		{
 			return (vector_multiply(attenuation, ray_color(&scattered, depth
-						- 1, objects)));
+						- 1, bvh)));
 		}
 		return (vec3(0, 0, 0));
 	}
@@ -142,6 +129,7 @@ void	render_scene(t_scene *scene)
 	i = 0;
 	j = 0;
 	start_time = clock();
+	//print_bvh_tree(scene->bvh, 0);
 	while (j < scene->render.image_height)
 	{
 		i = 0;
@@ -153,7 +141,7 @@ void	render_scene(t_scene *scene)
 			{
 				r = get_ray(i, j, &scene->camera);
 				color = vector_add(color, ray_color(&r, scene->camera.max_depth,
-							scene->objects));
+							scene->bvh));
 				sample++;
 			}
 			write_colors(&scene->mlx.img, i, j, color);

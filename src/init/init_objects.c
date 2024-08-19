@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:33:28 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 08:41:17 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 10:48:31 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ t_object	*init_objects(void)
 {
 	t_object	*head;
 	t_sphere	*sphere;
-	t_vec3		center;
-	t_vec3		albedo;
-	int			a;
-	int			b;
 
 	head = NULL;
 	sphere = create_sphere(vec3(0, -1000, -1), 1000, MATTE, vec3(0.8, 0.8,
@@ -49,43 +45,5 @@ t_object	*init_objects(void)
 	head = add_sphere(head, sphere);
 	sphere = create_sphere(vec3(4, 1, 0), 1, METAL, vec3(0.7, 0.6, 0.5));
 	head = add_sphere(head, sphere);
-	a = -11;
-	while (a < 11)
-	{
-		b = -11;
-		while (b < 11)
-		{
-			center = vec3(a + 0.9 * random_double(), 0.2, b + 0.9
-					* random_double());
-			if (sqrt(pow(center.x - 4, 2) + pow(center.y - 0.2, 2)
-					+ pow(center.z, 2)) > 0.9)
-			{
-				if (random_double() < 0.8)
-				{
-					albedo = vec3(random_double(), random_double(),
-							random_double());
-					albedo = vec3(albedo.x * random_double(), albedo.y
-							* random_double(), albedo.z * random_double());
-					sphere = create_sphere(center, 0.2, MATTE, albedo);
-					head = add_sphere(head, sphere);
-				}
-				else if (random_double() < 0.95)
-				{
-					albedo = vec3(0.5 + 0.5 * random_double(), 0.5 + 0.5
-							* random_double(), 0.5 + 0.5 * random_double());
-					sphere = create_sphere(center, 0.2, METAL, albedo);
-					head = add_sphere(head, sphere);
-				}
-				else
-				{
-					sphere = create_sphere(center, 0.2, GLASS, vec3(1.0, 1.0,
-								1.0));
-					head = add_sphere(head, sphere);
-				}
-			}
-			b++;
-		}
-		a++;
-	}
 	return (head);
 }

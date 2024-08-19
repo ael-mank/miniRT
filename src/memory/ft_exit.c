@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/11 10:57:29 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 10:55:50 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,14 @@ void	free_scene(t_object *objects)
 
 int	ft_exit(t_scene *scene)
 {
-	t_mlx *mlx;
+	t_mlx	*mlx;
 
 	mlx = &scene->mlx;
 	free_scene(scene->objects);
 	mlx_destroy_image(mlx->mlx_ptr, mlx->img.img);
-	//first destroy images if used with mlx_destroy_image
-	//then destroy window
 	mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
-	//destroy display
 	mlx_destroy_display(mlx->mlx_ptr);
 	free(mlx->mlx_ptr);
-	//close(out);
 	printf("\033[1;32mClosed by User.\033[0m\n");
 	exit(0);
 }

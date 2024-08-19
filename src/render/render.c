@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 09:14:57 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:02:36 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,34 @@ double	hit(t_ray r, t_object *objects, t_interval ray_t, t_hitrecord *rec)
 	return (hit_anything);
 }
 
-t_vec3 ray_color(t_ray *r, int depth, t_object *objects)
+t_vec3	ray_color(t_ray *r, int depth, t_object *objects)
 {
-    t_hitrecord rec;
-    t_vec3 unit_direction;
-    t_vec3 white;
-    t_vec3 blue;
-    t_vec3 attenuation;
-    double t;
-    t_ray scattered;
+	t_hitrecord	rec;
+	t_vec3		unit_direction;
+	t_vec3		white;
+	t_vec3		blue;
+	t_vec3		attenuation;
+	double		t;
+	t_ray		scattered;
 
-    white = vec3(1, 1, 1);
-    blue = vec3(0.5, 0.7, 1.0);
-    if (depth <= 0)
-    {
-        return (vec3(0, 0, 0));
-    }
-    if (hit(*r, objects, universe_interval, &rec))
-    {
-        if (rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
-        {
-            return (vector_multiply(attenuation, ray_color(&scattered, depth - 1, objects)));
-        }
-        return (vec3(0, 0, 0));
-    }
-    unit_direction = vector_normalize(r->dir);
-    t = 0.5 * (unit_direction.y + 1.0);
-    return (vector_add(vector_scale(white, 1.0 - t), vector_scale(blue, t)));
+	white = vec3(1, 1, 1);
+	blue = vec3(0.5, 0.7, 1.0);
+	if (depth <= 0)
+	{
+		return (vec3(0, 0, 0));
+	}
+	if (hit(*r, objects, universe_interval, &rec))
+	{
+		if (rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
+		{
+			return (vector_multiply(attenuation, ray_color(&scattered, depth
+						- 1, objects)));
+		}
+		return (vec3(0, 0, 0));
+	}
+	unit_direction = vector_normalize(r->dir);
+	t = 0.5 * (unit_direction.y + 1.0);
+	return (vector_add(vector_scale(white, 1.0 - t), vector_scale(blue, t)));
 }
 
 t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
@@ -78,25 +79,28 @@ t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
 	return (pixel_center);
 }
 
-t_vec3 random_in_unit_disk()
+t_vec3	random_in_unit_disk(void)
 {
-	t_vec3 p;
+	t_vec3	p;
+
 	while (1)
 	{
 		p = vec3(rand_double(-1, 1), rand_double(-1, 1), 0);
 		if (vector_length_squared(p) < 1)
-			break;
+			break ;
 	}
 	return (p);
 }
 
-t_vec3 defocus_disk_sample(t_camera *camera)
+t_vec3	defocus_disk_sample(t_camera *camera)
 {
-	t_vec3 p;
-	t_vec3 offset;
+	t_vec3	p;
+	t_vec3	offset;
+
 	offset = random_in_unit_disk();
-	p = vector_add(camera->camera_center, vector_add(vector_scale(camera->defocus_disk_u, offset.x),
-			vector_scale(camera->defocus_disk_v, offset.y)));
+	p = vector_add(camera->camera_center,
+			vector_add(vector_scale(camera->defocus_disk_u, offset.x),
+				vector_scale(camera->defocus_disk_v, offset.y)));
 	return (p);
 }
 
@@ -110,9 +114,14 @@ t_ray	get_ray(int i, int j, t_camera *camera)
 
 	offset = sample_square();
 	pixel_sample = vector_add(camera->pixel00_loc,
-			vector_add(vector_scale(camera->pixel_delta_u, i + offset.x),
-				vector_scale(camera->pixel_delta_v, j + offset.y)));
-	ray_origin =  (camera->defocus_angle <= 0) ? camera->camera_center : defocus_disk_sample(camera);
+			vector_add(vector_scale(camera->pixel_delta_u, i
+					+ offset.x),
+				vector_scale(camera->pixel_delta_v,
+					j + offset.y)));
+	if (camera->defocus_angle <= 0)
+		ray_origin = camera->camera_center;
+	else
+		ray_origin = defocus_disk_sample(camera);
 	ray_dir = vector_subtract(pixel_sample, ray_origin);
 	ray_init(&r, &ray_origin, &ray_dir);
 	return (r);
@@ -126,9 +135,12 @@ void	render_scene(t_scene *scene)
 	clock_t	start_time;
 	clock_t	end_time;
 	double	elapsed_time;
+	int		i;
+	int		j;
 
 	sample = 0;
-	int i, j = 0;
+	i = 0;
+	j = 0;
 	start_time = clock();
 	while (j < scene->render.image_height)
 	{
@@ -153,7 +165,7 @@ void	render_scene(t_scene *scene)
 	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 	printf("Time to render: %.2f seconds\n", elapsed_time);
 	mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
-			scene->mlx.img.img, 50, 28);
+		scene->mlx.img.img, 50, 28);
 }
 
 // void old_render_scene(t_scene *scene) NO ANTIALIASING

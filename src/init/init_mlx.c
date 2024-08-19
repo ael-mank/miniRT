@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:30:38 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/17 18:32:33 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 09:12:19 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ void	init_mlx(t_scene *scene, int win_width, int win_height)
 			scene->render.image_height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
+	img->samples_per_pixel = scene->camera.samples_per_pixel;
 }

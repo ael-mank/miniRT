@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/16 15:06:46 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 09:14:57 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,7 @@ void	render_scene(t_scene *scene)
 							scene->objects));
 				sample++;
 			}
-			write_colors(&scene->mlx.img, i, j, color,
-					scene->camera.samples_per_pixel);
+			write_colors(&scene->mlx.img, i, j, color);
 			i++;
 		}
 		j++;

@@ -6,11 +6,13 @@ MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
 CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -g3 -lm
 SRC_FILES = main \
-			my_mlx/window_inputs \
+			my_mlx/window_inputs my_mlx/my_mlx_pixel_put\
+			my_mlx/write_colors \
 			memory/ft_exit \
-			my_mlx/my_mlx_pixel_put \
 			vectors/vectors vectors/ray \
 			init/init_mlx init/init init/init_objects\
+			init/init_sphere init/init_pyramid \
+			init/make_mat \
 			render/render \
 			interval/interval \
 			utility/utility \

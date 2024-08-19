@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/16 12:57:30 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 08:02:10 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_camera
 	double		viewport_height;
 	double		viewport_width;
 	double		fov;
-	double 		theta;
+	double		theta;
 	t_point3	camera_center;
 	t_point3	lookfrom;
 	t_point3	lookat;
@@ -82,6 +82,8 @@ int				keys_handler(int key_code, t_scene *scene);
 // Initialization
 void			init_camera(t_camera *camera);
 t_object		*init_objects(void);
+t_material		*create_material(t_material_type type);
+t_object		*add_object_end(t_object *head, t_object *new_object);
 void			init_mlx(t_scene *scene, int win_width, int win_height);
 void			init_render(t_render *render);
 void			init_scene(t_scene *scene);

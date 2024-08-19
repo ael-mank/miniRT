@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/17 23:45:17 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 07:57:41 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ void	init_viewport(t_camera *camera, t_render *render)
 	camera->u = unit_vector(cross_product(camera->v_up, camera->w));
 	camera->v = cross_product(camera->w, camera->u);
 	camera->viewport_u = vector_scale(camera->u, camera->viewport_width);
-	camera->viewport_v = vector_scale(vector_scale(camera->v, -1), camera->viewport_height);
+	camera->viewport_v = vector_scale(vector_scale(camera->v, -1),
+			camera->viewport_height);
 	camera->pixel_delta_u = vector_divide(camera->viewport_u,
-										render->image_width);
+			render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
-										render->image_height);
+			render->image_height);
 	camera->samples_per_pixel = 1;
 	camera->max_depth = 50;
 }
@@ -53,11 +54,16 @@ void	init_camera(t_camera *camera)
 {
 	double	defocus_radius;
 
-	defocus_radius = camera->focus_dist * tan(deg_to_rad(camera->defocus_angle / 2));
+	defocus_radius = camera->focus_dist * tan(deg_to_rad(camera->defocus_angle
+				/ 2));
 	camera->defocus_disk_u = vector_scale(camera->u, defocus_radius);
 	camera->defocus_disk_v = vector_scale(camera->v, defocus_radius);
 	camera->camera_center = camera->lookfrom;
-	camera->viewport_upper_left = vector_subtract(vector_subtract(vector_subtract(camera->camera_center, vector_scale(camera->w, camera->focus_dist)),vector_divide(camera->viewport_u, 2)), vector_divide(camera->viewport_v, 2));
+	camera->viewport_upper_left = vector_subtract(
+			vector_subtract(vector_subtract(camera->camera_center,
+					vector_scale(camera->w, camera->focus_dist)),
+				vector_divide(camera->viewport_u, 2)),
+			vector_divide(camera->viewport_v, 2));
 	camera->pixel00_loc.x = camera->viewport_upper_left.x + 0.5
 		* (camera->pixel_delta_u.x + camera->pixel_delta_v.x);
 	camera->pixel00_loc.y = camera->viewport_upper_left.y + 0.5
@@ -65,7 +71,6 @@ void	init_camera(t_camera *camera)
 	camera->pixel00_loc.z = camera->viewport_upper_left.z + 0.5
 		* (camera->pixel_delta_u.z + camera->pixel_delta_v.z);
 }
-
 
 void	init_scene(t_scene *scene)
 {

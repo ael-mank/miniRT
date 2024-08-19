@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/15 00:53:53 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/19 08:21:24 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "minirt.h"
 
 typedef struct s_material t_material;
+
+
 typedef struct s_sphere{
     double x, y, z;
     double radius;
@@ -68,5 +70,10 @@ int glass_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scatte
 double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec);
 double 	hit_pyramid(t_ray r, t_pyramid pyramid, t_interval ray_t, t_hitrecord *rec);
 
+t_sphere *create_sphere(t_point3 center, double radius, t_material_type type, t_vec3 color);
+t_object *add_sphere(t_object *head, t_sphere *sphere);
+
+t_object	*add_pyramid(t_object *head, t_vec3 center, float height,
+		t_material_type material, t_vec3 color);
 
 #endif

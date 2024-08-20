@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/20 17:00:42 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/20 22:33:39 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,5 @@ void	init_scene(t_scene *scene)
 	ft_bzero(&scene->objects, sizeof(t_object));
 	scene->objects = init_objects();
 	scene->bvh = create_bvh_node(scene->objects);
-	//print_bvh_tree(scene->bvh, 0);
+	print_bvh_tree(scene->bvh, 0);
 }

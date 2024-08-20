@@ -6,11 +6,13 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:59:35 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 10:46:47 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/20 20:52:12 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "minirt.h"
+
+//Really bad implementation of a pyramid, makes the rendering time really slow
 
 // double	hit_pyramid_wrapper(t_ray r, void *object, t_interval ray_t,
 // 		t_hitrecord *rec)

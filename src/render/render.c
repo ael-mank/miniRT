@@ -6,21 +6,17 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 13:41:27 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/20 22:27:51 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-double hit(t_ray r, t_bvh *bvh, t_interval ray_t, t_hitrecord *rec)
+double	hit(t_ray r, t_bvh *bvh, t_interval ray_t, t_hitrecord *rec)
 {
-    if (bvh_hit(bvh, r, ray_t, rec))
-    {
-        //write(1, "hit\n", 4);
-        return 1;
-    }
-    //write(1, "no hit\n", 7);
-    return 0;
+	if (bvh_hit(bvh, r, ray_t, rec))
+		return (1);
+	return (0);
 }
 
 t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)
@@ -87,7 +83,8 @@ t_vec3	defocus_disk_sample(t_camera *camera)
 	offset = random_in_unit_disk();
 	p = vector_add(camera->camera_center,
 			vector_add(vector_scale(camera->defocus_disk_u, offset.x),
-				vector_scale(camera->defocus_disk_v, offset.y)));
+				vector_scale(camera->defocus_disk_v,
+					offset.y)));
 	return (p);
 }
 
@@ -129,7 +126,6 @@ void	render_scene(t_scene *scene)
 	i = 0;
 	j = 0;
 	start_time = clock();
-	//print_bvh_tree(scene->bvh, 0);
 	while (j < scene->render.image_height)
 	{
 		i = 0;

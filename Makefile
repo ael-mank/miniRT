@@ -4,7 +4,7 @@ SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
-CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -g3 -lm 
+CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -g3 -lm -O3
 SRC_FILES = main \
 			my_mlx/window_inputs my_mlx/my_mlx_pixel_put\
 			my_mlx/write_colors \
@@ -12,13 +12,13 @@ SRC_FILES = main \
 			vectors/vectors vectors/ray \
 			init/init_mlx init/init init/init_objects\
 			init/init_sphere init/init_pyramid \
-			init/make_mat \
+			init/make_mat init/init_bvh\
 			render/render \
 			interval/interval \
 			utility/utility \
 			objects/sphere objects/pyramid \
 			materials/materials \
-			aabbbvh/aabb aabbbvh/bvh 
+			aabbbvh/aabb aabbbvh/bvh aabbbvh/bvh_comp aabbbvh/bvh_comp2
 
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

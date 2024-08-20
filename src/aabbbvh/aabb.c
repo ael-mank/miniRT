@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:07:50 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 13:46:47 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/20 10:52:50 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,52 +87,32 @@ int hit_interval(t_interval i, double origin, double direction, t_interval t)
 	return (1);
 }
 
+static inline int check_axis(double min, double max, double origin, double direction, double *t_min, double *t_max)
+{
+    double invD = 1.0 / direction;
+    double t0 = (min - origin) * invD;
+    double t1 = (max - origin) * invD;
+
+    if (invD < 0.0) {
+        double temp = t0;
+        t0 = t1;
+        t1 = temp;
+    }
+
+    if (t0 > *t_min) *t_min = t0;
+    if (t1 < *t_max) *t_max = t1;
+
+    return *t_max > *t_min;
+}
+
 int hit_aabb(t_ray r, t_aabb box, t_interval ray_t)
 {
     double t_min = ray_t.min;
     double t_max = ray_t.max;
 
-    // X-axis
-    double invDx = 1.0 / r.dir.x;
-    double t0x = (box.x.min - r.org.x) * invDx;
-    double t1x = (box.x.max - r.org.x) * invDx;
-    if (invDx < 0.0) {
-        double temp = t0x;
-        t0x = t1x;
-        t1x = temp;
-    }
-    t_min = t0x > t_min ? t0x : t_min;
-    t_max = t1x < t_max ? t1x : t_max;
-    if (t_max <= t_min)
-        return 0;
-
-    // Y-axis
-    double invDy = 1.0 / r.dir.y;
-    double t0y = (box.y.min - r.org.y) * invDy;
-    double t1y = (box.y.max - r.org.y) * invDy;
-    if (invDy < 0.0) {
-        double temp = t0y;
-        t0y = t1y;
-        t1y = temp;
-    }
-    t_min = t0y > t_min ? t0y : t_min;
-    t_max = t1y < t_max ? t1y : t_max;
-    if (t_max <= t_min)
-        return 0;
-
-    // Z-axis
-    double invDz = 1.0 / r.dir.z;
-    double t0z = (box.z.min - r.org.z) * invDz;
-    double t1z = (box.z.max - r.org.z) * invDz;
-    if (invDz < 0.0) {
-        double temp = t0z;
-        t0z = t1z;
-        t1z = temp;
-    }
-    t_min = t0z > t_min ? t0z : t_min;
-    t_max = t1z < t_max ? t1z : t_max;
-    if (t_max <= t_min)
-        return 0;
+    if (!check_axis(box.x.min, box.x.max, r.org.x, r.dir.x, &t_min, &t_max)) return 0;
+    if (!check_axis(box.y.min, box.y.max, r.org.y, r.dir.y, &t_min, &t_max)) return 0;
+    if (!check_axis(box.z.min, box.z.max, r.org.z, r.dir.z, &t_min, &t_max)) return 0;
 
     return 1;
 }

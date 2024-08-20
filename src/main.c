@@ -6,13 +6,13 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/10 21:06:00 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:01:42 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-FILE *out;
+//FILE *out;
 
 int	main(void)
 {
@@ -23,12 +23,12 @@ int	main(void)
 	int		y;
 
 	ft_bzero(&scene, sizeof(t_scene));
-	out = fopen("output.ppm", "w");
-	fprintf(out, "P3\n%d %d\n255\n", 860, 483);
-    if (out == NULL) {
-        perror("Failed to open file");
-        return 1;
-    }
+	//out = fopen("output.ppm", "w");
+	//fprintf(out, "P3\n%d %d\n255\n", 860, 483);
+    // if (out == NULL) {
+    //     perror("Failed to open file");
+    //     return 1;
+    // }
 	win_width = 960;
 	win_height = 540;
 	init_scene(&scene);

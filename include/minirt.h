@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 12:15:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:08:32 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <time.h>
 # include <unistd.h>
 
-extern FILE		*out;
+//extern FILE		*out;
 
 // Structs
 typedef struct s_render

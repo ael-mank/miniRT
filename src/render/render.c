@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/20 22:27:51 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:48:03 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void	render_scene(t_scene *scene)
 	printf("Time to render: %.2f seconds\n", elapsed_time);
 	mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
 		scene->mlx.img.img, 50, 28);
+	//ft_exit(scene);
 }
 
 // void old_render_scene(t_scene *scene) NO ANTIALIASING

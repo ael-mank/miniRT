@@ -6,11 +6,25 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 21:00:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/20 22:23:10 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:02:46 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+int longest_axis(t_aabb box)
+{
+    double x_extent = box.x.max - box.x.min;
+    double y_extent = box.y.max - box.y.min;
+    double z_extent = box.z.max - box.z.min;
+
+    if (x_extent > y_extent && x_extent > z_extent)
+        return 0;
+    else if (y_extent > z_extent)
+        return 1;
+    else
+        return 2;
+}
 
 t_object	*insertion_sort(t_object *head, int (*comparator)(const void *,
 			const void *))
@@ -181,7 +195,7 @@ t_bvh	*create_bvh_node(t_object *objects)
 		free(node);
 		return (NULL);
 	}
-	axis = rand() % 3;
+	axis = longest_axis(objects->box);
 	if (object_count == 1)
 		handle_single_object(node, objects);
 	else if (object_count == 2)

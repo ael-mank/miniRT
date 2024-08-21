@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:06:53 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 12:35:27 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:31:32 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ typedef struct s_aabb
 	t_interval z;
 	int (*hit)(t_ray r, t_aabb box, t_interval ray_t);
 }	t_aabb;
+
+typedef struct s_check_axis_params
+{
+    double min;
+    double max;
+    double origin;
+    double direction;
+    double *t_min;
+    double *t_max;
+}	t_check_axis_params;
+
 
 t_aabb		aabb(t_interval x, t_interval y, t_interval z);
 t_aabb		empty_aabb(void);

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/07/30 17:36:32 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/21 18:09:55 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define LENGTH 800
 # define HEIGHT 600
 # define F_LENGTH 1.0
+# define PI 3.1415927
 # include "libft.h"
 # include "mlx.h"
 # include "struct.h"
@@ -45,6 +46,7 @@ double	dot_product(t_vec3 a, t_vec3 b);
 t_vec3	cross_product(t_vec3 a, t_vec3 b);
 double	vector_length(t_vec3 v);
 t_vec3	vector_normalize(t_vec3 v);
+void	print_vec3(t_vec3 v);
 
 // color_helper
 t_color	color(unsigned char r, unsigned char g, unsigned char b);

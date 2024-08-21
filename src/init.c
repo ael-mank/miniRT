@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:53:44 by yrigny            #+#    #+#             */
-/*   Updated: 2024/07/30 17:38:09 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/21 19:02:06 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_light	light_init()
 {
 	t_light	l;
 
-	l.org = vec3(-40.0, 50.0, 0.0);
+	l.org = vec3(-40, 50, 0);
 	l.ratio = 0.6;
 	l.color.r = 10;
 	l.color.g = 0;
@@ -28,9 +28,10 @@ t_cam	cam_init()
 {
 	t_cam	c;
 
-	c.org = vec3(0.0, 0.0, 0.0);
-	c.dir = vec3(0.0, 0.0, 1.0);
-	c.fov = 70;
+	c.org = vec3(0, 0, 0);
+	c.dir = vec3(0, 0, 1);
+	c.fov = 90;
+	c.theta_radian = c.fov / 2 * (PI / 180);
 	return (c);
 }
 
@@ -38,10 +39,14 @@ t_viewport	viewport_init(t_cam cam)
 {
 	t_viewport	v;
 
-	v.l = F_LENGTH * tan(cam.fov / 2) * 2;
-	v.h = v.l / LENGTH * HEIGHT;
-	// v.u = 
-	// v.v = 
+	v.w = F_LENGTH * tan(cam.theta_radian) * 2;
+	v.h = v.w / LENGTH * HEIGHT;
+	v.u = vec3(v.w, 0, 0);
+	v.v = vec3(0, -v.h, 0);
+	v.pixel_delta_u = vector_scale(v.u, 1.0 / LENGTH);
+	v.pixel_delta_v = vector_scale(v.v, 1.0 / HEIGHT);
+	v.upperleft = vector_subtract(vector_add(cam.org, vector_scale(cam.dir, F_LENGTH)), vector_add(vector_scale(v.u, 0.5), vector_scale(v.v, 0.5)));
+	v.pixel00 = vector_add(v.upperleft, vector_scale(vector_add(v.pixel_delta_u, v.pixel_delta_v), 0.5));
 	return (v);
 }
 
@@ -49,7 +54,7 @@ t_sphere	sphere_init()
 {
 	t_sphere	sp;
 
-	sp.center = vec3(0.0, 0.0, 20.6);
+	sp.center = vec3(0, 0, 20.6);
 	sp.radius = 12.6 / 2;
 	sp.color.r = 10;
 	sp.color.g = 0;

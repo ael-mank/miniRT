@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/07/30 17:40:03 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/21 18:17:44 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,19 @@ typedef struct s_cam
 	t_point3	org;
 	t_vec3		dir;
 	double		fov;
+	double		theta_radian;
 }	t_cam;
 
 typedef struct s_viewport
 {
-	double	l;
+	double	w;
 	double	h;
 	t_vec3	u;
 	t_vec3	v;
 	t_vec3	pixel_delta_u;
 	t_vec3	pixel_delta_v;
+	t_point3	upperleft;
+	t_point3	pixel00;
 }	t_viewport;
 
 typedef struct s_color

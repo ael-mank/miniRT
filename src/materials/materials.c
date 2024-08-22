@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:16:14 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/22 12:39:56 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/22 13:02:45 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
 	if (near_zero(direction))
 		direction = rec->normal;
 	ray_init(scattered, &rec->p, &direction);
-	*attenuation = mat->albedo;
+	*attenuation = mat->texture(mat, rec);
 	return (1);
 }
 
@@ -37,7 +37,7 @@ int	metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
 	direction = vector_add(unit_vector(direction),
 			vector_scale(random_unit_vector(), mat->fuzz));
 	ray_init(scattered, &rec->p, &direction);
-	*attenuation = mat->albedo;
+	*attenuation = mat->texture(mat, rec);
 	if (dot(scattered->dir, rec->normal) > 0)
 		return (1);
 	else

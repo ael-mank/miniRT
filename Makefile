@@ -17,7 +17,7 @@ SRC_FILES = main \
 			interval/interval \
 			utility/utility \
 			objects/sphere objects/pyramid \
-			materials/materials \
+			materials/materials materials/color_val\
 			aabbbvh/aabb aabbbvh/bvh aabbbvh/bvh_comp aabbbvh/bvh_comp2 \
 			aabbbvh/hit_aabb 
 

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:40:09 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/22 12:45:19 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:00:13 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_vec3	solid_color(t_material *mat, t_hitrecord *rec)
 t_vec3	checkerboard(t_material *mat, t_hitrecord *rec)
 {
 	t_vec3 white;
-	t_vec3 black;
+	t_vec3 second;
 	double inv_scale;
 	int xInteger;
 	int yInteger;
@@ -29,8 +29,8 @@ t_vec3	checkerboard(t_material *mat, t_hitrecord *rec)
 	int isEven;
 
 	white = vec3(0.8, 0.8, 0.8);
-	black = vec3(0.1, 0.1, 0.1);
-	inv_scale = 10.0;
+	second = mat->albedo;
+	inv_scale = 1;
 	xInteger = (int)floor(inv_scale * rec->p.x);
 	yInteger = (int)floor(inv_scale * rec->p.y);
 	zInteger = (int)floor(inv_scale * rec->p.z);
@@ -40,5 +40,5 @@ t_vec3	checkerboard(t_material *mat, t_hitrecord *rec)
 	if (isEven)
 		return (white);
 	else
-		return (black);
+		return (second);
 }

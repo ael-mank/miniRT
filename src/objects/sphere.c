@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 15:46:59 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 10:56:57 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/22 11:23:50 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,12 @@ double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec)
 	set_face_normal(rec, &r, sphere, root);
 	rec->mat = sphere.mat;
 	rec->mat->albedo = sphere.mat->albedo;
+	t_vec3 intersection_point = ray_at(&r, root);
+
+    // Calculate texture coordinates (u, v)
+    double theta = acos(-intersection_point.y / sphere.radius);
+    double phi = atan2(-intersection_point.z, intersection_point.x) + M_PI;
+    rec->u = phi / (2 * M_PI);
+    rec->v = theta / M_PI;
 	return (1);
 }

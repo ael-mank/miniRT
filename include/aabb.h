@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:06:53 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/21 11:31:32 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/22 09:48:12 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define AABB_H
 
 #include "minirt.h"
+#include "interval.h"
+#include "vectors.h"
 
 typedef struct s_aabb t_aabb;
 

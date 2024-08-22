@@ -6,24 +6,27 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 21:00:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/21 15:02:46 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/22 10:17:22 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int longest_axis(t_aabb box)
+int	longest_axis(t_aabb box)
 {
-    double x_extent = box.x.max - box.x.min;
-    double y_extent = box.y.max - box.y.min;
-    double z_extent = box.z.max - box.z.min;
+	double	x_extent;
+	double	y_extent;
+	double	z_extent;
 
-    if (x_extent > y_extent && x_extent > z_extent)
-        return 0;
-    else if (y_extent > z_extent)
-        return 1;
-    else
-        return 2;
+	x_extent = box.x.max - box.x.min;
+	y_extent = box.y.max - box.y.min;
+	z_extent = box.z.max - box.z.min;
+	if (x_extent > y_extent && x_extent > z_extent)
+		return (0);
+	else if (y_extent > z_extent)
+		return (1);
+	else
+		return (2);
 }
 
 t_object	*insertion_sort(t_object *head, int (*comparator)(const void *,

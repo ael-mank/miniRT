@@ -1,0 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color_val.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/22 12:40:09 by ael-mank          #+#    #+#             */
+/*   Updated: 2024/08/22 12:45:19 by ael-mank         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minirt.h"
+
+t_vec3	solid_color(t_material *mat, t_hitrecord *rec)
+{
+	(void)rec;
+	return (mat->albedo);
+}
+
+t_vec3	checkerboard(t_material *mat, t_hitrecord *rec)
+{
+	t_vec3 white;
+	t_vec3 black;
+	double inv_scale;
+	int xInteger;
+	int yInteger;
+	int zInteger;
+	int isEven;
+
+	white = vec3(0.8, 0.8, 0.8);
+	black = vec3(0.1, 0.1, 0.1);
+	inv_scale = 10.0;
+	xInteger = (int)floor(inv_scale * rec->p.x);
+	yInteger = (int)floor(inv_scale * rec->p.y);
+	zInteger = (int)floor(inv_scale * rec->p.z);
+
+	isEven = (xInteger + yInteger + zInteger) % 2 == 0;
+
+	if (isEven)
+		return (white);
+	else
+		return (black);
+}

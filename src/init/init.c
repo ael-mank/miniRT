@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/21 15:58:18 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/22 11:37:24 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	init_viewport(t_camera *camera, t_render *render)
 			render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 			render->image_height);
-	camera->samples_per_pixel = 1;
-	camera->max_depth = 1;
+	camera->samples_per_pixel = 500;
+	camera->max_depth = 5;
 }
 
 void	init_camera(t_camera *camera)
@@ -82,6 +82,7 @@ void	init_scene(t_scene *scene)
 	ft_bzero(&scene->objects, sizeof(t_object));
 	scene->objects = init_objects();
 	scene->bvh = create_bvh_node(scene->objects);
+	ft_bzero(&scene->rdr, sizeof(t_render_info));
 }
 
 	//print_bvh_tree(scene->bvh, 0);

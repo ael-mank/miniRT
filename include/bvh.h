@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:25:35 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/21 14:20:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/22 09:50:21 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define BVH_H
 
 # include "minirt.h"
-
+# include <stddef.h>
+# include "objects.h"
 typedef struct s_bvh	t_bvh;
 
 typedef struct s_bvh

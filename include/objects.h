@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 11:50:49 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/22 11:12:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_hitrecord {
     double t;
     int front_face;
 	t_material *mat;
+	double u;
+	double v;
 } t_hitrecord;
 
 typedef enum e_material_type {

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:41:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 11:04:45 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/22 10:16:06 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,4 +174,17 @@ int	near_zero(t_vec3 e)
 	const double	s = 1e-8;
 
 	return (fabs(e.x) < s && fabs(e.y) < s && fabs(e.z) < s);
+}
+
+t_vec3	random_in_unit_disk(void)
+{
+	t_vec3	p;
+
+	while (1)
+	{
+		p = vec3(rand_double(-1, 1), rand_double(-1, 1), 0);
+		if (vector_length_squared(p) < 1)
+			break ;
+	}
+	return (p);
 }

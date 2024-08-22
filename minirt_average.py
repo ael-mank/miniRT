@@ -1,19 +1,28 @@
-import schedule
-import time
 import subprocess
 import re
-from datetime import datetime
+import time
+from pynput.keyboard import Controller, Key
 
 render_times = []
+keyboard = Controller()
 
 def run_minirt():
     global render_times
     try:
         # Run the minirt command
-        result = subprocess.run(['./minirt'], capture_output=True, text=True)
+        process = subprocess.Popen(['./miniRT'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        
+        # Simulate pressing the escape key
+        time.sleep(1)  # Wait a moment to ensure minirt has started
+        print("Sending ESC key to minirt...")
+        keyboard.press(Key.esc)
+        keyboard.release(Key.esc)
+        
+        # Wait for the process to complete
+        stdout, stderr = process.communicate()
         
         # Extract render time from the output
-        match = re.search(r'Time to render: (\d+\.\d+) seconds', result.stdout)
+        match = re.search(r'Time to render: (\d+\.\d+) seconds', stdout)
         if match:
             render_time = float(match.group(1))
             render_times.append(render_time)
@@ -30,25 +39,11 @@ def calculate_average_render_time():
     else:
         print("No render times collected.")
 
-def schedule_minirt_run(run_time):
-    # Schedule the minirt run at the specified time
-    schedule.every().day.at(run_time).do(run_minirt)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-
 if __name__ == "__main__":
-    # Specify the time to run minirt (24-hour format, e.g., "14:30" for 2:30 PM)
-    run_time = "14:30"
+    # Run minirt 10 times
+    for _ in range(10):
+        run_minirt()
+        time.sleep(1)  # Optional: Add a delay between runs if needed
     
-    # Schedule the minirt run
-    schedule_minirt_run(run_time)
-    
-    # Run the script until interrupted
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("Script interrupted. Calculating average render time...")
-        calculate_average_render_time()
+    # Calculate and print the average render time
+    calculate_average_render_time()

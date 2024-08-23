@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/20 22:24:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:37:47 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ void	free_bvh_tree(t_bvh *node)
 	if (node->object != NULL && node->object->object != NULL)
 	{
 		sphere = (t_sphere *)node->object->object;
+		if (sphere->mat->img != NULL)
+		{
+			mlx_destroy_image(get_mlx_ptr(), sphere->mat->img->image);
+			free(sphere->mat->img);
+		}
 		if (sphere->mat != NULL)
 			free(sphere->mat);
 		free(sphere);

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:37:46 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 09:14:44 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/23 11:35:43 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,23 @@
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
-	int		bits_per_pixel;
+	int		bpp;
 	int		line_length;
 	int		endian;
 	int		samples_per_pixel;
 }				t_data;
+
+typedef struct s_texture
+{
+	void    *image;
+    char    *data;
+    int     width;
+    int     height;
+    int     size_line;
+    int     bpp;
+    int     type;
+	int    endian;
+}			t_texture;
 typedef struct s_mlx
 {
 	void			*mlx_ptr;

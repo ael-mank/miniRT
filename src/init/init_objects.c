@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:33:28 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/22 13:59:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:48:18 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,15 @@ t_object	*init_objects(void)
 	// t_vec3		albedo;
 
 	head = NULL;
-	sphere = create_sphere(vec3(0, -1000, -1), 1000, CHECKERBOARD, vec3(1, 0.2,
-				0.8));
+	sphere = create_sphere(vec3(0, 1, 1000), 1000, MATTE, vec3(0, 0, 0));
 	head = add_sphere(head, sphere);
-
-	// for (int a = 0; a < 11; a++)
+	sphere = create_sphere(vec3(0.4, 0.8, 0), 1, GLOBE, vec3(0.7, 0.6, 0.5));
+	head = add_sphere(head, sphere);
+	sphere = create_sphere(vec3(-1, 1.7, 0), 0.5, MOON, vec3(0.7, 0.6, 0.5));
+	head = add_sphere(head, sphere);
+	// for (int a = -11; a < 11; a++)
 	// {
-	// 	for (int b = 0; b < 11; b++)
+	// 	for (int b = -11; b < 11; b++)
 	// 	{
 	// 		choose_mat = random_double();
 	// 		center = vec3(a + 0.9 * random_double(), 0.2, b + 0.9

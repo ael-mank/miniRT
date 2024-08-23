@@ -6,14 +6,13 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/22 10:18:35 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/23 11:14:42 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 //FILE *out;
-
 int	main(void)
 {
 	t_scene	scene;

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/22 10:09:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/23 11:16:09 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "interval.h"
 # include "libft.h"
 # include "mlx.h"
+# include "mlx_int.h"
 # include "my_mlx.h"
 # include "objects.h"
 # include "vectors.h"
@@ -85,6 +86,8 @@ typedef struct s_scene
 	t_render_info	rdr;
 }					t_scene;
 
+
+void *get_mlx_ptr(void);
 // Memory management
 int					ft_exit(t_scene *scene);
 void				free_scene(t_object *objects);

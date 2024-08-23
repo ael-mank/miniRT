@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 08:34:56 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/23 15:42:31 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/23 23:03:22 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_material	make_matte(void)
 	mat.texture = solid_color;
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
+	mat.img = NULL;
 	return (mat);
 }
 
@@ -31,6 +32,7 @@ t_material	make_metal(void)
 	mat.texture = solid_color;
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
+	mat.img = NULL;
 	return (mat);
 }
 
@@ -42,6 +44,7 @@ t_material	make_glass(double ref_indx)
 	mat.texture = solid_color;
 	mat.fuzz = 0;
 	mat.ref_indx = ref_indx;
+	mat.img = NULL;
 	return (mat);
 }
 
@@ -53,6 +56,7 @@ t_material	make_checkerboard(void)
 	mat.texture = checkerboard;
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
+	mat.img = NULL;
 	return (mat);
 }
 

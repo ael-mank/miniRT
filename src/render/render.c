@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/23 12:00:00 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/23 23:39:29 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_vec3	defocus_disk_sample(t_camera *camera)
 	return (p);
 }
 
-t_ray	get_ray(int i, int j, t_camera *camera)
+static inline t_ray	get_ray(int i, int j, t_camera *camera)
 {
 	t_ray		r;
 	t_vec3		offset;

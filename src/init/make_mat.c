@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 08:34:56 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/23 15:42:31 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/24 12:47:30 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_material	make_matte(void)
 	mat.texture = solid_color;
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
+	mat.img = NULL;
 	return (mat);
 }
 
@@ -31,6 +32,7 @@ t_material	make_metal(void)
 	mat.texture = solid_color;
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
+	mat.img = NULL;
 	return (mat);
 }
 
@@ -42,6 +44,7 @@ t_material	make_glass(double ref_indx)
 	mat.texture = solid_color;
 	mat.fuzz = 0;
 	mat.ref_indx = ref_indx;
+	mat.img = NULL;
 	return (mat);
 }
 
@@ -53,64 +56,67 @@ t_material	make_checkerboard(void)
 	mat.texture = checkerboard;
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
+	mat.img = NULL;
 	return (mat);
 }
 
 //code load img
 t_texture	*load_img(char *path)
 {
-    t_texture	*img;
+	t_texture	*img;
 
-    img = malloc(sizeof(t_texture));
-    if (!img)
-        return (NULL);
-    ft_bzero(img, sizeof(t_texture));
-    img->image = mlx_xpm_file_to_image(get_mlx_ptr(), path, &img->width, &img->height);
-    if (!img->image)
-    {
-        free(img);
-        return (NULL);
-    }
-    img->data = mlx_get_data_addr(img->image, &img->bpp, &img->size_line, &img->endian);
-    return (img);
+	img = malloc(sizeof(t_texture));
+	if (!img)
+		return (NULL);
+	ft_bzero(img, sizeof(t_texture));
+	img->image = mlx_xpm_file_to_image(get_mlx_ptr(), path, &img->width,
+			&img->height);
+	if (!img->image)
+	{
+		free(img);
+		return (NULL);
+	}
+	img->data = mlx_get_data_addr(img->image, &img->bpp, &img->size_line,
+			&img->endian);
+	return (img);
 }
 
-t_material make_globe(void)
+t_material	make_globe(void)
 {
-    t_material mat;
-    t_texture *texture;
+	t_material	mat;
+	t_texture	*texture;
 
-    mat.scatter = lambertian_scatter;
-    mat.texture = get_texture_color;
-    texture = load_img("earthmap.xpm");
-    if (!texture)
-    {
-        fprintf(stderr, "Error: Failed to load texture\n");
-        exit(EXIT_FAILURE);
-    }
-    mat.img = texture;
-    mat.fuzz = 0;
-    mat.ref_indx = 0;
-    return (mat);
+	mat.scatter = lambertian_scatter;
+	mat.texture = get_texture_color;
+	texture = load_img("earthmap.xpm");
+	if (!texture)
+	{
+		fprintf(stderr, "Error: Failed to load texture\n");
+		exit(EXIT_FAILURE);
+	}
+	mat.img = texture;
+	mat.fuzz = 0;
+	mat.ref_indx = 0;
+	return (mat);
 }
 
-t_material make_moon(void)
+t_material	make_moon(void)
 {
-    t_material mat;
-    t_texture *texture;
+	t_material	mat;
+	t_texture	*texture;
 
-    mat.scatter = lambertian_scatter;
-    mat.texture = get_texture_color;
-    texture = load_img("moon.xpm");
-    if (!texture)
-    {
-        fprintf(stderr, "Error: Failed to load texture\n");
-        exit(EXIT_FAILURE);
-    }
-    mat.img = texture;
-    mat.fuzz = 0;
-    mat.ref_indx = 0;
-    return (mat);
+	mat.scatter = lambertian_scatter;
+	mat.texture = get_texture_color;
+	texture = load_img("moon.xpm");
+	if (!texture)
+	{
+		fprintf(stderr, "Error: Failed to load texture\n");
+		exit(EXIT_FAILURE);
+	}
+	mat.img = texture;
+	mat.fuzz = 0;
+	mat.ref_indx = 0;
+	return (mat);
 }
 
 t_material	*create_material(t_material_type type)

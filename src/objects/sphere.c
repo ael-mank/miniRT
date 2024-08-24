@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 15:46:59 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/22 18:23:13 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/24 12:55:57 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,13 @@ void	set_face_normal(t_hitrecord *rec, t_ray *r, t_sphere sphere,
 	}
 }
 
-void get_sphere_uv(t_vec3 p, double *u, double *v)
+void	get_sphere_uv(t_vec3 p, double *u, double *v)
 {
-	double theta = acos(-p.y);
-	double phi = atan2(-p.z, p.x) + M_PI;
+	double	theta;
+	double	phi;
+
+	theta = acos(-p.y);
+	phi = atan2(-p.z, p.x) + M_PI;
 	*u = phi / (2 * M_PI);
 	*v = theta / M_PI;
 }
@@ -39,7 +42,6 @@ double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec)
 	double	a;
 	double	h;
 	double	c;
-	double	discriminant;
 	double	sqrtd;
 	double	root;
 
@@ -47,10 +49,9 @@ double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec)
 	a = vector_length_squared(r.dir);
 	h = dot(r.dir, oc);
 	c = vector_length_squared(oc) - sphere.radius * sphere.radius;
-	discriminant = h * h - a * c;
-	if (discriminant < 0)
+	if (h * h - a * c < 0)
 		return (0);
-	sqrtd = sqrt(discriminant);
+	sqrtd = sqrt(h * h - a * c);
 	root = (h - sqrtd) / a;
 	if (!surrond(ray_t, (t_interval){root, root}))
 	{

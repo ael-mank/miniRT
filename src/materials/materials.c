@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:16:14 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/22 13:02:45 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/24 12:53:53 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	glass_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
 	double	ri;
 	t_vec3	unit_direction;
 	double	sin_theta;
-	int		cannot_refract;
 	t_vec3	direction;
 	double	cos_theta;
 
@@ -72,8 +71,7 @@ int	glass_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
 	cos_theta = fmin(dot(vector_scale(unit_direction, -1), rec->normal),
 			1.0);
 	sin_theta = sqrt(1.0 - cos_theta * cos_theta);
-	cannot_refract = ri * sin_theta > 1.0;
-	if (cannot_refract || reflectance(cos_theta, ri) > random_double())
+	if (ri * sin_theta > 1.0 || reflectance(cos_theta, ri) > random_double())
 		direction = reflect(unit_direction, rec->normal);
 	else
 		direction = refract(&unit_direction, &rec->normal, ri);

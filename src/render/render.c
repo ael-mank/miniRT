@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/23 12:00:00 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/24 10:29:05 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)
 			vector_scale(vec3(0.5, 0.7, 1.0), t)));
 }
 
-t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
+static inline t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
 {
 	t_vec3	pixel_center;
 
@@ -50,7 +50,7 @@ t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
 	return (pixel_center);
 }
 
-t_vec3	defocus_disk_sample(t_camera *camera)
+static inline t_vec3	defocus_disk_sample(t_camera *camera)
 {
 	t_vec3	p;
 	t_vec3	offset;
@@ -63,7 +63,7 @@ t_vec3	defocus_disk_sample(t_camera *camera)
 	return (p);
 }
 
-t_ray	get_ray(int i, int j, t_camera *camera)
+static inline t_ray	get_ray(int i, int j, t_camera *camera)
 {
 	t_ray		r;
 	t_vec3		offset;

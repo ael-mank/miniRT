@@ -6,15 +6,16 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:30:38 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/23 15:25:03 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/24 12:40:40 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void *get_mlx_ptr(void)
+void	*get_mlx_ptr(void)
 {
-	static void *mlx_ptr = NULL;
+	static void	*mlx_ptr = NULL;
+
 	if (!mlx_ptr)
 		mlx_ptr = mlx_init();
 	return (mlx_ptr);

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/23 15:42:01 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/24 17:59:18 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 # define OBJECTS_H
 
 #include "my_mlx.h"
+#include "bvh.h"
 #include "aabb.h"
 #include "minirt.h"
 #include "mlx_int.h"
 
 typedef struct s_material t_material;
+typedef struct s_bvh t_bvh;
 
 
 typedef struct s_sphere{
@@ -62,6 +64,7 @@ typedef struct s_object
 	void *object;
 	t_vec3 center;
 	double (*hit)(t_ray r, void *object, t_interval ray_t, t_hitrecord *rec);
+	void (*free)(t_bvh *node);
 	t_material *mat;
 	t_aabb box;
 	struct s_object *next;
@@ -81,4 +84,6 @@ t_vec3	solid_color(t_material *mat, t_hitrecord *rec);
 t_vec3	checkerboard(t_material *mat, t_hitrecord *rec);
 t_vec3 get_texture_color(t_material *mat, t_hitrecord *rec);
 
+
+void	free_sphere(t_bvh *node);
 #endif

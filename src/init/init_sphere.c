@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 05:31:55 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/25 12:28:32 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ double	hit_sphere_wrapper(t_ray r, void *object, t_interval ray_t,
 		t_hitrecord *rec)
 {
 	return (hit_sphere(r, *(t_sphere *)object, ray_t, rec));
-}
+}	
 
 t_sphere	*create_sphere(t_point3 center, double radius, t_material_type type,
 		t_vec3 color)
@@ -59,8 +59,12 @@ t_object	*add_sphere(t_object *head, t_sphere *sphere)
 	new_object->hit = hit_sphere_wrapper;
 	new_object->free = free_sphere;
 	rvec = vec3(sphere->radius, sphere->radius, sphere->radius);
-	new_object->box = aabb_points(vector_subtract(sphere->center, rvec),
-			vector_add(sphere->center, rvec));
+	// Assuming vector_subtract and vector_add are correctly implemented
+	new_object->box = aabb_points(
+		vector_subtract(sphere->center, rvec),
+			// Subtract radius vector from center
+		vector_add(sphere->center, rvec)       // Add radius vector to center
+	);
 	new_object->next = NULL;
 	return (add_object_end(head, new_object));
 }

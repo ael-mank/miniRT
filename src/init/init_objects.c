@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:33:28 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 11:05:05 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/25 11:55:08 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ t_object	*init_objects(void)
     
     sphere = create_sphere((t_point3){200, 100, 200}, 100, METAL, (t_vec3){0.7, 0.6, 0.5});
     head = add_sphere(head, sphere);
+
+	sphere = create_sphere((t_point3){400, 100, 400}, 100, METAL, (t_vec3){1, 1, 1});
+	head = add_sphere(head, sphere);
 
     return head;
 }

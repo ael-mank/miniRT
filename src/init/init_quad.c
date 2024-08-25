@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 08:58:42 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/25 19:06:53 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ t_quad	*create_quad(t_point3 start, t_vec3 u, t_vec3 v, t_material_type type, t_
 	quad->u = u;
 	quad->v = v;
 	t_vec3 n = cross_product(u, v);
-	quad->normal = vector_normalize(n);
-	quad->d = dot_product(n, start);
+	quad->normal = unit_vector(n);
+	quad->d = dot_product(quad->normal, start);
 	quad->w = vector_divide(n, dot_product(n, n));
 	return (quad);
 }

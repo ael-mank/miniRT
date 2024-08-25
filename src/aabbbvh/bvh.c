@@ -6,50 +6,50 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:28:31 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/21 14:31:39 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/25 07:58:09 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-// void print_indent(int level) {
-//     for (int i = 0; i < level; i++) {
-//         printf("  ");
-//     }
-// }
+void print_indent(int level) {
+    for (int i = 0; i < level; i++) {
+        printf("  ");
+    }
+}
 
-// void print_bvh_tree(t_bvh *node, int level) {
-//     if (node == NULL) {
-//         print_indent(level);
-//         printf("NULL\n");
-//         return ;
-//     }
+void print_bvh_tree(t_bvh *node, int level) {
+    if (node == NULL) {
+        print_indent(level);
+        printf("NULL\n");
+        return ;
+    }
 
-//     print_indent(level);
-//     printf("BVH Node:\n");
+    print_indent(level);
+    printf("BVH Node:\n");
 
-//     print_indent(level + 1);
-//     printf("Box: AABB(min: [%.2f, %.2f, %.2f], max: [%.2f, %.2f, %.2f])\n",
-//            node->box.x.min, node->box.y.min, node->box.z.min,
-//            node->box.x.max, node->box.y.max, node->box.z.max);
+    print_indent(level + 1);
+    printf("Box: AABB(min: [%.2f, %.2f, %.2f], max: [%.2f, %.2f, %.2f])\n",
+           node->box.x.min, node->box.y.min, node->box.z.min,
+           node->box.x.max, node->box.y.max, node->box.z.max);
 
-//     print_indent(level + 1);
-//     if (node->object != NULL) {
-//         printf("Object: Object at address: %p\n", (void *)node->object);
-//     } else {
-//         printf("Object: No object\n");
-//     }
+    print_indent(level + 1);
+    if (node->object != NULL) {
+        printf("Object: Object at address: %p\n", (void *)node->object);
+    } else {
+        printf("Object: No object\n");
+    }
 
-//     if (node->left || node->right) {
-//         print_indent(level);
-//         printf("├─ Left:\n");
-//         print_bvh_tree(node->left, level + 1);
+    if (node->left || node->right) {
+        print_indent(level);
+        printf("├─ Left:\n");
+        print_bvh_tree(node->left, level + 1);
 
-//         print_indent(level);
-//         printf("└─ Right:\n");
-//         print_bvh_tree(node->right, level + 1);
-//     }
-// }
+        print_indent(level);
+        printf("└─ Right:\n");
+        print_bvh_tree(node->right, level + 1);
+    }
+}
 
 int	bvh_hit_check_box(t_bvh *node, t_ray r, t_interval ray_t)
 {

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:40:11 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/22 09:53:23 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/25 10:32:58 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 # include <math.h>
 
-typedef struct s_vec3	t_point3;
-typedef struct s_vec3	t_vec3;
-typedef struct s_ray	t_ray;
-
 typedef struct s_vec3
 {
 	double				x;
 	double				y;
 	double				z;
 }						t_vec3;
+
+typedef struct s_vec3	t_point3;
+typedef struct s_vec3	t_vec3;
+typedef struct s_ray	t_ray;
 
 typedef struct s_ray
 {

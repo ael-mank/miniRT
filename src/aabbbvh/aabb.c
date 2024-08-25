@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:07:50 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/21 11:54:42 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/25 08:29:22 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,21 @@ t_aabb	empty_aabb(void)
 	return (aabb);
 }
 
+t_interval expand(double delta, t_interval i)
+{
+	return (interval(i.min - delta, i.max + delta));
+}
+
+void pad_to_minimums(t_aabb *a)
+{
+	double	delta;
+
+	delta = 0.0001;
+	a->x = expand(delta, a->x);
+	a->y = expand(delta, a->y);
+	a->z = expand(delta, a->z);
+}
+
 t_aabb	aabb(t_interval x, t_interval y, t_interval z)
 {
 	t_aabb	aabb;
@@ -29,6 +44,7 @@ t_aabb	aabb(t_interval x, t_interval y, t_interval z)
 	aabb.x = x;
 	aabb.y = y;
 	aabb.z = z;
+	pad_to_minimums(&aabb);
 	return (aabb);
 }
 

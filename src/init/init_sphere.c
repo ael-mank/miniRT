@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/24 17:58:26 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/25 05:31:55 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ t_object	*add_sphere(t_object *head, t_sphere *sphere)
 	}
 	new_object->object = sphere;
 	new_object->mat = sphere->mat;
-	new_object->center = sphere->center;
 	new_object->hit = hit_sphere_wrapper;
 	new_object->free = free_sphere;
 	rvec = vec3(sphere->radius, sphere->radius, sphere->radius);

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:04:34 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/21 10:41:35 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/25 08:19:01 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ double	size(t_interval interval)
 
 int	contains(t_interval interval, double x)
 {
-	return (x >= interval.min && x <= interval.max);
+	return (interval.min <= x && x <= interval.max);
 }
 
 int	surrond(t_interval a, t_interval b)

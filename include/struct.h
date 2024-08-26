@@ -6,12 +6,13 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/21 18:17:44 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/26 16:07:30 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
+# include <stdbool.h>
 
 typedef	struct s_vec3	t_point3;
 typedef	struct s_vec3	t_vec3;
@@ -38,6 +39,9 @@ typedef struct s_ray
 {
 	t_point3	org;
 	t_vec3		dir;
+	bool		hit_object;
+	void		*object;
+	t_point3	intersect;
 }	t_ray;
 
 typedef struct s_cam
@@ -98,7 +102,7 @@ typedef struct s_img
 
 typedef struct s_scene
 {
-	// t_ambient	a;
+	t_ambient	a;
 	t_light		l;
 	t_cam		c;
 	t_viewport	v;

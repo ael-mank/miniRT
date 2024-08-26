@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:53:44 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/21 19:02:06 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/26 16:33:02 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ t_light	light_init()
 	l.color.g = 0;
 	l.color.b = 255;
 	return (l);
+}
+
+t_ambient	ambient_init()
+{
+	t_ambient	a;
+
+	a.color.r = 255;
+	a.color.g = 255;
+	a.color.b = 255;
+	a.ratio = 0.2;
+	return (a);
 }
 
 t_cam	cam_init()

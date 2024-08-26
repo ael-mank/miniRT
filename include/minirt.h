@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/21 18:09:55 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/26 16:27:55 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,18 @@
 # include <stdlib.h>
 # include <math.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 // event
 int	win_close(t_win *e);
 int	key_event(int key, t_win *e);
 
 // setting
-void	win_init(t_win *win, t_scene *scene);
-void	scene_init(t_scene *scene);
-t_light	light_init();
-t_cam	cam_init();
+void		win_init(t_win *win, t_scene *scene);
+void		scene_init(t_scene *scene);
+t_light		light_init();
+t_ambient	ambient_init();
+t_cam		cam_init();
 t_viewport	viewport_init(t_cam cam);
 t_sphere	sphere_init();
 
@@ -50,10 +52,15 @@ void	print_vec3(t_vec3 v);
 
 // color_helper
 t_color	color(unsigned char r, unsigned char g, unsigned char b);
+t_color	color_scaler(t_color base, double scaler);
 
 // raytracing
-int	calculate_image(t_win *win);
+int				calculate_image(t_win *win);
 unsigned int	calculate_pixel(int x, int y, t_scene scene);
-
+t_point3	find_pixel_on_viewport(int x, int y, t_viewport v);
+t_ray	init_ray(t_cam c, t_point3 pixel);
+void	cast_ray(t_ray *ray, t_scene scene);
+void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere s);
+t_color	ray_color(t_ray ray, t_scene scene);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/21 18:31:25 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/26 16:22:33 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	win_init(t_win *win, t_scene *scene)
 void	scene_init(t_scene *scene)
 {
 	scene->l = light_init();
+	scene->a = ambient_init();
 	scene->c = cam_init();
 	scene->v = viewport_init(scene->c);
 	scene->sp = sphere_init();

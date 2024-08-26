@@ -6,13 +6,13 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 17:16:00 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/26 16:13:53 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/26 18:55:50 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_color	color(unsigned char r, unsigned char g, unsigned char b)
+t_color	color(int r, int g, int b)
 {
 	t_color	color;
 
@@ -22,12 +22,28 @@ t_color	color(unsigned char r, unsigned char g, unsigned char b)
 	return (color);
 }
 
-t_color	color_scaler(t_color base, double scaler)
+t_color	color_scale(t_color base, double scaler)
 {
 	t_color	res;
 
-	res.r = (double)base.r * scaler;
-	res.g = (double)base.g * scaler;
-	res.b = (double)base.b * scaler;
+	res.r = (int)(base.r * scaler);
+	res.g = (int)(base.g * scaler);
+	res.b = (int)(base.b * scaler);
+	return (res);
+}
+
+t_color	color_add(t_color a, t_color b)
+{
+	t_color res;
+
+	res.r = a.r + b.r;
+	res.g = a.g + b.g;
+	res.b = a.b + b.b;
+	if (res.r > 255)
+		res.r = 255;
+	if (res.g > 255)
+		res.g = 255;
+	if (res.b > 255)
+		res.b = 255;
 	return (res);
 }

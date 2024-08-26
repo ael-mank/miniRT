@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/26 16:27:49 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/26 19:36:40 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ unsigned int	calculate_pixel(int x, int y, t_scene scene)
 
 	pixel = find_pixel_on_viewport(x, y, scene.v);
 	ray = init_ray(scene.c, pixel);
-	cast_ray(&ray, scene);
+	cast_ray(&ray, &scene);
 	color = ray_color(ray, scene);
 	return ((color.r << 16) + (color.g << 8) + color.b);
 }
@@ -46,12 +46,12 @@ t_ray	init_ray(t_cam c, t_point3 pixel)
 	return (ray);
 }
 
-void	cast_ray(t_ray *ray, t_scene scene)
+void	cast_ray(t_ray *ray, t_scene *scene)
 {
-	intersect_sphere(ray, scene.c, scene.sp);
+	intersect_sphere(ray, scene->c, &scene->sp);
 }
 
-void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere s)
+void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 {
 	double	a;
 	double	b;
@@ -59,15 +59,15 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere s)
 	double	first_root;
 
 	a = dot_product(ray->dir, ray->dir);
-	b = -2 * dot_product(ray->dir, vector_subtract(s.center, ray->org));
-	c = dot_product(vector_subtract(s.center, ray->org), vector_subtract(s.center, ray->org)) - s.radius * s.radius;
+	b = -2 * dot_product(ray->dir, vector_subtract(sp->center, ray->org));
+	c = dot_product(vector_subtract(sp->center, ray->org), vector_subtract(sp->center, ray->org)) - sp->radius * sp->radius;
 	if (b * b - 4 * a * c >= 0)
 	{
 		first_root = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
 		if (first_root > 1)
 		{
 			ray->hit_object = true;
-			ray->object = &s;
+			ray->object = sp;
 			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, first_root));
 		}
 	}
@@ -75,15 +75,33 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere s)
 
 t_color	ray_color(t_ray ray, t_scene scene)
 {
-	t_sphere	*s;
-	t_color		ambiant;
+	t_sphere	*sp;
+	t_color		ambient;
+	t_color		obj_ref;
+	t_color		res;
 
-	s = NULL;
-	ambiant = color_scaler(scene.a.color, scene.a.ratio);
+	sp = NULL;
+	ambient = color_scale(scene.a.color, scene.a.ratio);
 	if (ray.hit_object)
 	{
-		s = ray.object;
-		return (s->color);
+		sp = ray.object;
+		obj_ref = color_scale(sp->color, light_weight(&ray, sp, scene.l));
+		res = color_add(obj_ref, ambient);
+		return (res);
 	}
-	return (ambiant);
+	return (ambient);
+}
+
+double	light_weight(t_ray *ray, t_sphere *sp, t_light l)
+{
+	t_vec3	surface_normal;
+	t_vec3	incoming;
+	t_vec3	reflect_dir;
+	double	light_weight;
+
+	surface_normal = vector_normalize(vector_subtract(ray->intersect, sp->center));
+	incoming = vector_normalize(ray->dir);
+	reflect_dir = vector_add(incoming, vector_scale(surface_normal, 2 * dot_product(incoming, surface_normal)));
+	light_weight = dot_product(vector_subtract(l.org, ray->intersect), reflect_dir);
+	return (light_weight);
 }

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 16:27:55 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/26 19:36:21 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,18 @@ t_vec3	vector_normalize(t_vec3 v);
 void	print_vec3(t_vec3 v);
 
 // color_helper
-t_color	color(unsigned char r, unsigned char g, unsigned char b);
-t_color	color_scaler(t_color base, double scaler);
+t_color	color(int r, int g, int b);
+t_color	color_scale(t_color base, double scaler);
+t_color	color_add(t_color a, t_color b);
 
 // raytracing
 int				calculate_image(t_win *win);
 unsigned int	calculate_pixel(int x, int y, t_scene scene);
 t_point3	find_pixel_on_viewport(int x, int y, t_viewport v);
 t_ray	init_ray(t_cam c, t_point3 pixel);
-void	cast_ray(t_ray *ray, t_scene scene);
-void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere s);
+void	cast_ray(t_ray *ray, t_scene *scene);
+void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *s);
 t_color	ray_color(t_ray ray, t_scene scene);
+double	light_weight(t_ray *ray, t_sphere *sp, t_light l);
 
 #endif

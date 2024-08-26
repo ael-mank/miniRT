@@ -1,6 +1,4 @@
 - PARSING .RT file
 \ EDIT MATERIAL FUNCTION TO USE A STRUCT AND TAKE LESS THAN 4 ARGS
 
-- quads cube
-
 - triangles

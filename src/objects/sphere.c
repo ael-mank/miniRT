@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 15:46:59 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/24 12:55:57 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:25:37 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	get_sphere_uv(t_vec3 p, double *u, double *v)
 	*v = theta / M_PI;
 }
 
-double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec)
+static inline double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec)
 {
 	t_vec3	oc;
 	double	a;
@@ -64,3 +64,9 @@ double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec)
 	rec->mat = sphere.mat;
 	return (1);
 }
+
+double	hit_sphere_wrapper(t_ray r, void *object, t_interval ray_t,
+		t_hitrecord *rec)
+{
+	return (hit_sphere(r, *(t_sphere *)object, ray_t, rec));
+}	

@@ -6,17 +6,11 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 12:28:32 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:25:17 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-double	hit_sphere_wrapper(t_ray r, void *object, t_interval ray_t,
-		t_hitrecord *rec)
-{
-	return (hit_sphere(r, *(t_sphere *)object, ray_t, rec));
-}	
 
 t_sphere	*create_sphere(t_point3 center, double radius, t_material_type type,
 		t_vec3 color)

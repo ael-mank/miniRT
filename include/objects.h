@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 06:55:32 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:25:46 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,10 @@ int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *s
 int glass_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
 
 // Hit functions for different objects
-double hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec);
-double hit_quad(t_ray r, t_quad quad, t_interval ray_t, t_hitrecord *rec);
+double	hit_quad_wrapper(t_ray r, void *object, t_interval ray_t,
+		t_hitrecord *rec);
+double	hit_sphere_wrapper(t_ray r, void *object, t_interval ray_t,
+		t_hitrecord *rec);
 
 // Creation functions for objects
 t_sphere *create_sphere(t_point3 center, double radius, t_material_type type, t_vec3 color);

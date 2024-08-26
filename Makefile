@@ -4,7 +4,7 @@ SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
-CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -O2
+CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude
 SRC_FILES = main \
 			my_mlx/window_inputs my_mlx/my_mlx_pixel_put\
 			my_mlx/write_colors \

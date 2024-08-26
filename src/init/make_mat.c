@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 08:34:56 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/24 12:47:30 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:19:44 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@ t_material	make_matte(void)
 
 	mat.scatter = lambertian_scatter;
 	mat.texture = solid_color;
+	mat.emission = no_light;
+	mat.fuzz = 0;
+	mat.ref_indx = 0;
+	mat.img = NULL;
+	return (mat);
+}
+
+t_material	make_light(void)
+{
+	t_material	mat;
+
+	mat.scatter = light_scatter;
+	mat.texture = solid_color;
+	mat.emission = diffuse_light;
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
 	mat.img = NULL;
@@ -30,6 +44,7 @@ t_material	make_metal(void)
 
 	mat.scatter = metal_scatter;
 	mat.texture = solid_color;
+	mat.emission = no_light;
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
 	mat.img = NULL;
@@ -42,6 +57,7 @@ t_material	make_glass(double ref_indx)
 
 	mat.scatter = glass_scatter;
 	mat.texture = solid_color;
+	mat.emission = no_light;
 	mat.fuzz = 0;
 	mat.ref_indx = ref_indx;
 	mat.img = NULL;
@@ -54,6 +70,7 @@ t_material	make_checkerboard(void)
 
 	mat.scatter = lambertian_scatter;
 	mat.texture = checkerboard;
+	mat.emission = no_light;
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
 	mat.img = NULL;
@@ -88,26 +105,8 @@ t_material	make_globe(void)
 
 	mat.scatter = lambertian_scatter;
 	mat.texture = get_texture_color;
+	mat.emission = no_light;
 	texture = load_img("earthmap.xpm");
-	if (!texture)
-	{
-		fprintf(stderr, "Error: Failed to load texture\n");
-		exit(EXIT_FAILURE);
-	}
-	mat.img = texture;
-	mat.fuzz = 0;
-	mat.ref_indx = 0;
-	return (mat);
-}
-
-t_material	make_moon(void)
-{
-	t_material	mat;
-	t_texture	*texture;
-
-	mat.scatter = lambertian_scatter;
-	mat.texture = get_texture_color;
-	texture = load_img("moon.xpm");
 	if (!texture)
 	{
 		fprintf(stderr, "Error: Failed to load texture\n");
@@ -128,12 +127,12 @@ t_material	*create_material(t_material_type type)
 		return (NULL);
 	else if (type == MATTE)
 		*mat = make_matte();
+	else if (type == LIGHT)
+		*mat = make_light();
 	else if (type == CHECKERBOARD)
 		*mat = make_checkerboard();
 	else if (type == GLOBE)
 		*mat = make_globe();
-	else if (type == MOON)
-		*mat = make_moon();
 	else if (type == METAL)
 		*mat = make_metal();
 	else if (type == GLASS)

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 14:25:46 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:19:29 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef enum e_material_type {
     BUBBLE,
     CHECKERBOARD,
     GLOBE,
-    MOON,
+	LIGHT,
 } t_material_type;
 
 // Hit record structure
@@ -49,6 +49,7 @@ typedef struct s_hitrecord {
 typedef struct s_material {
     int (*scatter)(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
     t_vec3 (*texture)(t_material *mat, t_hitrecord *rec);
+	t_vec3 (*emission)(t_material *mat, t_hitrecord *rec);
     t_vec3 albedo;
     double fuzz;
     double ref_indx;
@@ -88,6 +89,8 @@ typedef struct s_object {
 int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
 int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
 int glass_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
+int light_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
+		t_ray *scattered, t_material *mat);
 
 // Hit functions for different objects
 double	hit_quad_wrapper(t_ray r, void *object, t_interval ray_t,
@@ -106,6 +109,11 @@ t_object	*add_quad(t_object *head, t_quad *quad);
 t_vec3 solid_color(t_material *mat, t_hitrecord *rec);
 t_vec3 checkerboard(t_material *mat, t_hitrecord *rec);
 t_vec3 get_texture_color(t_material *mat, t_hitrecord *rec);
+
+// Emission functions
+t_vec3 no_light(t_material *mat, t_hitrecord *rec);
+
+t_vec3 diffuse_light(t_material *mat, t_hitrecord *rec);
 
 // Free functions for objects
 void free_sphere(t_bvh *node);

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:16:14 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/24 12:53:53 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:19:19 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,18 @@ int	lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
 	ray_init(scattered, &rec->p, &direction);
 	*attenuation = mat->texture(mat, rec);
 	return (1);
+}
+
+int light_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
+		t_ray *scattered, t_material *mat)
+{
+	//void them all and return 0
+	(void)r;
+	(void)rec;
+	(void)attenuation;
+	(void)scattered;
+	(void)mat;
+	return (0);
 }
 
 int	metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,

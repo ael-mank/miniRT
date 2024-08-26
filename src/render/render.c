@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 09:19:00 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:24:17 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,47 @@
 t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)
 {
 	t_hitrecord	rec;
-	t_vec3		unit_direction;
+	// t_vec3		unit_direction;
 	t_vec3		attenuation;
-	double		t;
+	// double		t;
 	t_ray		scattered;
 
 	if (depth <= 0)
 		return (vec3(0, 0, 0));
-	if (bvh_hit(bvh, *r, universe_interval, &rec))
+	if (!bvh_hit(bvh, *r, universe_interval, &rec))
 	{
-		if (rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
-		{
-			return (vector_multiply(attenuation, ray_color(&scattered, depth
-						- 1, bvh)));
-		}
 		return (vec3(0, 0, 0));
 	}
-	unit_direction = vector_normalize(r->dir);
-	t = 0.5 * (unit_direction.y + 1.0);
-	return (vector_add(vector_scale(vec3(1, 1, 1), 1.0 - t),
-			vector_scale(vec3(0.5, 0.7, 1.0), t)));
+	if (!rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
+		return rec.mat->emission(rec.mat, &rec);
+	t_vec3 color_from_scatter = vector_multiply(attenuation,
+			ray_color(&scattered, depth - 1, bvh));
+	return (vector_add(color_from_scatter, rec.mat->emission(rec.mat, &rec)));
 }
 
-// static inline t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
+// t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)
 // {
-// 	t_vec3	pixel_center;
+// 	t_hitrecord	rec;
+// 	t_vec3		unit_direction;
+// 	t_vec3		attenuation;
+// 	double		t;
+// 	t_ray		scattered;
 
-// 	pixel_center.x = camera->pixel00_loc.x + (i * camera->pixel_delta_u.x) + (j
-// 			* camera->pixel_delta_v.x);
-// 	pixel_center.y = camera->pixel00_loc.y + (i * camera->pixel_delta_u.y) + (j
-// 			* camera->pixel_delta_v.y);
-// 	pixel_center.z = camera->pixel00_loc.z + (i * camera->pixel_delta_u.z) + (j
-// 			* camera->pixel_delta_v.z);
-// 	return (pixel_center);
+// 	if (depth <= 0)
+// 		return (vec3(0, 0, 0));
+// 	if (bvh_hit(bvh, *r, universe_interval, &rec))
+// 	{
+// 		if (rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
+// 		{
+// 			return (vector_multiply(attenuation, ray_color(&scattered, depth
+// 						- 1, bvh)));
+// 		}
+// 		return (vec3(0, 0, 0));
+// 	}
+// 	unit_direction = vector_normalize(r->dir);
+// 	t = 0.5 * (unit_direction.y + 1.0);
+// 	return (vector_add(vector_scale(vec3(1, 1, 1), 1.0 - t),
+// 			vector_scale(vec3(0.5, 0.7, 1.0), t)));
 // }
 
 static inline t_vec3	defocus_disk_sample(t_camera *camera)
@@ -58,8 +66,7 @@ static inline t_vec3	defocus_disk_sample(t_camera *camera)
 	offset = random_in_unit_disk();
 	p = vector_add(camera->camera_center,
 			vector_add(vector_scale(camera->defocus_disk_u, offset.x),
-				vector_scale(camera->defocus_disk_v,
-					offset.y)));
+				vector_scale(camera->defocus_disk_v, offset.y)));
 	return (p);
 }
 
@@ -73,10 +80,8 @@ static inline t_ray	get_ray(int i, int j, t_camera *camera)
 
 	offset = sample_square();
 	pixel_sample = vector_add(camera->pixel00_loc,
-			vector_add(vector_scale(camera->pixel_delta_u, i
-					+ offset.x),
-				vector_scale(camera->pixel_delta_v,
-					j + offset.y)));
+			vector_add(vector_scale(camera->pixel_delta_u, i + offset.x),
+				vector_scale(camera->pixel_delta_v, j + offset.y)));
 	if (camera->defocus_angle <= 0)
 		ray_origin = camera->camera_center;
 	else
@@ -122,6 +127,18 @@ void	render_scene(t_scene *scene)
 		scene->mlx.img.img, 50, 28);
 }
 
+// static inline t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
+// {
+// 	t_vec3	pixel_center;
+
+// 	pixel_center.x = camera->pixel00_loc.x + (i * camera->pixel_delta_u.x) + (j
+// 			* camera->pixel_delta_v.x);
+// 	pixel_center.y = camera->pixel00_loc.y + (i * camera->pixel_delta_u.y) + (j
+// 			* camera->pixel_delta_v.y);
+// 	pixel_center.z = camera->pixel00_loc.z + (i * camera->pixel_delta_u.z) + (j
+// 			* camera->pixel_delta_v.z);
+// 	return (pixel_center);
+// }
 // void old_render_scene(t_scene *scene) NO ANTIALIASING
 // {
 // 	t_vec3	color;

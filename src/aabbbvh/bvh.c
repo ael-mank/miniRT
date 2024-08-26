@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:28:31 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 11:50:34 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:39:38 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,12 @@ void print_bvh_tree(t_bvh *node, int level) {
     printf("}");
 }
 
-int	bvh_hit_check_box(t_bvh *node, t_ray r, t_interval ray_t)
+static inline int	bvh_hit_check_box(t_bvh *node, t_ray r, t_interval ray_t)
 {
-	if (!node->box.hit(r, node->box, ray_t))
-		return (0);
-	return (1);
+	return (node->box.hit(r, node->box, ray_t));
 }
 
-int	bvh_hit_node(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
+static inline int	bvh_hit_node(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
 {
 	t_hitrecord	left_rec;
 	t_hitrecord	right_rec;
@@ -99,9 +97,7 @@ int	bvh_hit_node(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
 
 int	bvh_hit(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
 {
-	if (!node)
-		return (0);
-	if (!bvh_hit_check_box(node, r, ray_t))
+	if (!node || !bvh_hit_check_box(node, r, ray_t))
 		return (0);
 	return (bvh_hit_node(node, r, ray_t, rec));
 }

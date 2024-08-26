@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 11:51:40 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:19:00 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)
 			vector_scale(vec3(0.5, 0.7, 1.0), t)));
 }
 
-static inline t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
-{
-	t_vec3	pixel_center;
+// static inline t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)
+// {
+// 	t_vec3	pixel_center;
 
-	pixel_center.x = camera->pixel00_loc.x + (i * camera->pixel_delta_u.x) + (j
-			* camera->pixel_delta_v.x);
-	pixel_center.y = camera->pixel00_loc.y + (i * camera->pixel_delta_u.y) + (j
-			* camera->pixel_delta_v.y);
-	pixel_center.z = camera->pixel00_loc.z + (i * camera->pixel_delta_u.z) + (j
-			* camera->pixel_delta_v.z);
-	return (pixel_center);
-}
+// 	pixel_center.x = camera->pixel00_loc.x + (i * camera->pixel_delta_u.x) + (j
+// 			* camera->pixel_delta_v.x);
+// 	pixel_center.y = camera->pixel00_loc.y + (i * camera->pixel_delta_u.y) + (j
+// 			* camera->pixel_delta_v.y);
+// 	pixel_center.z = camera->pixel00_loc.z + (i * camera->pixel_delta_u.z) + (j
+// 			* camera->pixel_delta_v.z);
+// 	return (pixel_center);
+// }
 
 static inline t_vec3	defocus_disk_sample(t_camera *camera)
 {
@@ -88,11 +88,11 @@ static inline t_ray	get_ray(int i, int j, t_camera *camera)
 
 void	render_scene(t_scene *scene)
 {
-	// clock_t	start_time;
-	// clock_t	end_time;
-	// double	elapsed_time;
+	clock_t	start_time;
+	clock_t	end_time;
+	double	elapsed_time;
 
-	// start_time = clock();
+	start_time = clock();
 	while (scene->rdr.j < scene->render.image_height)
 	{
 		scene->rdr.i = 0;
@@ -115,9 +115,9 @@ void	render_scene(t_scene *scene)
 		}
 		scene->rdr.j++;
 	}
-	// end_time = clock();
-	// elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-	//printf("Time to render: %.2f seconds\n", elapsed_time);
+	end_time = clock();
+	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+	printf("Time to render: %.10f seconds\n", elapsed_time);
 	mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
 		scene->mlx.img.img, 50, 28);
 }

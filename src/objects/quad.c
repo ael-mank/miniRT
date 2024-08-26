@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 05:18:49 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 19:11:20 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:40:38 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static inline int	is_interior(double a, double b, t_hitrecord *rec)
 	return 1;
 }
 
-double	hit_quad(t_ray r, t_quad quad, t_interval ray_t, t_hitrecord *rec)
+static inline double	hit_quad(t_ray r, t_quad quad, t_interval ray_t, t_hitrecord *rec)
 {
     double		denom;
     double		t;
@@ -66,4 +66,10 @@ double	hit_quad(t_ray r, t_quad quad, t_interval ray_t, t_hitrecord *rec)
     rec->mat = quad.mat;
     set_face_normal_quad(rec, &r, quad);
     return 1;
+}
+
+double	hit_quad_wrapper(t_ray r, void *object, t_interval ray_t,
+		t_hitrecord *rec)
+{
+	return (hit_quad(r, *(t_quad *)object, ray_t, rec));
 }

@@ -6,17 +6,11 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 19:06:53 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:40:24 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-double	hit_quad_wrapper(t_ray r, void *object, t_interval ray_t,
-		t_hitrecord *rec)
-{
-	return (hit_quad(r, *(t_quad *)object, ray_t, rec));
-}
 
 t_quad	*create_quad(t_point3 start, t_vec3 u, t_vec3 v, t_material_type type, t_vec3 color)
 {

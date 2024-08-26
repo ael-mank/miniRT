@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:33:28 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 19:22:03 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:21:50 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,5 @@ t_object	*init_objects(void)
 
 	// Box
 	head = make_box(head, (t_point3){277, 277, 277}, 150);
-
     return head;
 }

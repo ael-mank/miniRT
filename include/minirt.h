@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 19:36:21 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/27 17:43:26 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_ambient	ambient_init();
 t_cam		cam_init();
 t_viewport	viewport_init(t_cam cam);
 t_sphere	sphere_init();
+t_plane		plane_init();
 
 // vec_helper
 t_vec3	vec3(double x, double y, double z);

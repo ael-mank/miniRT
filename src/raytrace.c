@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/27 14:03:26 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/27 18:40:05 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_ray	init_ray(t_cam c, t_point3 pixel)
 void	cast_ray(t_ray *ray, t_scene *scene)
 {
 	intersect_sphere(ray, scene->c, &scene->sp);
+	intersect_plane(ray, scene->pl, &scene->pl);
 }
 
 void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
@@ -71,6 +72,11 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, first_root));
 		}
 	}
+}
+
+void	intersect_plane(t_ray *ray, t_cam cam, t_plane pl)
+{
+	
 }
 
 t_color	ray_color(t_ray ray, t_scene scene)
@@ -99,5 +105,7 @@ double	light_weight(t_ray *ray, t_sphere *sp, t_light l)
 
 	surface_normal = vector_normalize(vector_subtract(ray->intersect, sp->center));
 	light_weight = dot_product(vector_normalize(vector_subtract(l.org, ray->intersect)), surface_normal);
-	return (light_weight < 0 ? 0 : light_weight);
+	if (light_weight < 0)
+		return (0);
+	return (light_weight);
 }

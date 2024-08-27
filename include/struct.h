@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/26 18:44:40 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/27 17:25:40 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef struct s_viewport	t_viewport;
 typedef struct s_light	t_light;
 typedef struct s_ambient	t_ambient;
 typedef struct s_sphere	t_sphere;
-
+typedef struct s_plane	t_plane;
+typedef struct s_cylinder	t_cylinder;
 typedef struct s_img	t_img;
 typedef struct s_scene	t_scene;
 typedef struct s_win	t_win;
@@ -91,6 +92,22 @@ typedef struct s_sphere
 	t_color		color;
 }	t_sphere;
 
+typedef struct s_plane
+{
+	t_point3	point;
+	t_vec3		normal;
+	t_color		color;
+}	t_plane;
+
+typedef struct s_cylinder
+{
+	t_point3	center;
+	t_vec3		axis;
+	double		radius;
+	double		height;
+	t_color		color;
+}	t_cylinder;
+
 typedef struct s_img
 {
 	void	*img;
@@ -108,6 +125,8 @@ typedef struct s_scene
 	t_viewport	v;
 	// t_list		*objs;
 	t_sphere	sp;
+	t_plane		pl;
+	t_cylinder	cy;
 }	t_scene;
 
 typedef struct s_win

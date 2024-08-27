@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:53:44 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/27 14:22:19 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/27 17:42:53 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ t_light	light_init()
 {
 	t_light	l;
 
-	l.org = vec3(0, 10, 10);
-	l.ratio = 0.6;
-	l.color.r = 255;
-	l.color.g = 255;
-	l.color.b = 255;
+	l.org = vec3(-40, 0, 30);
+	l.ratio = 0.7;
+	l.color = color(255, 255, 255);
 	return (l);
 }
 
@@ -28,10 +26,9 @@ t_ambient	ambient_init()
 {
 	t_ambient	a;
 
-	a.color.r = 50;
-	a.color.g = 50;
-	a.color.b = 200;
-	a.ratio = 0.6;
+	a.color = color(50, 50, 200);
+	// a.color = color(255, 255, 255);
+	a.ratio = 0.2;
 	return (a);
 }
 
@@ -65,10 +62,18 @@ t_sphere	sphere_init()
 {
 	t_sphere	sp;
 
-	sp.center = vec3(0, 0, 20.6);
-	sp.radius = 12.6 / 2;
-	sp.color.r = 255;
-	sp.color.g = 0;
-	sp.color.b = 55;
+	sp.center = vec3(0, 0, 20);
+	sp.radius = 20 / 2;
+	sp.color = color(255, 0, 55);
 	return (sp);
+}
+
+t_plane		plane_init()
+{
+	t_plane	pl;
+
+	pl.point = vec3(0, -10, 0);
+	pl.normal = vec3(0, 1, 0);
+	pl.color = color(255, 0, 255);
+	return (pl);
 }

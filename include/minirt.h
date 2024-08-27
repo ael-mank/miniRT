@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/27 17:43:26 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/27 20:06:19 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ t_point3	find_pixel_on_viewport(int x, int y, t_viewport v);
 t_ray	init_ray(t_cam c, t_point3 pixel);
 void	cast_ray(t_ray *ray, t_scene *scene);
 void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *s);
+void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl);
 t_color	ray_color(t_ray ray, t_scene scene);
-double	light_weight(t_ray *ray, t_sphere *sp, t_light l);
+t_color	weighted_obj_color(t_ray *ray, void *obj, t_light l);
+double	light_weight(t_ray *ray, void *obj, t_light l);
 
 #endif

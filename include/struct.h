@@ -6,13 +6,20 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/27 17:25:40 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/27 19:49:24 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 # include <stdbool.h>
+
+typedef enum e_obj_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER,
+}	t_obj_type;
 
 typedef	struct s_vec3	t_point3;
 typedef	struct s_vec3	t_vec3;
@@ -41,7 +48,9 @@ typedef struct s_ray
 	t_point3	org;
 	t_vec3		dir;
 	bool		hit_object;
+	t_obj_type	object_type;
 	void		*object;
+	double		hit_distance;
 	t_point3	intersect;
 }	t_ray;
 
@@ -94,7 +103,7 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	t_point3	point;
+	t_point3	point_instance;
 	t_vec3		normal;
 	t_color		color;
 }	t_plane;

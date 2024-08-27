@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/27 18:40:05 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/27 20:05:05 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_ray	init_ray(t_cam c, t_point3 pixel)
 void	cast_ray(t_ray *ray, t_scene *scene)
 {
 	intersect_sphere(ray, scene->c, &scene->sp);
-	intersect_plane(ray, scene->pl, &scene->pl);
+	intersect_plane(ray, scene->c, &scene->pl);
 }
 
 void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
@@ -69,42 +69,74 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 		{
 			ray->hit_object = true;
 			ray->object = sp;
+			ray->hit_distance = first_root;
 			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, first_root));
 		}
 	}
 }
 
-void	intersect_plane(t_ray *ray, t_cam cam, t_plane pl)
+void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 {
-	
+	t_vec3		cam_p0;
+	double		cam_p0_dot_normal;
+	double		ray_dot_normal;
+	double		root;
+
+	cam_p0 = vector_subtract(pl->point_instance, cam.org);
+	cam_p0_dot_normal = dot_product(cam_p0, pl->normal);
+	ray_dot_normal = dot_product(ray->org, pl->normal);
+	if (ray_dot_normal != 0)
+	{
+		root = cam_p0_dot_normal / ray_dot_normal;
+		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)))
+		{
+			ray->hit_object = true;
+			ray->object = pl;
+			ray->hit_distance = root;
+			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));
+		}
+	}
 }
 
 t_color	ray_color(t_ray ray, t_scene scene)
 {
-	t_sphere	*sp;
 	t_color		ambient;
-	t_color		obj_ref;
+	t_color		from_obj;
 	t_color		res;
 
-	sp = NULL;
 	ambient = color_scale(scene.a.color, scene.a.ratio);
 	if (ray.hit_object)
 	{
-		sp = ray.object;
-		obj_ref = color_scale(sp->color, light_weight(&ray, sp, scene.l));
-		res = color_add(obj_ref, ambient);
+		from_obj = weighted_obj_color(&ray, ray.object, scene.l);
+		res = color_add(from_obj, ambient);
 		return (res);
 	}
 	return (ambient);
 }
 
-double	light_weight(t_ray *ray, t_sphere *sp, t_light l)
+t_color	weighted_obj_color(t_ray *ray, void *obj, t_light l)
+{
+	t_color	obj_color;
+	t_color	weighted;
+
+	if (ray->object_type == SPHERE)
+		obj_color = ((t_sphere *)obj)->color;
+	if (ray->object_type == PLANE)
+		obj_color = ((t_plane *)obj)->color;
+	weighted = color_scale(obj_color, light_weight(ray, obj, l));
+	return (weighted);
+}
+
+double	light_weight(t_ray *ray, void *obj, t_light l)
 {
 	t_vec3	surface_normal;
 	double	light_weight;
 
-	surface_normal = vector_normalize(vector_subtract(ray->intersect, sp->center));
-	light_weight = dot_product(vector_normalize(vector_subtract(l.org, ray->intersect)), surface_normal);
+	if (ray->object_type == SPHERE)
+		surface_normal = vector_normalize(vector_subtract(ray->intersect, ((t_sphere *)obj)->center));
+	if (ray->object_type == PLANE)
+		surface_normal = vector_normalize(((t_plane *)obj)->normal);
+ 	light_weight = dot_product(vector_normalize(vector_subtract(l.org, ray->intersect)), surface_normal);
 	if (light_weight < 0)
 		return (0);
 	return (light_weight);

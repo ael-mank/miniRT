@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/26 19:36:40 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/27 14:03:26 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,9 @@ t_color	ray_color(t_ray ray, t_scene scene)
 double	light_weight(t_ray *ray, t_sphere *sp, t_light l)
 {
 	t_vec3	surface_normal;
-	t_vec3	incoming;
-	t_vec3	reflect_dir;
 	double	light_weight;
 
 	surface_normal = vector_normalize(vector_subtract(ray->intersect, sp->center));
-	incoming = vector_normalize(ray->dir);
-	reflect_dir = vector_add(incoming, vector_scale(surface_normal, 2 * dot_product(incoming, surface_normal)));
-	light_weight = dot_product(vector_subtract(l.org, ray->intersect), reflect_dir);
-	return (light_weight);
+	light_weight = dot_product(vector_normalize(vector_subtract(l.org, ray->intersect)), surface_normal);
+	return (light_weight < 0 ? 0 : light_weight);
 }

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:53:44 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/27 13:48:50 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/27 14:22:19 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_light	light_init()
 {
 	t_light	l;
 
-	l.org = vec3(0, 60, 20);
+	l.org = vec3(0, 10, 10);
 	l.ratio = 0.6;
 	l.color.r = 255;
 	l.color.g = 255;
@@ -31,7 +31,7 @@ t_ambient	ambient_init()
 	a.color.r = 50;
 	a.color.g = 50;
 	a.color.b = 200;
-	a.ratio = 0.5;
+	a.ratio = 0.6;
 	return (a);
 }
 
@@ -67,8 +67,8 @@ t_sphere	sphere_init()
 
 	sp.center = vec3(0, 0, 20.6);
 	sp.radius = 12.6 / 2;
-	sp.color.r = 10;
+	sp.color.r = 255;
 	sp.color.g = 0;
-	sp.color.b = 255;
+	sp.color.b = 55;
 	return (sp);
 }

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:07:50 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 08:29:22 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/27 09:29:52 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void pad_to_minimums(t_aabb *a)
 {
 	double	delta;
 
-	delta = 0.0001;
+	delta = 0.000001;
 	a->x = expand(delta, a->x);
 	a->y = expand(delta, a->y);
 	a->z = expand(delta, a->z);

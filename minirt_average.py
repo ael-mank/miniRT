@@ -15,7 +15,7 @@ def run_minirt():
         # Simulate pressing the escape key
         time.sleep(1)  # Wait a moment to ensure minirt has started
         print("Sending ESC key to minirt...")
-        keyboard.press(Key.e sc)
+        keyboard.press(Key.esc)
         keyboard.release(Key.esc)
         
         # Wait for the process to complete

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:33:28 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 16:01:38 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:12:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,20 +121,20 @@ t_object	*init_objects(void)
     quad = create_quad((t_point3){0, 555, 0}, (t_vec3){555, 0, 0}, (t_vec3){0, 0, 555}, MATTE, (t_vec3){0.73, 0.73, 0.73});
     head = add_quad(head, quad);
 
-    quad = create_quad((t_point3){0, 0, 555}, (t_vec3){555, 0, 0}, (t_vec3){0, 555, 0}, MATTE, (t_vec3){0.0, 0.0, 1.0});
+    quad = create_quad((t_point3){0, 0, 555}, (t_vec3){555, 0, 0}, (t_vec3){0, 555, 0}, MATTE, (t_vec3){0.73, 0.73, 0.73});
     head = add_quad(head, quad);
 
     // // Back Plane
     // quad = create_quad((t_point3){0, 0, 0}, (t_vec3){555, 0, 0}, (t_vec3){0, 555, 0}, MATTE, (t_vec3){0.73, 0.73, 0.73});
     // head = add_quad(head, quad);
     
-    sphere = create_sphere((t_point3){200, 100, 265}, 100, METAL, (t_vec3){0.7, 0.7, 0.7});
+    sphere = create_sphere((t_point3){150, 100, 265}, 100, METAL, (t_vec3){0.7, 0.7, 0.7});
     head = add_sphere(head, sphere);
 
 	// sphere = create_sphere((t_point3){400, 100, 400}, 100, METAL, (t_vec3){1, 1, 1});
 	// head = add_sphere(head, sphere);
 
 	// Box
-	head = make_box(head, (t_point3){380, 150, 350}, 150, LIGHT, (t_vec3){3, 3, 3});
+	head = make_box(head, (t_point3){390, 150, 350}, 150, LIGHT, (t_vec3){3, 3, 3});
     return head;
 }

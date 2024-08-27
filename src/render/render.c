@@ -6,11 +6,13 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 15:24:17 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:10:23 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+#define EPSILON 1e-4
 
 t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)
 {

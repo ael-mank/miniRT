@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 11:51:01 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/28 20:27:40 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,21 @@
 // 	}
 // }
 //TODO : GIVE EACH OBJECT A FREE FUNCTION
+
+void	free_triangle(t_bvh *node)
+{
+	t_triangle	*triangle;
+
+	triangle = (t_triangle *)node->object->object;
+	if (triangle->mat->img != NULL)
+	{
+		mlx_destroy_image(get_mlx_ptr(), triangle->mat->img->image);
+		free(triangle->mat->img);
+	}
+	if (triangle->mat != NULL)
+		free(triangle->mat);
+	free(triangle);
+}
 
 void	free_quad(t_bvh *node)
 {

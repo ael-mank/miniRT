@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:33:28 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/28 09:51:12 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/28 20:49:49 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ t_object	*init_objects(void)
     t_object	*head;
     t_quad		*quad;
     t_sphere	*sphere;
+	t_triangle	*triangle;
 
     head = NULL;
 
@@ -136,5 +137,16 @@ t_object	*init_objects(void)
 
 	// Box
 	head = make_box(head, (t_point3){390, 150, 350}, 150, LIGHT, (t_vec3){3, 3, 3});
+
+	// Triangle on top in the middle 
+triangle = create_triangle(
+    (t_point3){150, 300, 100},  // Top vertex (height of 200 units above y = 200)
+    (t_point3){100, 200, 150},  // Bottom left vertex (base length of 100 units)
+    (t_point3){200, 200, 250},  // Bottom right vertex (base length of 100 units)
+    MATTE, 
+    (t_vec3){0, 1, 0.73}
+);
+
+head = add_triangle(head, triangle);
     return head;
 }

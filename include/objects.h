@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/28 09:01:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/28 20:30:22 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,15 @@ typedef struct s_quad {
 	t_vec3 w;
 } t_quad;
 
+typedef struct s_triangle {
+    t_point3 v0;        // First vertex of the triangle
+    t_point3 v1;        // Second vertex of the triangle
+    t_point3 v2;        // Third vertex of the triangle
+    t_vec3 normal;      // Normal vector of the triangle
+    double d;           // Plane constant for the triangle's plane equation
+    t_material *mat;    // Material of the triangle
+} t_triangle;
+
 // Object structure
 typedef struct s_object {
     void *object;
@@ -100,6 +109,7 @@ double	hit_quad_wrapper(t_ray r, void *object, t_interval ray_t,
 		t_hitrecord *rec);
 double	hit_sphere_wrapper(t_ray r, void *object, t_interval ray_t,
 		t_hitrecord *rec);
+double hit_triangle_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord *rec);
 
 // Creation functions for objects
 t_sphere *create_sphere(t_point3 center, double radius, t_material_type type, t_vec3 color);
@@ -107,6 +117,9 @@ t_object *add_sphere(t_object *head, t_sphere *sphere);
 
 t_quad	*create_quad(t_point3 start, t_vec3 u, t_vec3 v, t_material_type type, t_vec3 color);
 t_object	*add_quad(t_object *head, t_quad *quad);
+
+t_object *add_triangle(t_object *head, t_triangle *triangle);
+t_triangle *create_triangle(t_point3 v0, t_point3 v1, t_point3 v2, t_material_type type, t_vec3 color);
 
 // Texture functions
 t_vec3 solid_color(t_material *mat, t_hitrecord *rec);
@@ -121,5 +134,6 @@ t_vec3 diffuse_light(t_material *mat, t_hitrecord *rec);
 // Free functions for objects
 void free_sphere(t_bvh *node);
 void free_quad(t_bvh *node);
+void free_triangle(t_bvh *node);
 
 #endif

@@ -11,12 +11,12 @@ SRC_FILES = main \
 			memory/ft_exit \
 			vectors/vectors vectors/ray \
 			init/init_mlx init/init init/init_objects\
-			init/init_sphere init/init_quad\
+			init/init_sphere init/init_quad init/init_triangle\
 			init/make_mat init/init_bvh\
 			render/render \
 			interval/interval \
 			utility/utility \
-			objects/sphere objects/quad\
+			objects/sphere objects/quad objects/triangle \
 			materials/materials materials/color_val \
 			materials/lights \
 			aabbbvh/aabb aabbbvh/bvh aabbbvh/bvh_comp aabbbvh/bvh_comp2 \

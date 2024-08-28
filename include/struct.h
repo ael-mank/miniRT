@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/27 19:49:24 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/28 14:36:03 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 typedef enum e_obj_type
 {
+	DEFAULT,
 	SPHERE,
 	PLANE,
 	CYLINDER,

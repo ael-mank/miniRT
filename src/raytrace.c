@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/27 20:05:05 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/28 14:36:24 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_ray	init_ray(t_cam c, t_point3 pixel)
 	ray.org = c.org;
 	ray.dir = vector_subtract(pixel, c.org);
 	ray.hit_object = false;
+	ray.object_type = DEFAULT;
 	ray.object = NULL;
 	return (ray);
 }
@@ -68,6 +69,7 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 		if (first_root > 1)
 		{
 			ray->hit_object = true;
+			ray->object_type = SPHERE;
 			ray->object = sp;
 			ray->hit_distance = first_root;
 			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, first_root));
@@ -84,13 +86,14 @@ void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 
 	cam_p0 = vector_subtract(pl->point_instance, cam.org);
 	cam_p0_dot_normal = dot_product(cam_p0, pl->normal);
-	ray_dot_normal = dot_product(ray->org, pl->normal);
+	ray_dot_normal = dot_product(ray->dir, pl->normal);
 	if (ray_dot_normal != 0)
 	{
 		root = cam_p0_dot_normal / ray_dot_normal;
 		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)))
 		{
 			ray->hit_object = true;
+			ray->object_type = PLANE;
 			ray->object = pl;
 			ray->hit_distance = root;
 			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));

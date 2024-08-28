@@ -6,11 +6,33 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:16:14 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 15:19:19 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/28 09:34:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+#define EPSILON 1e-4
+
+int invisible_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat)
+{
+    (void)mat;
+    *attenuation = vec3(1, 1, 1); // No attenuation, fully transparent
+
+    // Check the direction of the incoming ray
+    if (dot_product(r->dir, rec->normal) > 0) {
+        // Ray is coming from outside the box, reflect it back
+        t_vec3 reflected_dir = reflect(r->dir, rec->normal);
+        t_vec3 offset_origin = vector_add(rec->p, vector_scale(rec->normal, EPSILON));
+        ray_init(scattered, &offset_origin, &reflected_dir);
+    } else {
+        // Ray is coming from inside the box, pass it through
+        t_vec3 offset_origin = vector_subtract(rec->p, vector_scale(rec->normal, EPSILON));
+        ray_init(scattered, &offset_origin, &r->dir);
+    }
+
+    return 1; // Indicate that scattering occurred
+}
 
 int	lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
 		t_ray *scattered, t_material *mat)

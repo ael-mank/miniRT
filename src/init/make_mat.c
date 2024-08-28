@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 08:34:56 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 15:19:44 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/28 09:01:37 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,19 @@ t_material	make_matte(void)
 	t_material	mat;
 
 	mat.scatter = lambertian_scatter;
+	mat.texture = solid_color;
+	mat.emission = no_light;
+	mat.fuzz = 0;
+	mat.ref_indx = 0;
+	mat.img = NULL;
+	return (mat);
+}
+
+t_material	make_invisible(void)
+{
+	t_material	mat;
+
+	mat.scatter = invisible_scatter;
 	mat.texture = solid_color;
 	mat.emission = no_light;
 	mat.fuzz = 0;
@@ -125,6 +138,8 @@ t_material	*create_material(t_material_type type)
 	mat = malloc(sizeof(t_material));
 	if (!mat)
 		return (NULL);
+	else if (type == INVISIBLE)
+		*mat = make_invisible();
 	else if (type == MATTE)
 		*mat = make_matte();
 	else if (type == LIGHT)

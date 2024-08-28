@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 15:19:29 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/28 09:01:50 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef enum e_material_type {
     CHECKERBOARD,
     GLOBE,
 	LIGHT,
+	INVISIBLE,
 } t_material_type;
 
 // Hit record structure
@@ -90,6 +91,8 @@ int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scatte
 int lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
 int glass_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat);
 int light_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
+		t_ray *scattered, t_material *mat);
+int	invisible_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
 		t_ray *scattered, t_material *mat);
 
 // Hit functions for different objects

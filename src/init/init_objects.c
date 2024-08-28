@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:33:28 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/27 16:12:56 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/28 09:51:12 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_object	*init_objects(void)
     head = add_quad(head, quad);
 
     // // Back Plane
-    // quad = create_quad((t_point3){0, 0, 0}, (t_vec3){555, 0, 0}, (t_vec3){0, 555, 0}, MATTE, (t_vec3){0.73, 0.73, 0.73});
+    // quad = create_quad((t_point3){0, 0, 0}, (t_vec3){555, 0, 0}, (t_vec3){0, 555, 0}, INVISIBLE, (t_vec3){0, 1, 0});
     // head = add_quad(head, quad);
     
     sphere = create_sphere((t_point3){150, 100, 265}, 100, METAL, (t_vec3){0.7, 0.7, 0.7});

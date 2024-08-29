@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/27 17:43:11 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/28 17:33:12 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	scene_init(t_scene *scene)
 	scene->v = viewport_init(scene->c);
 	scene->sp = sphere_init();
 	scene->pl = plane_init();
+	scene->cy = cylinder_init();
 }
 
 int main(void)

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/28 14:36:03 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/29 17:16:09 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_cylinder
 	t_vec3		axis;
 	double		radius;
 	double		height;
+	double		radial_len;
 	t_color		color;
 }	t_cylinder;
 

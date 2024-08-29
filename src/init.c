@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:53:44 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/28 14:33:56 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/29 18:05:30 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,19 @@ t_plane		plane_init()
 
 	pl.point_instance = vec3(0, -10, 0);
 	pl.normal = vec3(0, 1, 0);
-	pl.color = color(100, 100, 100);
+	pl.color = color(200, 200, 200);
 	return (pl);
+}
+
+t_cylinder	cylinder_init()
+{
+	t_cylinder	cy;
+
+	cy.center = vec3(0, -1, 20);
+	cy.axis = vec3(0, 1, 0);
+	cy.radius = 20.0 / 2;
+	cy.height = 0.5;
+	cy.radial_len = sqrt(pow(cy.radius, 2) + pow(cy.height / 2.0, 2));
+	cy.color = color(80, 0, 180);
+	return (cy);
 }

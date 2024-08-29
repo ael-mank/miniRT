@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/28 14:36:24 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/29 17:51:56 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	cast_ray(t_ray *ray, t_scene *scene)
 {
 	intersect_sphere(ray, scene->c, &scene->sp);
 	intersect_plane(ray, scene->c, &scene->pl);
+	intersect_cylinder(ray, scene->c, &scene->cy);
 }
 
 void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
@@ -62,7 +63,7 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 
 	a = dot_product(ray->dir, ray->dir);
 	b = -2 * dot_product(ray->dir, vector_subtract(sp->center, ray->org));
-	c = dot_product(vector_subtract(sp->center, ray->org), vector_subtract(sp->center, ray->org)) - sp->radius * sp->radius;
+	c = dot_product(vector_subtract(sp->center, ray->org), vector_subtract(sp->center, ray->org)) - pow(sp->radius, 2);
 	if (b * b - 4 * a * c >= 0)
 	{
 		first_root = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
@@ -101,6 +102,46 @@ void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 	}
 }
 
+void	intersect_cylinder(t_ray *ray, t_cam cam, t_cylinder *cy)
+{
+	double	a;
+	double	b;
+	double	c;
+	t_vec3	temp[3];
+	double	root;
+
+	temp[0] = vector_subtract(cam.org, cy->center);
+	temp[1] = cross_product(ray->dir, cy->axis);
+	temp[2] = cross_product(temp[0], cy->axis);
+	a = dot_product(temp[1], temp[1]);
+	b = 2 * dot_product(temp[1], temp[2]);
+	c = dot_product(temp[2], temp[2]) - pow(cy->radius * vector_length(cy->axis), 2);
+	if (b * b - 4 * a * c >= 0)
+	{
+		root = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
+		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)) && in_cylinder_limit(root, cam, ray, cy))
+		{
+			ray->hit_object = true;
+			ray->object_type = CYLINDER;
+			ray->object = cy;
+			ray->hit_distance = root;
+			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));
+		}
+	}
+}
+
+bool	in_cylinder_limit(double root, t_cam c, t_ray *ray, t_cylinder *cy)
+{
+	t_point3	intersect_p;
+	t_vec3		p_center;
+
+	intersect_p = vector_add(c.org, vector_scale(ray->dir, root));
+	p_center = vector_subtract(cy->center, intersect_p);
+	if (pow(dot_product(p_center, cy->axis), 2) <= pow(cy->height / 2.0, 2))
+		return (true);
+	return (false);
+}
+
 t_color	ray_color(t_ray ray, t_scene scene)
 {
 	t_color		ambient;
@@ -126,6 +167,8 @@ t_color	weighted_obj_color(t_ray *ray, void *obj, t_light l)
 		obj_color = ((t_sphere *)obj)->color;
 	if (ray->object_type == PLANE)
 		obj_color = ((t_plane *)obj)->color;
+	if (ray->object_type == CYLINDER)
+		obj_color = ((t_cylinder *)obj)->color;
 	weighted = color_scale(obj_color, light_weight(ray, obj, l));
 	return (weighted);
 }
@@ -133,12 +176,19 @@ t_color	weighted_obj_color(t_ray *ray, void *obj, t_light l)
 double	light_weight(t_ray *ray, void *obj, t_light l)
 {
 	t_vec3	surface_normal;
+	t_vec3	temp[2];
 	double	light_weight;
 
 	if (ray->object_type == SPHERE)
 		surface_normal = vector_normalize(vector_subtract(ray->intersect, ((t_sphere *)obj)->center));
 	if (ray->object_type == PLANE)
 		surface_normal = vector_normalize(((t_plane *)obj)->normal);
+	if (ray->object_type == CYLINDER)
+	{
+		temp[0] = vector_subtract(ray->intersect, ((t_cylinder *)obj)->center);
+		temp[1] = vector_scale(((t_cylinder *)obj)->axis, dot_product(temp[0], ((t_cylinder *)obj)->axis));
+		surface_normal = vector_normalize(vector_add(temp[0], temp[1]));
+	}
  	light_weight = dot_product(vector_normalize(vector_subtract(l.org, ray->intersect)), surface_normal);
 	if (light_weight < 0)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/27 20:06:19 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/29 17:31:44 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_cam		cam_init();
 t_viewport	viewport_init(t_cam cam);
 t_sphere	sphere_init();
 t_plane		plane_init();
+t_cylinder	cylinder_init();
 
 // vec_helper
 t_vec3	vec3(double x, double y, double z);
@@ -64,6 +65,8 @@ t_ray	init_ray(t_cam c, t_point3 pixel);
 void	cast_ray(t_ray *ray, t_scene *scene);
 void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *s);
 void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl);
+void	intersect_cylinder(t_ray *ray, t_cam cam, t_cylinder *cy);
+bool	in_cylinder_limit(double root, t_cam c, t_ray *ray, t_cylinder *cy);
 t_color	ray_color(t_ray ray, t_scene scene);
 t_color	weighted_obj_color(t_ray *ray, void *obj, t_light l);
 double	light_weight(t_ray *ray, void *obj, t_light l);

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/29 17:51:56 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/08/29 18:16:45 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	cast_ray(t_ray *ray, t_scene *scene)
 {
 	intersect_sphere(ray, scene->c, &scene->sp);
 	intersect_plane(ray, scene->c, &scene->pl);
-	intersect_cylinder(ray, scene->c, &scene->cy);
+	intersect_cylinder_front(ray, scene->c, &scene->cy);
+	intersect_cylinder_back(ray, scene->c, &scene->cy);
 }
 
 void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
@@ -102,7 +103,7 @@ void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 	}
 }
 
-void	intersect_cylinder(t_ray *ray, t_cam cam, t_cylinder *cy)
+void	intersect_cylinder_front(t_ray *ray, t_cam cam, t_cylinder *cy)
 {
 	double	a;
 	double	b;
@@ -119,6 +120,34 @@ void	intersect_cylinder(t_ray *ray, t_cam cam, t_cylinder *cy)
 	if (b * b - 4 * a * c >= 0)
 	{
 		root = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
+		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)) && in_cylinder_limit(root, cam, ray, cy))
+		{
+			ray->hit_object = true;
+			ray->object_type = CYLINDER;
+			ray->object = cy;
+			ray->hit_distance = root;
+			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));
+		}
+	}
+}
+
+void	intersect_cylinder_back(t_ray *ray, t_cam cam, t_cylinder *cy)
+{
+	double	a;
+	double	b;
+	double	c;
+	t_vec3	temp[3];
+	double	root;
+
+	temp[0] = vector_subtract(cam.org, cy->center);
+	temp[1] = cross_product(ray->dir, cy->axis);
+	temp[2] = cross_product(temp[0], cy->axis);
+	a = dot_product(temp[1], temp[1]);
+	b = 2 * dot_product(temp[1], temp[2]);
+	c = dot_product(temp[2], temp[2]) - pow(cy->radius * vector_length(cy->axis), 2);
+	if (b * b - 4 * a * c >= 0)
+	{
+		root = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
 		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)) && in_cylinder_limit(root, cam, ray, cy))
 		{
 			ray->hit_object = true;

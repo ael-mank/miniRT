@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 09:12:28 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/30 09:57:24 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_scene
 	t_object		*objects;
 	t_bvh			*bvh;
 	t_render_info	rdr;
+	int				file_fd;
 }					t_scene;
 
 
@@ -96,13 +97,14 @@ void				free_scene(t_object *objects);
 int					keys_handler(int key_code, t_scene *scene);
 
 // Initialization
+void parse_file(t_scene *scene, char **argv);
 void				init_camera(t_camera *camera);
 t_object			*init_objects(void);
 t_material			*create_material(t_material_type type);
 t_object			*add_object_end(t_object *head, t_object *new_object);
 void				init_mlx(t_scene *scene, int win_width, int win_height);
 void				init_render(t_render *render);
-void				init_scene(t_scene *scene);
+void	init_scene(t_scene *scene, char **argv);
 void				init_viewport(t_camera *camera, t_render *render);
 
 // Rendering
@@ -113,5 +115,6 @@ double				deg_to_rad(double degrees);
 double				ft_fmin(double a, double b);
 double				rand_double(double min, double max);
 double				random_double(void);
+void	ft_error(t_scene *scene, char *msg);
 
 #endif

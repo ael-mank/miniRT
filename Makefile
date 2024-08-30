@@ -4,18 +4,19 @@ SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
-CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -O3
+CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -O3 -g3
 SRC_FILES = main \
 			my_mlx/window_inputs my_mlx/my_mlx_pixel_put\
 			my_mlx/write_colors \
 			memory/ft_exit \
 			vectors/vectors vectors/ray \
+			parsing/file_parsing1 \
 			init/init_mlx init/init init/init_objects\
 			init/init_sphere init/init_quad init/init_triangle\
 			init/make_mat init/init_bvh\
 			render/render \
 			interval/interval \
-			utility/utility \
+			utility/utility utility/ft_err\
 			objects/sphere objects/quad objects/triangle \
 			materials/materials materials/color_val \
 			materials/lights \

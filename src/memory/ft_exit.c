@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/28 20:27:40 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/08/30 09:41:55 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,15 @@ int	ft_exit(t_scene *scene)
 
 	mlx = &scene->mlx;
 	free_bvh_tree(scene->bvh);
-	mlx_destroy_image(mlx->mlx_ptr, mlx->img.img);
-	mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
-	mlx_destroy_display(mlx->mlx_ptr);
-	free(mlx->mlx_ptr);
-	//printf("\033[1;32mClosed by User.\033[0m\n");
+	if (mlx->img.img != NULL)
+		mlx_destroy_image(mlx->mlx_ptr, mlx->img.img);
+	if (mlx->win_ptr != NULL)
+		mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
+	if (mlx->mlx_ptr != NULL)
+	{
+		mlx_destroy_display(mlx->mlx_ptr);
+		free(mlx->mlx_ptr);
+	}
+	printf("\033[1;32mClosed by User.\033[0m\n");
 	exit(0);
 }

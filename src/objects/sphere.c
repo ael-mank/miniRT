@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 15:46:59 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 10:56:57 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:30:45 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,9 @@ void	set_face_normal(t_hitrecord *rec, t_ray *r, t_sphere sphere,
 {
 	rec->t = root;
 	rec->p = ray_at(r, rec->t);
-	rec->normal = vector_normalize(vector_subtract(rec->p, sphere.center));
+	rec->normal = vector_divide(vector_subtract(rec->p, sphere.center),
+			sphere.radius);
 	rec->front_face = dot(r->dir, rec->normal) < 0;
-	if (!rec->front_face)
-	{
-		rec->normal = vector_scale(rec->normal, -1);
-	}
 }
 
 double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec)
@@ -51,7 +48,5 @@ double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hitrecord *rec)
 			return (0);
 	}
 	set_face_normal(rec, &r, sphere, root);
-	rec->mat = sphere.mat;
-	rec->mat->albedo = sphere.mat->albedo;
 	return (1);
 }

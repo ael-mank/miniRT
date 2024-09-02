@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 09:51:52 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/30 10:05:43 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:22:27 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int set_vars(t_scene *scene)
 	//TODO
 	//USE GNL PARSE FILE FIND THE TOKENS (S SPHERE T TRIANGLE B BOX L LIGHT C CAMERA)
 	//USE FUNCTION TO SET/CREATE THE THING NEEDDED
+	(void)scene;
+	return (1);
 }
 
 
@@ -40,6 +42,6 @@ void parse_file(t_scene *scene, char **argv)
 {
 	if (!open_map(scene, argv[1]))
 		ft_error(scene, "Unable to open scene file.");
-	if (!set_vars(scene)
+	if (!set_vars(scene))
 		ft_error(scene, "Invalid scene.");
 }

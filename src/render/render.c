@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/28 20:32:36 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:00:52 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #define EPSILON 1e-4
 
-t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)
+t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh, t_scene *scene)
 {
 	t_hitrecord	rec;
 	// t_vec3		unit_direction;
@@ -25,13 +25,11 @@ t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)
 	if (depth <= 0)
 		return (vec3(0, 0, 0));
 	if (!bvh_hit(bvh, *r, universe_interval, &rec))
-	{
-		return (vec3(1, 1, 1));
-	}
+		return scene->bg_color;
 	if (!rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
 		return rec.mat->emission(rec.mat, &rec);
 	t_vec3 color_from_scatter = vector_multiply(attenuation,
-			ray_color(&scattered, depth - 1, bvh));
+			ray_color(&scattered, depth - 1, bvh, scene));
 	return (vector_add(color_from_scatter, rec.mat->emission(rec.mat, &rec)));
 }
 
@@ -100,6 +98,8 @@ void	render_scene(t_scene *scene)
 	double	elapsed_time;
 
 	start_time = clock();
+	printf("cam at %f %f %f\n", scene->camera.lookfrom.x,
+		scene->camera.lookfrom.y, scene->camera.lookfrom.z);
 	while (scene->rdr.j < scene->render.image_height)
 	{
 		scene->rdr.i = 0;
@@ -113,7 +113,7 @@ void	render_scene(t_scene *scene)
 						&scene->camera);
 				scene->rdr.color = vector_add(scene->rdr.color,
 						ray_color(&scene->rdr.r, scene->camera.max_depth,
-							scene->bvh));
+							scene->bvh, scene));
 				scene->rdr.sample++;
 			}
 			write_colors(&scene->mlx.img, scene->rdr.i, scene->rdr.j,
@@ -122,6 +122,8 @@ void	render_scene(t_scene *scene)
 		}
 		scene->rdr.j++;
 	}
+	scene->rdr.j = 0;
+	scene->rdr.i = 0;
 	end_time = clock();
 	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 	printf("Time to render: %.10f seconds\n", elapsed_time);

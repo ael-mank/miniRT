@@ -10,7 +10,7 @@ SRC_FILES = main \
 			my_mlx/write_colors \
 			memory/ft_exit \
 			vectors/vectors vectors/ray \
-			parsing/file_parsing1 \
+			parsing/file_parsing1 parsing/file_parsing2\
 			init/init_mlx init/init init/init_objects\
 			init/init_sphere init/init_quad init/init_triangle\
 			init/make_mat init/init_bvh\

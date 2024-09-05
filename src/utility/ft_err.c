@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 09:52:55 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/30 09:54:03 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:27:37 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_error(t_scene *scene, char *msg)
 {
-	ft_printf("\e[1;31mError\n");
-	ft_printf("%s\n\033[0m", msg);
+	ft_printf("\e[1;31mError :");
+	ft_printf("\t%s\n\033[0m", msg);
 	ft_exit(scene);
 }

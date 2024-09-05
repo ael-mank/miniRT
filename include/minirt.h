@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/30 09:57:24 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:59:33 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,25 @@ typedef struct s_scene
 	t_ray			r;
 	t_object		*objects;
 	t_bvh			*bvh;
+	t_vec3			bg_color;
 	t_render_info	rdr;
 	int				file_fd;
+	t_list			*lst_map;
+	int				mouse_mode;
 }					t_scene;
 
 
 void *get_mlx_ptr(void);
 // Memory management
 int					ft_exit(t_scene *scene);
-void				free_scene(t_object *objects);
+//void				free_scene(t_object *objects);
 
 // Window, mlx stuff
 int					keys_handler(int key_code, t_scene *scene);
 
 // Initialization
-void parse_file(t_scene *scene, char **argv);
+void				parse_file(t_scene *scene, char **argv);
+int					parse_ambient(t_scene *scene, char *line);
 void				init_camera(t_camera *camera);
 t_object			*init_objects(void);
 t_material			*create_material(t_material_type type);

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/02 15:24:34 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:59:02 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	init_viewport(t_camera *camera, t_render *render)
 {
 	double	h;
 
-	camera->lookfrom = vec3(278, 278, -800);
-	camera->lookat = vec3(278, 278, 0);
 	camera->v_up = vec3(0, 1, 0);
 	camera->fov = 40;
 	camera->defocus_angle = 0;
@@ -46,10 +44,10 @@ void	init_viewport(t_camera *camera, t_render *render)
 			render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 			render->image_height);
-	camera->samples_per_pixel = 1;
-	camera->max_depth = 2;
+	camera->samples_per_pixel = 2;
+	camera->max_depth = 25;
 }
-
+ 
 void	init_camera(t_camera *camera)
 {
 	double	defocus_radius;
@@ -75,7 +73,10 @@ void	init_camera(t_camera *camera)
 void	init_scene(t_scene *scene, char **argv)
 {
 	parse_file(scene, argv);
+	scene->mouse_mode = 0;
 	init_render(&scene->render);
+	scene->camera.lookfrom = vec3(278, 278, -800);
+	scene->camera.lookat = vec3(278, 278, 0);
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);
 	scene->objects = init_objects();

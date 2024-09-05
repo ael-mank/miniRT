@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 09:51:52 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/05 12:52:41 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:59:45 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int check_char(t_scene  *scene, char *line)
 {
 	if (*line == 'A' || *line == 'a')
 		return(parse_ambient(scene, line));
-	// else if (*line == 'C' || *line == 'c')
-	// 	return(parse_camera(scene, line));
+	else if (*line == 'C' || *line == 'c')
+		return(parse_camera(scene, line));
 	// else if (*line == 'L' || *line == 'l')
 	// 	//return(parse_light(scene, line));
 	// else if (*line == 's' && *(line + 1) == 'p')

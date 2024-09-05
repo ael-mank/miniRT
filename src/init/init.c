@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/04 14:59:02 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:02:14 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	init_scene(t_scene *scene, char **argv)
 	parse_file(scene, argv);
 	scene->mouse_mode = 0;
 	init_render(&scene->render);
-	scene->camera.lookfrom = vec3(278, 278, -800);
-	scene->camera.lookat = vec3(278, 278, 0);
+	//scene->camera.lookfrom = vec3(278, 278, -800);
+	//scene->camera.lookat = vec3(278, 278, 0);
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);
 	scene->objects = init_objects();

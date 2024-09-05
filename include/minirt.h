@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/05 11:59:33 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:02:46 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int					keys_handler(int key_code, t_scene *scene);
 // Initialization
 void				parse_file(t_scene *scene, char **argv);
 int					parse_ambient(t_scene *scene, char *line);
+int	parse_camera(t_scene *scene, char *line);
 void				init_camera(t_camera *camera);
 t_object			*init_objects(void);
 t_material			*create_material(t_material_type type);

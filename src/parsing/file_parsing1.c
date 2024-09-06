@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 09:51:52 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/05 13:59:45 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/07 00:22:05 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	open_map(t_scene *scene, char *path)
 	if (path_len < 3)
 		return (0);
 	if (ft_strncmp(&path[path_len - 3], ".rt", ft_strlen(&path[path_len
-					- 4])) != 0)
+				- 4])) != 0)
 		return (0);
 	scene->file_fd = open(path, O_RDONLY);
 	if (scene->file_fd < 0)
@@ -28,48 +28,40 @@ int	open_map(t_scene *scene, char *path)
 	return (1);
 }
 
-int fill_lst(t_scene *scene)
+int	fill_lst(t_scene *scene)
 {
-    char *line;
-    int empty = 1;
+	char	*line;
+	int		empty;
 
-    while ((line = get_next_line(scene->file_fd)) != NULL)
-    {
-        printf("line from gnl = %s\n", line);
-
-        // Skip empty lines
-        if (*line == '\0')
-        {
-            free(line);
-            continue;
-        }
-
-        // Add line to the list
-        if (scene->lst_map == NULL)
-            scene->lst_map = ft_lstnew(line);
-        else
-            ft_lstadd_back(&scene->lst_map, ft_lstnew(line));
-
-        empty = 0;
-    }
-
-    // If the file was empty, return 0
-    if (empty)
-        return 0;
-
-    return 1;
+	empty = 1;
+	while ((line = get_next_line(scene->file_fd)) != NULL)
+	{
+		if (*line == '\0')
+		{
+			free(line);
+			continue ;
+		}
+		if (scene->lst_map == NULL)
+			scene->lst_map = ft_lstnew(line);
+		else
+			ft_lstadd_back(&scene->lst_map, ft_lstnew(line));
+		empty = 0;
+	}
+	if (empty)
+		return (0);
+	return (1);
 }
 
-int check_char(t_scene  *scene, char *line)
+int	check_char(t_scene *scene, char *line)
 {
 	if (*line == 'A' || *line == 'a')
-		return(parse_ambient(scene, line));
+		return (parse_ambient(scene, line));
 	else if (*line == 'C' || *line == 'c')
-		return(parse_camera(scene, line));
-	// else if (*line == 'L' || *line == 'l')
-	// 	//return(parse_light(scene, line));
-	// else if (*line == 's' && *(line + 1) == 'p')
-	// 	//return(parse_sphere(scene, line));
+		return (parse_camera(scene, line));
+	else if (*line == 'L' || *line == 'l')
+		return(parse_light(scene, line));
+	else if (*line == 's' && *(line + 1) == 'p')
+		return(parse_sphere(scene, line));
 	// else if (*line == 'p' && *(line + 1) == 'l')
 	// 	//return(parse_plane(scene, line));
 	// else if (*line == 's' && *(line + 1) == 'q')
@@ -84,7 +76,7 @@ int check_char(t_scene  *scene, char *line)
 		return (0);
 }
 
-int parse_lst(t_scene *scene)
+int	parse_lst(t_scene *scene)
 {
 	t_list	*tmp;
 	char	*line;
@@ -93,16 +85,16 @@ int parse_lst(t_scene *scene)
 	while (tmp)
 	{
 		line = tmp->content;
-		while(ft_isspace(*line))
+		while (ft_isspace(*line))
 			line++;
-		if (!check_char(scene, line))
+		if (!check_char(scene, line) && *line != '\n' && *line != '\0')
 			return (0);
 		tmp = tmp->next;
 	}
 	return (1);
 }
 
-void print_lst(t_scene *scene)
+void	print_lst(t_scene *scene)
 {
 	t_list	*tmp;
 
@@ -114,7 +106,7 @@ void print_lst(t_scene *scene)
 	}
 }
 
-void parse_file(t_scene *scene, char **argv)
+void	parse_file(t_scene *scene, char **argv)
 {
 	if (!open_map(scene, argv[1]))
 		ft_error(scene, "Unable to open scene file.");

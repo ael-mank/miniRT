@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:20:49 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/05 14:08:09 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/07 00:38:49 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	get_color(int *r, int *g, int *b, char *line)
 	line++;
 	if (!get_val(b, &line))
 		return (0);
-	while (ft_isspace(*line))
-		line++;
-	if (*line != '\0')
-		return (0);
+	// while (ft_isspace(*line))
+	// 	line++;
+	// if (*line != '\0')
+	// 	return (0);
 	return (1);
 }
 
@@ -140,7 +140,7 @@ int	parse_camera(t_scene *scene, char *line)
 
 	// Set camera parameters
 	scene->camera.lookfrom = position;
-	scene->camera.lookat = vec3(278, 278, 0);
+	scene->camera.lookat = vec3(278, 0, 0);
 	scene->camera.v_up = orientation;
 	scene->camera.fov = fov;
 

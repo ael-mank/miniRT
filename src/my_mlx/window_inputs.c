@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:55:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/04 05:22:43 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/06 23:47:53 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	moove_right(t_scene *scene)
 	// mlx_clear_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr);
 	// Move the camera to the right by a fixed amount
 	scene->camera.lookfrom.x += 100.0;
-	//scene->camera.lookat.x += 100.0;
+	scene->camera.lookat.x += 100.0;
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);
 	render_scene(scene);
@@ -28,7 +28,7 @@ void	moove_left(t_scene *scene)
 	// Move the camera to the left by a fixed amount
 	mlx_clear_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr);
 	scene->camera.lookfrom.x -= 100.0;
-	//scene->camera.lookat.x -= 100.0;
+	scene->camera.lookat.x -= 100.0;
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);
 	render_scene(scene);
@@ -39,7 +39,7 @@ void	moove_forward(t_scene *scene)
 	// Move the camera forward by a fixed amount
 	mlx_clear_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr);
 	scene->camera.lookfrom.z += 100.0;
-	//scene->camera.lookat.z += 100.0;
+	scene->camera.lookat.z += 100.0;
 	printf("forward\n");
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);
@@ -51,7 +51,7 @@ void	moove_backwards(t_scene *scene)
 	// Move the camera backwards by a fixed amount
 	mlx_clear_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr);
 	scene->camera.lookfrom.z -= 100.0;
-	//scene->camera.lookat.z -= 100.0;
+	scene->camera.lookat.z -= 100.0;
 	printf("backwards\n");
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);

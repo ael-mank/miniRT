@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/05 14:02:46 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/07 00:26:55 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,15 @@ typedef struct s_render_info
 	int				j;
 }					t_render_info;
 
+typedef struct s_point_light t_point_light;
+
+typedef struct s_point_light {
+    t_vec3 position;
+    t_vec3 color;
+    double intensity;
+	t_point_light *next;
+} t_point_light;
+
 typedef struct s_scene
 {
 	t_mlx			mlx;
@@ -84,6 +93,8 @@ typedef struct s_scene
 	t_object		*objects;
 	t_bvh			*bvh;
 	t_vec3			bg_color;
+	t_point_light *lights;
+    int num_lights;
 	t_render_info	rdr;
 	int				file_fd;
 	t_list			*lst_map;
@@ -100,9 +111,12 @@ int					ft_exit(t_scene *scene);
 int					keys_handler(int key_code, t_scene *scene);
 
 // Initialization
+void add_light(t_scene *scene, t_vec3 position, t_vec3 color, double intensity);
 void				parse_file(t_scene *scene, char **argv);
 int					parse_ambient(t_scene *scene, char *line);
 int	parse_camera(t_scene *scene, char *line);
+int	parse_light(t_scene *scene, char *line);
+int	parse_sphere(t_scene *scene, char *line);
 void				init_camera(t_camera *camera);
 t_object			*init_objects(void);
 t_material			*create_material(t_material_type type);
@@ -121,5 +135,7 @@ double				ft_fmin(double a, double b);
 double				rand_double(double min, double max);
 double				random_double(void);
 void	ft_error(t_scene *scene, char *msg);
+int parse_vector(t_vec3 *vec, char **line);
+int	get_color(int *r, int *g, int *b, char *line);
 
 #endif

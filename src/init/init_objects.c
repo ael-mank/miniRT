@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:33:28 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/04 14:59:59 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/06 23:38:48 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,27 +100,27 @@ t_object	*init_objects(void)
 {
     t_object	*head;
     t_quad		*quad;
-    t_sphere	*sphere;
-	t_triangle	*triangle;
+    // t_sphere	*sphere;
+	// t_triangle	*triangle;
 
     head = NULL;
 
     // Quads
-    quad = create_quad((t_point3){555, 0, 0}, (t_vec3){0, 555, 0}, (t_vec3){0, 0, 555}, MATTE, (t_vec3){0.12, 0.45, 0.15});
-    head = add_quad(head, quad);
+    // quad = create_quad((t_point3){555, 0, 0}, (t_vec3){0, 555, 0}, (t_vec3){0, 0, 555}, MATTE, (t_vec3){0.12, 0.45, 0.15});
+    // head = add_quad(head, quad);
 
-    quad = create_quad((t_point3){0, 0, 0}, (t_vec3){0, 555, 0}, (t_vec3){0, 0, 555}, MATTE, (t_vec3){0.65, 0.05, 0.05});
-    head = add_quad(head, quad);
+    // quad = create_quad((t_point3){0, 0, 0}, (t_vec3){0, 555, 0}, (t_vec3){0, 0, 555}, MATTE, (t_vec3){0.65, 0.05, 0.05});
+    // head = add_quad(head, quad);
 
 	// Spotlight
-	quad = create_quad((t_point3){343, 554, 332}, (t_vec3){-130, 0, 0}, (t_vec3){0, 0, 150}, LIGHT, (t_vec3){17, 17, 17});
-	head = add_quad(head, quad);
+	// quad = create_quad((t_point3){343, 554, 332}, (t_vec3){-130, 0, 0}, (t_vec3){0, 0, 150}, LIGHT, (t_vec3){17, 17, 17});
+	// head = add_quad(head, quad);
 	
-	quad = create_quad((t_point3){0, 0, 0}, (t_vec3){555, 0, 0}, (t_vec3){0, 0, 555}, MATTE, (t_vec3){0.73, 0.73, 0.73});
+	quad = create_quad((t_point3){0, 0, 0}, (t_vec3){2500, 0, 0}, (t_vec3){0, 0, 2500}, MATTE, (t_vec3){1, 1, 1});
     head = add_quad(head, quad);
 
-    quad = create_quad((t_point3){0, 555, 0}, (t_vec3){555, 0, 0}, (t_vec3){0, 0, 555}, MATTE, (t_vec3){0.73, 0.73, 0.73});
-    head = add_quad(head, quad);
+    // quad = create_quad((t_point3){0, 555, 0}, (t_vec3){555, 0, 0}, (t_vec3){0, 0, 555}, MATTE, (t_vec3){0.73, 0.73, 0.73});
+    // head = add_quad(head, quad);
 
     // quad = create_quad((t_point3){0, 0, 555}, (t_vec3){555, 0, 0}, (t_vec3){0, 555, 0}, MATTE, (t_vec3){0.73, 0.73, 0.73});
     // head = add_quad(head, quad);
@@ -129,24 +129,24 @@ t_object	*init_objects(void)
     // quad = create_quad((t_point3){0, 0, 0}, (t_vec3){555, 0, 0}, (t_vec3){0, 555, 0}, INVISIBLE, (t_vec3){0, 1, 0});
     // head = add_quad(head, quad);
     
-    sphere = create_sphere((t_point3){150, 100, 265}, 100, GLOBE, (t_vec3){0.7, 0.7, 0.7});
-    head = add_sphere(head, sphere);
+    // sphere = create_sphere((t_point3){150, 100, 265}, 100, GLOBE, (t_vec3){0, 0, 0});
+    // head = add_sphere(head, sphere);
 
 	// sphere = create_sphere((t_point3){400, 100, 400}, 100, METAL, (t_vec3){1, 1, 1});
 	// head = add_sphere(head, sphere);
 
 	// Box
-	head = make_box(head, (t_point3){390, 150, 350}, 150, LIGHT, (t_vec3){3, 3, 3});
+	// head = make_box(head, (t_point3){390, 150, 350}, 150, MATTE, (t_vec3){3, 3, 3});
 
 	// Triangle on top in the middle 
-triangle = create_triangle(
-    (t_point3){150, 300, 100},  // Top vertex (height of 200 units above y = 200)
-    (t_point3){100, 200, 150},  // Bottom left vertex (base length of 100 units)
-    (t_point3){200, 200, 250},  // Bottom right vertex (base length of 100 units)
-    MATTE, 
-    (t_vec3){0, 1, 0.73}
-);
+// triangle = create_triangle(
+//     (t_point3){150, 300, 100},  // Top vertex (height of 200 units above y = 200)
+//     (t_point3){100, 200, 150},  // Bottom left vertex (base length of 100 units)
+//     (t_point3){200, 200, 250},  // Bottom right vertex (base length of 100 units)
+//     MATTE, 
+//     (t_vec3){0, 1, 0.73}
+// );
 
-head = add_triangle(head, triangle);
+// head = add_triangle(head, triangle);
     return head;
 }

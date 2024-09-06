@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/05 14:02:14 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/07 00:23:50 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	init_viewport(t_camera *camera, t_render *render)
 			render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 			render->image_height);
-	camera->samples_per_pixel = 2;
-	camera->max_depth = 25;
+	camera->samples_per_pixel = 1;
+	camera->max_depth = 55;
 }
  
 void	init_camera(t_camera *camera)
@@ -70,8 +70,24 @@ void	init_camera(t_camera *camera)
 		* (camera->pixel_delta_u.z + camera->pixel_delta_v.z);
 }
 
+
+void add_light(t_scene *scene, t_vec3 position, t_vec3 color, double intensity)
+{
+	t_point_light *new_light = malloc(sizeof(t_point_light));
+	new_light->position = position;
+	new_light->color = color;
+	new_light->intensity = intensity;
+	new_light->next = scene->lights;
+	scene->lights = new_light;
+	scene->num_lights++;
+}
+
+
 void	init_scene(t_scene *scene, char **argv)
 {
+	scene->num_lights = 0;
+	scene->objects = NULL;
+	//add_light(scene, vec3(278, 278, -800), vec3(1, 0, 0), 1);
 	parse_file(scene, argv);
 	scene->mouse_mode = 0;
 	init_render(&scene->render);
@@ -79,7 +95,6 @@ void	init_scene(t_scene *scene, char **argv)
 	//scene->camera.lookat = vec3(278, 278, 0);
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);
-	scene->objects = init_objects();
 	scene->bvh = create_bvh_node(scene->objects);
 	//print_bvh_tree(scene->bvh, 0);
 }

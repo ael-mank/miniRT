@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/05 12:12:36 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/06 21:56:20 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,20 @@ void	free_bvh_tree(t_bvh *node)
 	free(node);
 }
 
+void free_ligts(t_point_light *lights)
+{
+	t_point_light *current;
+	t_point_light *next;
+
+	current = lights;
+	while (current)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
+}
+
 int	ft_exit(t_scene *scene)
 {
 	t_mlx	*mlx;
@@ -102,6 +116,7 @@ int	ft_exit(t_scene *scene)
 		mlx_destroy_display(mlx->mlx_ptr);
 		free(mlx->mlx_ptr);
 	}
+	free_ligts(scene->lights);
 	ft_lstclear(&scene->lst_map, free);
 	printf("\033[1;32mSuccessfuly left miniRT.\033[0m\n");
 	exit(0);

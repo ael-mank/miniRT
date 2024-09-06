@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/05 12:00:52 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/06 23:53:55 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,61 @@
 
 #define EPSILON 1e-4
 
-t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh, t_scene *scene)
-{
-	t_hitrecord	rec;
-	// t_vec3		unit_direction;
-	t_vec3		attenuation;
-	// double		t;
-	t_ray		scattered;
+#include "minirt.h"
 
-	if (depth <= 0)
-		return (vec3(0, 0, 0));
-	if (!bvh_hit(bvh, *r, universe_interval, &rec))
-		return scene->bg_color;
-	if (!rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
-		return rec.mat->emission(rec.mat, &rec);
-	t_vec3 color_from_scatter = vector_multiply(attenuation,
-			ray_color(&scattered, depth - 1, bvh, scene));
-	return (vector_add(color_from_scatter, rec.mat->emission(rec.mat, &rec)));
+t_vec3 calculate_lighting(t_hitrecord *rec, t_scene *scene) {
+    t_vec3 final_color = vec3(0, 0, 0);
+    t_vec3 material_color = rec->mat->texture(rec->mat, rec); // Get the material color
+
+    t_point_light *light = scene->lights;
+    while (light != NULL) {
+        t_vec3 light_dir = vector_subtract(light->position, rec->p);
+        double light_distance = vector_length(light_dir);
+        light_dir = vector_normalize(light_dir);
+
+        // Check if the light is visible
+        t_ray shadow_ray = {rec->p, light_dir};
+        t_hitrecord shadow_rec;
+        if (bvh_hit(scene->bvh, shadow_ray, (t_interval){0.001, light_distance}, &shadow_rec)) {
+            light = light->next;
+            continue; // Light is blocked
+        }
+
+        // Diffuse lighting
+        double diff = fmax(0.0, dot(rec->normal, light_dir));
+        t_vec3 diffuse = vector_scale(vector_multiply(material_color, light->color), diff * light->intensity);
+
+        // Add to final color
+        final_color = vector_add(final_color, diffuse);
+
+        // Move to the next light
+        light = light->next;
+    }
+
+    // Make the final color brighter
+    final_color = vector_scale(final_color, 1.5); // Adjust the scale factor as needed
+
+    return final_color;
+}
+
+t_vec3 ray_color(t_ray *r, int depth, t_bvh *bvh, t_scene *scene) {
+    t_hitrecord rec;
+    t_vec3 attenuation;
+    t_ray scattered;
+
+    if (depth <= 0)
+        return vec3(0, 0, 0);
+    if (!bvh_hit(bvh, *r, universe_interval, &rec))
+        return scene->bg_color;
+    if (!rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
+        return rec.mat->emission(rec.mat, &rec);
+
+    t_vec3 color_from_scatter = vector_multiply(attenuation,
+            ray_color(&scattered, depth - 1, bvh, scene));
+    t_vec3 emission = rec.mat->emission(rec.mat, &rec);
+    t_vec3 lighting = calculate_lighting(&rec, scene);
+
+    return vector_add(vector_add(color_from_scatter, emission), lighting);
 }
 
 // t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)

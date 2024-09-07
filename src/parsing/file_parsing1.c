@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 09:51:52 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/07 00:22:05 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/07 13:13:29 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	open_map(t_scene *scene, char *path)
 	if (path_len < 3)
 		return (0);
 	if (ft_strncmp(&path[path_len - 3], ".rt", ft_strlen(&path[path_len
-				- 4])) != 0)
+					- 4])) != 0)
 		return (0);
 	scene->file_fd = open(path, O_RDONLY);
 	if (scene->file_fd < 0)
@@ -62,8 +62,8 @@ int	check_char(t_scene *scene, char *line)
 		return(parse_light(scene, line));
 	else if (*line == 's' && *(line + 1) == 'p')
 		return(parse_sphere(scene, line));
-	// else if (*line == 'p' && *(line + 1) == 'l')
-	// 	//return(parse_plane(scene, line));
+	else if (*line == 'p' && *(line + 1) == 'l')
+		return(parse_plane(scene, line));
 	// else if (*line == 's' && *(line + 1) == 'q')
 	// 	//return(parse_square(scene, line));
 	// else if (*line == 'c' && *(line + 1) == 'y')

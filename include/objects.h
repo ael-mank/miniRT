@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/06 16:28:25 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/07 16:02:38 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ double hit_triangle_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord
 t_sphere *create_sphere(t_point3 center, double radius, t_material_type type, t_vec3 color);
 t_object *add_sphere(t_object *head, t_sphere *sphere);
 
-t_quad	*create_quad(t_point3 start, t_vec3 u, t_vec3 v, t_material_type type, t_vec3 color);
+t_quad *create_quad(t_point3 start, t_vec3 normal, t_material_type type, t_vec3 color);
 t_object	*add_quad(t_object *head, t_quad *quad);
 
 t_object *add_triangle(t_object *head, t_triangle *triangle);

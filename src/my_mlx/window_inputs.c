@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:55:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/06 23:47:53 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/07 15:03:38 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	moove_up(t_scene *scene)
 	// Move the camera up by a fixed amount
 	mlx_clear_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr);
 	scene->camera.lookfrom.y += 100.0;
-	//scene->camera.lookat.y += 100.0;
+	scene->camera.lookat.y += 100.0;
 	printf("up\n");
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);
@@ -75,7 +75,7 @@ void	moove_down(t_scene *scene)
 	// Move the camera down by a fixed amount
 	mlx_clear_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr);
 	scene->camera.lookfrom.y -= 100.0;
-	//scene->camera.lookat.y -= 100.0;
+	scene->camera.lookat.y -= 100.0;
 	printf("down\n");
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);

@@ -11,7 +11,7 @@ SRC_FILES = main \
 			memory/ft_exit \
 			vectors/vectors vectors/ray \
 			parsing/file_parsing1 parsing/file_parsing2\
-			parsing/file_parsing3 \
+			parsing/file_parsing3 parsing/file_parsing4\
 			init/init_mlx init/init init/init_objects\
 			init/init_sphere init/init_quad init/init_triangle\
 			init/make_mat init/init_bvh\

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 14:25:17 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/07 12:13:03 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_sphere	*create_sphere(t_point3 center, double radius, t_material_type type,
 {
 	t_sphere	*sphere;
 	t_material	*mat;
-
+	printf("Creating sphere at %f %f %f\n", center.x, center.y, center.z);
 	sphere = malloc(sizeof(t_sphere));
 	if (!sphere)
 		return (NULL);

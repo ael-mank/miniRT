@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/29 18:16:45 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/09 17:10:04 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,29 @@ t_ray	init_ray(t_cam c, t_point3 pixel)
 void	cast_ray(t_ray *ray, t_scene *scene)
 {
 	intersect_sphere(ray, scene->c, &scene->sp);
+	if (ray->hit_object == FALSE_HIT)
+		return ;
 	intersect_plane(ray, scene->c, &scene->pl);
 	intersect_cylinder_front(ray, scene->c, &scene->cy);
 	intersect_cylinder_back(ray, scene->c, &scene->cy);
+}
+
+void	solve_equation(t_root *res, double a, double b, double c)
+{
+	res->delta = b * b - 4 * a * c;
+	if (res->delta < 0)
+		res->hit = NO_HIT;
+	else
+	{
+		res->root1 = (-b - sqrt(res->delta)) / (2 * a);
+		res->root2 = (-b + sqrt(res->delta)) / (2 * a);
+		if (res->root2 < 0.0)
+			res->hit = NO_HIT;
+		else if (res->root1 > 1.0)
+			res->hit = TRUE_HIT;
+		else
+			res->hit = FALSE_HIT;
+	}
 }
 
 void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
@@ -60,23 +80,22 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 	double	a;
 	double	b;
 	double	c;
-	double	first_root;
+	t_root	res;
 
 	a = dot_product(ray->dir, ray->dir);
 	b = -2 * dot_product(ray->dir, vector_subtract(sp->center, ray->org));
 	c = dot_product(vector_subtract(sp->center, ray->org), vector_subtract(sp->center, ray->org)) - pow(sp->radius, 2);
-	if (b * b - 4 * a * c >= 0)
+	solve_equation(&res, a, b, c);
+	if (res.hit == TRUE_HIT)
 	{
-		first_root = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
-		if (first_root > 1)
-		{
-			ray->hit_object = true;
-			ray->object_type = SPHERE;
-			ray->object = sp;
-			ray->hit_distance = first_root;
-			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, first_root));
-		}
+		ray->hit_object = TRUE_HIT;
+		ray->object_type = SPHERE;
+		ray->object = sp;
+		ray->hit_distance = res.root1;
+		ray->intersect = vector_add(cam.org, vector_scale(ray->dir, res.root1));
 	}
+	else if (res.hit == FALSE_HIT)
+		ray->hit_object = FALSE_HIT;
 }
 
 void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
@@ -94,7 +113,7 @@ void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 		root = cam_p0_dot_normal / ray_dot_normal;
 		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)))
 		{
-			ray->hit_object = true;
+			ray->hit_object = TRUE_HIT;
 			ray->object_type = PLANE;
 			ray->object = pl;
 			ray->hit_distance = root;
@@ -122,7 +141,7 @@ void	intersect_cylinder_front(t_ray *ray, t_cam cam, t_cylinder *cy)
 		root = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
 		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)) && in_cylinder_limit(root, cam, ray, cy))
 		{
-			ray->hit_object = true;
+			ray->hit_object = TRUE_HIT;
 			ray->object_type = CYLINDER;
 			ray->object = cy;
 			ray->hit_distance = root;
@@ -150,7 +169,7 @@ void	intersect_cylinder_back(t_ray *ray, t_cam cam, t_cylinder *cy)
 		root = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
 		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)) && in_cylinder_limit(root, cam, ray, cy))
 		{
-			ray->hit_object = true;
+			ray->hit_object = TRUE_HIT;
 			ray->object_type = CYLINDER;
 			ray->object = cy;
 			ray->hit_distance = root;
@@ -178,13 +197,16 @@ t_color	ray_color(t_ray ray, t_scene scene)
 	t_color		res;
 
 	ambient = color_scale(scene.a.color, scene.a.ratio);
-	if (ray.hit_object)
+	if (ray.hit_object == TRUE_HIT)
 	{
 		from_obj = weighted_obj_color(&ray, ray.object, scene.l);
 		res = color_add(from_obj, ambient);
 		return (res);
 	}
-	return (ambient);
+	else if (ray.hit_object == FALSE_HIT)
+		return (color(0, 0, 0));
+	else
+		return (ambient);
 }
 
 t_color	weighted_obj_color(t_ray *ray, void *obj, t_light l)

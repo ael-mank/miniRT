@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/29 18:25:25 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/09 15:13:49 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_ray
 {
 	t_point3	org;
 	t_vec3		dir;
-	bool		hit_object;
+	int			hit_object;
 	t_obj_type	object_type;
 	void		*object;
 	double		hit_distance;
@@ -148,5 +148,13 @@ typedef struct s_win
 	int				render;
 }	t_win;
 
+typedef struct s_root
+{
+	double	delta;
+	// int		nb_roots;
+	int		hit;
+	double	root1;
+	double	root2;
+}	t_root;
 
 #endif

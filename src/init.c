@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:53:44 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/29 18:33:58 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/09 17:09:00 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_ambient	ambient_init()
 {
 	t_ambient	a;
 
-	a.color = color(50, 50, 200);
-	// a.color = color(255, 255, 255);
+	// a.color = color(50, 50, 200);
+	a.color = color(255, 0, 0);
 	a.ratio = 0.2;
 	return (a);
 }
@@ -85,6 +85,7 @@ t_cylinder	cylinder_init()
 
 	cy.center = vec3(0, -1, 20);
 	cy.axis = vec3(-0.2, 1, 0.2);
+	// cy.axis = vec3(0, 1, 0.2);
 	cy.radius = 20.0 / 2;
 	cy.height = 0.5;
 	cy.color = color(80, 0, 180);

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/29 18:16:59 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/09 15:12:12 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # define HEIGHT 600
 # define F_LENGTH 1.0
 # define PI 3.1415927
+# define NO_HIT 0
+# define TRUE_HIT 1
+# define FALSE_HIT -1
 # include "libft.h"
 # include "mlx.h"
 # include "struct.h"

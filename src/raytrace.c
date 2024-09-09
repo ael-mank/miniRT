@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/09 17:10:04 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/09 17:27:05 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_ray	init_ray(t_cam c, t_point3 pixel)
 
 	ray.org = c.org;
 	ray.dir = vector_subtract(pixel, c.org);
-	ray.hit_object = false;
+	ray.hit_object = NO_HIT;
 	ray.object_type = DEFAULT;
 	ray.object = NULL;
 	return (ray);
@@ -53,6 +53,8 @@ void	cast_ray(t_ray *ray, t_scene *scene)
 	if (ray->hit_object == FALSE_HIT)
 		return ;
 	intersect_plane(ray, scene->c, &scene->pl);
+	if (ray->hit_object == FALSE_HIT)
+		return ;
 	intersect_cylinder_front(ray, scene->c, &scene->cy);
 	intersect_cylinder_back(ray, scene->c, &scene->cy);
 }
@@ -119,6 +121,8 @@ void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 			ray->hit_distance = root;
 			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));
 		}
+		else if (root > 0 && root < 1)
+			ray->hit_object = FALSE_HIT;
 	}
 }
 
@@ -205,7 +209,7 @@ t_color	ray_color(t_ray ray, t_scene scene)
 	}
 	else if (ray.hit_object == FALSE_HIT)
 		return (color(0, 0, 0));
-	else
+	else // no hit
 		return (ambient);
 }
 

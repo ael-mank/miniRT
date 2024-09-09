@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:53:44 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/09 17:09:00 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/09 17:29:32 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_ambient	ambient_init()
 {
 	t_ambient	a;
 
-	// a.color = color(50, 50, 200);
-	a.color = color(255, 0, 0);
+	a.color = color(50, 50, 200);
+	// a.color = color(255, 0, 0);
 	a.ratio = 0.2;
 	return (a);
 }

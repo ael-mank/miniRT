@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/28 17:33:12 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/10 19:41:10 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,12 @@ void	scene_init(t_scene *scene)
 	scene->cy = cylinder_init();
 }
 
-int main(void)
+int main(int ac, char **av)
 {
 	t_win	win;
 	t_scene	scene;
 
+	parse_rt(&scene, ac, av);
 	scene_init(&scene);
 	win_init(&win, &scene);
 	mlx_loop_hook(win.mlx, calculate_image, &win);

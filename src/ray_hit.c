@@ -1,63 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raytrace.c                                         :+:      :+:    :+:   */
+/*   ray_hit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/09 17:27:05 by yrigny           ###   ########.fr       */
+/*   Created: 2024/09/10 19:12:32 by yrigny            #+#    #+#             */
+/*   Updated: 2024/09/10 19:12:33 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-unsigned int	calculate_pixel(int x, int y, t_scene scene)
-{
-	t_point3	pixel;
-	t_ray		ray;
-	t_color		color;
-
-	pixel = find_pixel_on_viewport(x, y, scene.v);
-	ray = init_ray(scene.c, pixel);
-	cast_ray(&ray, &scene);
-	color = ray_color(ray, scene);
-	return ((color.r << 16) + (color.g << 8) + color.b);
-}
-
-t_point3	find_pixel_on_viewport(int x, int y, t_viewport v)
-{
-	t_vec3		vec_delta;
-	t_point3	this_pixel;
-
-	vec_delta = vector_add(vector_scale(v.pixel_delta_u, x), vector_scale(v.pixel_delta_v, y));
-	this_pixel = vector_add(v.pixel00, vec_delta);
-	return (this_pixel);
-}
-
-t_ray	init_ray(t_cam c, t_point3 pixel)
-{
-	t_ray	ray;
-
-	ray.org = c.org;
-	ray.dir = vector_subtract(pixel, c.org);
-	ray.hit_object = NO_HIT;
-	ray.object_type = DEFAULT;
-	ray.object = NULL;
-	return (ray);
-}
-
-void	cast_ray(t_ray *ray, t_scene *scene)
-{
-	intersect_sphere(ray, scene->c, &scene->sp);
-	if (ray->hit_object == FALSE_HIT)
-		return ;
-	intersect_plane(ray, scene->c, &scene->pl);
-	if (ray->hit_object == FALSE_HIT)
-		return ;
-	intersect_cylinder_front(ray, scene->c, &scene->cy);
-	intersect_cylinder_back(ray, scene->c, &scene->cy);
-}
 
 void	solve_equation(t_root *res, double a, double b, double c)
 {
@@ -68,7 +21,7 @@ void	solve_equation(t_root *res, double a, double b, double c)
 	{
 		res->root1 = (-b - sqrt(res->delta)) / (2 * a);
 		res->root2 = (-b + sqrt(res->delta)) / (2 * a);
-		if (res->root2 < 0.0)
+		if (res->root2 < 1.0)
 			res->hit = NO_HIT;
 		else if (res->root1 > 1.0)
 			res->hit = TRUE_HIT;
@@ -97,7 +50,10 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 		ray->intersect = vector_add(cam.org, vector_scale(ray->dir, res.root1));
 	}
 	else if (res.hit == FALSE_HIT)
+	{
 		ray->hit_object = FALSE_HIT;
+		ray->object_type = SPHERE;
+	}
 }
 
 void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
@@ -121,8 +77,6 @@ void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 			ray->hit_distance = root;
 			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));
 		}
-		else if (root > 0 && root < 1)
-			ray->hit_object = FALSE_HIT;
 	}
 }
 
@@ -192,60 +146,4 @@ bool	in_cylinder_limit(double root, t_cam c, t_ray *ray, t_cylinder *cy)
 	if (pow(dot_product(p_center, cy->axis), 2) <= pow(cy->height / 2.0, 2))
 		return (true);
 	return (false);
-}
-
-t_color	ray_color(t_ray ray, t_scene scene)
-{
-	t_color		ambient;
-	t_color		from_obj;
-	t_color		res;
-
-	ambient = color_scale(scene.a.color, scene.a.ratio);
-	if (ray.hit_object == TRUE_HIT)
-	{
-		from_obj = weighted_obj_color(&ray, ray.object, scene.l);
-		res = color_add(from_obj, ambient);
-		return (res);
-	}
-	else if (ray.hit_object == FALSE_HIT)
-		return (color(0, 0, 0));
-	else // no hit
-		return (ambient);
-}
-
-t_color	weighted_obj_color(t_ray *ray, void *obj, t_light l)
-{
-	t_color	obj_color;
-	t_color	weighted;
-
-	if (ray->object_type == SPHERE)
-		obj_color = ((t_sphere *)obj)->color;
-	if (ray->object_type == PLANE)
-		obj_color = ((t_plane *)obj)->color;
-	if (ray->object_type == CYLINDER)
-		obj_color = ((t_cylinder *)obj)->color;
-	weighted = color_scale(obj_color, light_weight(ray, obj, l));
-	return (weighted);
-}
-
-double	light_weight(t_ray *ray, void *obj, t_light l)
-{
-	t_vec3	surface_normal;
-	t_vec3	temp[2];
-	double	light_weight;
-
-	if (ray->object_type == SPHERE)
-		surface_normal = vector_normalize(vector_subtract(ray->intersect, ((t_sphere *)obj)->center));
-	if (ray->object_type == PLANE)
-		surface_normal = vector_normalize(((t_plane *)obj)->normal);
-	if (ray->object_type == CYLINDER)
-	{
-		temp[0] = vector_subtract(ray->intersect, ((t_cylinder *)obj)->center);
-		temp[1] = vector_scale(((t_cylinder *)obj)->axis, dot_product(temp[0], ((t_cylinder *)obj)->axis));
-		surface_normal = vector_normalize(vector_add(temp[0], temp[1]));
-	}
- 	light_weight = dot_product(vector_normalize(vector_subtract(l.org, ray->intersect)), surface_normal);
-	if (light_weight < 0)
-		return (0);
-	return (light_weight);
 }

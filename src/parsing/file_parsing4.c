@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 14:35:01 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/07 15:42:47 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/08 10:48:08 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,31 +45,37 @@ int parse_color(int *r, int *g, int *b, char **line)
     return (1);
 }
 
-t_vec3 *get_u_v(t_vec3 diagonal, t_vec3 start) {
+t_vec3 *get_u_v(t_vec3 Q, t_vec3 diagonal) {
     t_vec3 *u_v = malloc(sizeof(t_vec3) * 2);
-    if (!u_v)
-        return NULL;
+    if (!u_v) return NULL;
 
-    // Calculate the u and v vectors from the diagonal vector
-    t_vec3 arbitrary = (fabs(diagonal.x) > 0.9) ? vec3(0, 1, 0) : vec3(1, 0, 0);
-    u_v[0] = cross_product(diagonal, arbitrary);
-    u_v[1] = cross_product(diagonal, u_v[0]);
-
-    // Normalize u and v vectors
-    u_v[0] = vector_normalize(u_v[0]);
-    u_v[1] = vector_normalize(u_v[1]);
-
-    // Scale u and v to match the diagonal's length
-    double diagonal_length = sqrt(diagonal.x * diagonal.x + diagonal.y * diagonal.y + diagonal.z * diagonal.z);
-    u_v[0] = vec3(u_v[0].x * diagonal_length, u_v[0].y * diagonal_length, u_v[0].z * diagonal_length);
-    u_v[1] = vec3(u_v[1].x * diagonal_length, u_v[1].y * diagonal_length, u_v[1].z * diagonal_length);
-
-    // Adjust u and v vectors to start from the start point
-    u_v[0] = vec3(start.x + u_v[0].x, start.y + u_v[0].y, start.z + u_v[0].z);
-    u_v[1] = vec3(start.x + u_v[1].x, start.y + u_v[1].y, start.z + u_v[1].z);
-
-    printf("u %f %f %f\n", u_v[0].x, u_v[0].y, u_v[0].z);
-    printf("v %f %f %f\n", u_v[1].x, u_v[1].y, u_v[1].z);
+    // Calculate the length of the diagonal
+    double diagonal_length = vector_length(diagonal);
+    
+    // Calculate the side length of the square
+    double side_length = diagonal_length / sqrt(2);
+    
+    // Create a unit vector in the direction of the diagonal
+    t_vec3 d_unit = vector_normalize(diagonal);
+    
+    // Create a perpendicular vector using cross product
+    t_vec3 ref = vec3(0, 0, 1);
+    if (fabs(d_unit.x) < 1e-6 && fabs(d_unit.y) < 1e-6 && fabs(fabs(d_unit.z) - 1) < 1e-6) {
+        ref = vec3(1, 0, 0);
+    }
+    (void)Q;
+    t_vec3 perp = cross_product(d_unit, ref);
+    t_vec3 perp_unit = vector_normalize(perp);
+    
+    // Calculate u and v vectors
+    t_vec3 u_dir = vector_add(d_unit, perp_unit);
+    t_vec3 v_dir = vector_subtract(d_unit, perp_unit);
+    
+    t_vec3 u = vector_scale(u_dir, side_length / sqrt(2));
+    t_vec3 v = vector_scale(v_dir, side_length / sqrt(2));
+    
+    u_v[0] = u;
+    u_v[1] = v;
 
     return u_v;
 }
@@ -89,7 +95,9 @@ int	parse_plane(t_scene *scene, char *line)
 	if (!parse_color(&r, &g, &b, &line))
 		return (0);
 	get_string(line, &type);
-	plane = create_quad(position, normale, get_type(type), vec3(r / 255.0, g / 255.0, b / 255.0));
+	// t_vec3 u = vec3(0, 0, 20);
+	// t_vec3 v = vec3(20, 0, 0);
+	plane = create_quad(position, get_u_v(position,normale)[0], get_u_v(position,normale)[1], get_type(type), (t_vec3){r / 255.0, g / 255.0, b / 255.0});
 	free(type);
 	scene->objects = add_quad(scene->objects, plane);
 	return (1);

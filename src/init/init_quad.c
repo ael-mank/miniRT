@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/28 20:24:57 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/08 10:30:19 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_quad	*create_quad(t_point3 start, t_vec3 u, t_vec3 v, t_material_type type, t_
 	t_quad	*quad;
 	t_material	*mat;
 
+	printf("u ==>%f %f %f\n", u.x, u.y, u.z);
+	printf("v ==>%f %f %f\n", v.x, v.y, v.z);
 	quad = malloc(sizeof(t_quad));
 	if (!quad)
 		return (NULL);
@@ -33,8 +35,11 @@ t_quad	*create_quad(t_point3 start, t_vec3 u, t_vec3 v, t_material_type type, t_
 	quad->v = v;
 	t_vec3 n = cross_product(u, v);
 	quad->normal = unit_vector(n);
+	printf("normal ==>%f %f %f\n", quad->normal.x, quad->normal.y, quad->normal.z);
 	quad->d = dot_product(quad->normal, start);
+	printf("d ==>%f\n", quad->d);
 	quad->w = vector_divide(n, dot_product(n, n));
+	printf("w ==>%f %f %f\n", quad->w.x, quad->w.y, quad->w.z);
 	return (quad);
 }
 

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/10 19:04:53 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/11 18:18:10 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,14 +129,14 @@ typedef struct s_img
 
 typedef struct s_scene
 {
-	t_ambient	a;
-	t_light		l;
-	t_cam		c;
+	t_ambient	*a;
+	t_light		*l;
+	t_cam		*c;
 	t_viewport	v;
 	t_list		*objs;
-	t_sphere	sp;
-	t_plane		pl;
-	t_cylinder	cy;
+	// t_sphere	sp;
+	// t_plane		pl;
+	// t_cylinder	cy;
 }	t_scene;
 
 typedef struct s_win

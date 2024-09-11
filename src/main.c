@@ -6,12 +6,12 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/10 19:41:10 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/11 18:32:32 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
+/*
 int	calculate_image(t_win *win)
 {
 	int		x;
@@ -60,30 +60,31 @@ void	win_init(t_win *win, t_scene *scene)
 			&win->img.line_length, &win->img.endian);
 	win->render = 1;
 }
-
-void	scene_init(t_scene *scene)
-{
-	scene->l = light_init();
-	scene->a = ambient_init();
-	scene->c = cam_init();
-	scene->v = viewport_init(scene->c);
-	scene->sp = sphere_init();
-	scene->pl = plane_init();
-	scene->cy = cylinder_init();
-}
+*/
+// void	scene_init(t_scene *scene)
+// {
+// 	scene->l = light_init();
+// 	scene->a = ambient_init();
+// 	scene->c = cam_init();
+// 	scene->v = viewport_init(scene->c);
+// 	scene->sp = sphere_init();
+// 	scene->pl = plane_init();
+// 	scene->cy = cylinder_init();
+// }
 
 int main(int ac, char **av)
 {
-	t_win	win;
+	// t_win	win;
 	t_scene	scene;
 
+	ft_bzero(&scene, sizeof(t_scene));
 	parse_rt(&scene, ac, av);
-	scene_init(&scene);
-	win_init(&win, &scene);
-	mlx_loop_hook(win.mlx, calculate_image, &win);
-	mlx_hook(win.mlx_win, 17, 1L << 5, win_close, &win);
-	mlx_hook(win.mlx_win, 2, 1L << 0, key_event, &win);
-	mlx_loop(win.mlx);
-	mlx_destroy_display(win.mlx);
-	free(win.mlx);
+	// scene_init(&scene);
+	// win_init(&win, &scene);
+	// mlx_loop_hook(win.mlx, calculate_image, &win);
+	// mlx_hook(win.mlx_win, 17, 1L << 5, win_close, &win);
+	// mlx_hook(win.mlx_win, 2, 1L << 0, key_event, &win);
+	// mlx_loop(win.mlx);
+	// mlx_destroy_display(win.mlx);
+	// free(win.mlx);
 }

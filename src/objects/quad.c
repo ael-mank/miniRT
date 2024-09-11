@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 05:18:49 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 14:24:40 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:53:31 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static inline int	is_interior(double a, double b, t_hitrecord *rec)
 	return 1;
 }
 
+
 static inline double	hit_quad(t_ray r, t_quad quad, t_interval ray_t, t_hitrecord *rec)
 {
     double		denom;
@@ -46,7 +47,6 @@ static inline double	hit_quad(t_ray r, t_quad quad, t_interval ray_t, t_hitrecor
     double		beta;
 
     denom = dot_product(quad.normal, r.dir);
-    // No hit if the ray is parallel to the plane.
     if (fabs(denom) < 1e-6)
     {
         return 0;
@@ -57,10 +57,13 @@ static inline double	hit_quad(t_ray r, t_quad quad, t_interval ray_t, t_hitrecor
     p = ray_at(&r, t);
     hitp_vec = vector_subtract(p, quad.start);
     alpha = dot_product(quad.w, cross_product(quad.u, hitp_vec));
-	beta = dot_product(quad.w, cross_product(hitp_vec, quad.v));
+    beta = dot_product(quad.w, cross_product(hitp_vec, quad.v));
+    
+    // Debugging print statements
+    printf("alpha: %f, beta: %f\n", alpha, beta);
+    
     if (!is_interior(alpha, beta, rec))
         return 0;
-    // Both conditions are satisfied, proceed with the hit
     rec->t = t;
     rec->p = p;
     rec->mat = quad.mat;

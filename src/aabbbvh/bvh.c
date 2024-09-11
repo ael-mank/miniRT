@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:28:31 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/06 15:10:07 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:54:31 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ static inline int	bvh_hit_node(t_bvh *node, t_ray r, t_interval ray_t, t_hitreco
 int	bvh_hit(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
 {
 	if (!node || !bvh_hit_check_box(node, r, ray_t))
+	{
+		
 		return (0);
+	}
 	return (bvh_hit_node(node, r, ray_t, rec));
 }

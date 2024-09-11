@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:20:49 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/07 15:10:15 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:17:03 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ int	parse_camera(t_scene *scene, char *line)
 	if (!parse_double(&fov, &line))
 		return (0);
 	scene->camera.lookfrom = position;
-	scene->camera.lookat = vec3(scene->camera.lookfrom.x, scene->camera.lookfrom.y, scene->camera.lookfrom.z + 100.0);
-	scene->camera.v_up = orientation;
+	scene->camera.lookat = orientation;
+	scene->camera.v_up = vec3(0, 1, 0);
 	scene->camera.fov = fov;
 	return (1);
 }

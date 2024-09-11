@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/08 10:30:19 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:57:31 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ t_quad	*create_quad(t_point3 start, t_vec3 u, t_vec3 v, t_material_type type, t_
 	return (quad);
 }
 
-// Function to add a quad to the object list
+
+
 t_object	*add_quad(t_object *head, t_quad *quad)
 {
 	t_object	*new_object;
@@ -64,6 +65,8 @@ t_object	*add_quad(t_object *head, t_quad *quad)
 	t_aabb bbox_diag1 = aabb_points(quad->start, vector_add(vector_add(quad->start, quad->u), quad->v));
 	t_aabb bbox_diag2 = aabb_points(vector_add(quad->start, quad->u), vector_add(quad->start, quad->v));
 	new_object->box = aabb_aabb(bbox_diag1, bbox_diag2);
+	printf("box min ==>%f %f %f\n", new_object->box.x.min, new_object->box.y.min, new_object->box.z.min);
+	printf("box max ==>%f %f %f\n", new_object->box.x.max, new_object->box.y.max, new_object->box.z.max);
 	//END ADD CREATE ABB
 	new_object->next = NULL;
 	return (add_object_end(head, new_object));

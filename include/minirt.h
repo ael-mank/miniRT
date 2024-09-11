@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/07 14:48:05 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:56:54 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int					keys_handler(int key_code, t_scene *scene);
 void add_light(t_scene *scene, t_vec3 position, t_vec3 color, double intensity);
 void				parse_file(t_scene *scene, char **argv);
 int					parse_ambient(t_scene *scene, char *line);
+int	parse_square(t_scene *scene, char *line);
 int	parse_plane(t_scene *scene, char *line);
 int	parse_camera(t_scene *scene, char *line);
 int	parse_double(double *value, char **line);

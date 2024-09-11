@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 14:35:01 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/08 10:48:08 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:36:07 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_vec3 *get_u_v(t_vec3 Q, t_vec3 diagonal) {
     return u_v;
 }
 
-int	parse_plane(t_scene *scene, char *line)
+int	parse_square(t_scene *scene, char *line)
 {
 	t_vec3		position;
 	t_vec3		normale;
@@ -97,8 +97,29 @@ int	parse_plane(t_scene *scene, char *line)
 	get_string(line, &type);
 	// t_vec3 u = vec3(0, 0, 20);
 	// t_vec3 v = vec3(20, 0, 0);
-	plane = create_quad(position, get_u_v(position,normale)[0], get_u_v(position,normale)[1], get_type(type), (t_vec3){r / 255.0, g / 255.0, b / 255.0});
+	plane =create_quad((t_point3){268,268,268}, (t_vec3){555, 0, 0}, (t_vec3){0, -555, 0}, MATTE, (t_vec3){0.73, 0, 0});
 	free(type);
 	scene->objects = add_quad(scene->objects, plane);
+	return (1);
+}
+
+int	parse_plane(t_scene *scene, char *line)
+{
+	t_vec3		position;
+	t_vec3		normale;
+	t_plane		*plane;
+	char		*type;
+
+	int			r, g, b;
+	if (!parse_position(&position, &line))
+		return (0);
+	if (!parse_vector(&normale, &line))
+		return (0);
+	if (!parse_color(&r, &g, &b, &line))
+		return (0);
+	get_string(line, &type);
+	plane = create_plane(position, normale, get_type(type), vec3(r/255.0, g/255.0, b/255.0));
+	free(type);
+	scene->objects = add_plane(scene->objects, plane);
 	return (1);
 }

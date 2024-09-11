@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/08 10:50:34 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:46:35 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_viewport(t_camera *camera, t_render *render)
 	double	h;
 
 	//camera->v_up = vec3(0, 1, 0);
-	camera->fov = 40;
+	//camera->fov = 40;
 	camera->defocus_angle = 0;
 	camera->focus_dist = 10;
 	camera->theta = deg_to_rad(camera->fov);
@@ -44,7 +44,7 @@ void	init_viewport(t_camera *camera, t_render *render)
 			render->image_width);
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 			render->image_height);
-	camera->samples_per_pixel = 2;
+	camera->samples_per_pixel = 1;
 	camera->max_depth = 55;
 }
  

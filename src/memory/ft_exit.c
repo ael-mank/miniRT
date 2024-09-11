@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/06 21:56:20 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:53:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,21 @@
 // 	}
 // }
 //TODO : GIVE EACH OBJECT A FREE FUNCTION
+
+void	free_plane(t_bvh *node)
+{
+	t_plane	*plane;
+
+	plane = (t_plane *)node->object->object;
+	if (plane->mat->img != NULL)
+	{
+		mlx_destroy_image(get_mlx_ptr(), plane->mat->img->image);
+		free(plane->mat->img);
+	}
+	if (plane->mat != NULL)
+		free(plane->mat);
+	free(plane);
+}
 
 void	free_triangle(t_bvh *node)
 {

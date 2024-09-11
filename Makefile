@@ -14,11 +14,13 @@ SRC_FILES = main \
 			parsing/file_parsing3 parsing/file_parsing4\
 			init/init_mlx init/init init/init_objects\
 			init/init_sphere init/init_quad init/init_triangle\
+			init/init_plane \
 			init/make_mat init/init_bvh\
 			render/render \
 			interval/interval \
 			utility/utility utility/ft_err\
 			objects/sphere objects/quad objects/triangle \
+			objects/plane \
 			materials/materials materials/color_val \
 			materials/lights \
 			aabbbvh/aabb aabbbvh/bvh aabbbvh/bvh_comp aabbbvh/bvh_comp2 \

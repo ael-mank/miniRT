@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:02:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/21 10:41:25 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:15:16 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 /* Define a universe interval with min set to 0.001 and max set to infinity */
 # define universe_interval (t_interval){0.001, INFINITY}
+
+# define infnite_interval (t_interval){-INFINITY, INFINITY}
 
 typedef struct s_interval
 {

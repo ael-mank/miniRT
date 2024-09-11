@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/08 10:20:06 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:54:39 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,14 @@ typedef struct s_quad {
 	t_vec3 w;
 } t_quad;
 
+typedef struct s_plane
+{
+    t_point3    point;      // A point on the plane
+    t_vec3      normal;     // The normal vector of the plane
+    double      d;          // The plane constant in the plane equation
+    t_material  *mat;       // Material of the plane
+}               t_plane;
+
 typedef struct s_triangle {
     t_point3 v0;        // First vertex of the triangle
     t_point3 v1;        // Second vertex of the triangle
@@ -110,6 +118,7 @@ double	hit_quad_wrapper(t_ray r, void *object, t_interval ray_t,
 double	hit_sphere_wrapper(t_ray r, void *object, t_interval ray_t,
 		t_hitrecord *rec);
 double hit_triangle_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord *rec);
+double	hit_plane_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord *rec);
 
 // Creation functions for objects
 t_sphere *create_sphere(t_point3 center, double radius, t_material_type type, t_vec3 color);
@@ -120,6 +129,9 @@ t_object	*add_quad(t_object *head, t_quad *quad);
 
 t_object *add_triangle(t_object *head, t_triangle *triangle);
 t_triangle *create_triangle(t_point3 v0, t_point3 v1, t_point3 v2, t_material_type type, t_vec3 color);
+
+t_plane	*create_plane(t_point3 point, t_vec3 normal, t_material_type type, t_vec3 color);
+t_object	*add_plane(t_object *head, t_plane *plane);
 
 // Texture functions
 t_vec3 solid_color(t_material *mat, t_hitrecord *rec);
@@ -135,5 +147,6 @@ t_vec3 diffuse_light(t_material *mat, t_hitrecord *rec);
 void free_sphere(t_bvh *node);
 void free_quad(t_bvh *node);
 void free_triangle(t_bvh *node);
+void free_plane(t_bvh *node);
 
 #endif

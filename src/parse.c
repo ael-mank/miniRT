@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:13:52 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/11 20:41:13 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/11 23:33:24 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,20 @@ bool	parse_element(t_scene *scene, char *line)
 	if (!ft_strncmp(line, "cy ", 3))
 		return (parse_and_add_cylinder(++line, scene));
 	else
+	{
+		ft_putstr_fd("Error: Wrong type of element.\n", 2);
 		return (false);
+	}
 }
 
 bool	parse_and_add_ambient(char *line, t_scene *scene)
 {
+	printf("Ambient light | ");
 	if (scene->a != NULL)
 	{
 		ft_putstr_fd("Error: Ambient light can only be declared once.\n", 2);
 		return (false);
 	}
-	while (ft_isspace(*line))
-		line++;
 	// printf("+++%s\n", line);
 	if (!parse_ratio(&line, &scene->a->ratio))
 	{
@@ -75,8 +77,6 @@ bool	parse_and_add_ambient(char *line, t_scene *scene)
 		ft_printf("Ambient light must have a ratio in range [0.0,1.0]\n", 1);
 		return (false);
 	}
-	while (ft_isspace(*line))
-		line++;
 	// printf("---%s\n", line);
 	if (!parse_color(&line, &scene->a->color))
 	{
@@ -87,7 +87,10 @@ bool	parse_and_add_ambient(char *line, t_scene *scene)
 	while (ft_isspace(*line))
 		line++;
 	if (*line == '\0')
+	{
+		printf("\n");
 		return (true);
+	}
 }
 
 bool	parse_ratio(char **line, double *ratio)
@@ -96,7 +99,8 @@ bool	parse_ratio(char **line, double *ratio)
 	int		i;
 	float	f;
 
-	(void)ratio;
+	while (ft_isspace(**line))
+		(*line)++;
 	tmp = *line;
 	if (*tmp == '\0')
 		return (false);
@@ -112,6 +116,7 @@ bool	parse_ratio(char **line, double *ratio)
 	if (f < 0.0 || f > 1.0)
 		return (false);
 	*ratio = f;
+	printf("Ratio: %f ", f);
 	free(tmp);
 	*line += i;
 	return (true);
@@ -119,5 +124,21 @@ bool	parse_ratio(char **line, double *ratio)
 
 bool	parse_color(char **line, t_color *color)
 {
-	
+	char	*tmp;
+	int		i;
+	int		rgb[3];
+
+	while (ft_isspace(**line))
+		(*line)++;
+	tmp = *line;
+	if (*tmp == '\0')
+		return (false);
+	i = 0;
+	while (!ft_isspace(tmp[i]))
+		i++;
+	tmp = malloc(i + 1);
+	ft_strlcpy(tmp, *line, i + 1);
+	if (!is_rgb_format(tmp))
+		return (false);
+	rgb = ft_atorgb(tmp);
 }

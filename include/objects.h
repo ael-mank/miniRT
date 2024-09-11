@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/28 20:30:22 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:33:21 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,15 @@ typedef struct s_triangle {
     double d;           // Plane constant for the triangle's plane equation
     t_material *mat;    // Material of the triangle
 } t_triangle;
+
+typedef struct s_cylinder
+{
+	t_point3	center;
+	t_vec3		axis;
+	double		radius;
+	double		height;
+	t_vec3		color;
+}	t_cylinder;
 
 // Object structure
 typedef struct s_object {

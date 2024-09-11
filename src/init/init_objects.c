@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objects.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:33:28 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/28 20:49:49 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:01:50 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_object	*init_objects(void)
     t_quad		*quad;
     t_sphere	*sphere;
 	t_triangle	*triangle;
+	t_cylinder	*cylinder;
 
     head = NULL;
 
@@ -149,4 +150,10 @@ triangle = create_triangle(
 
 head = add_triangle(head, triangle);
     return head;
+
+	cylinder = malloc(sizeof(t_cylinder));
+	if (!cylinder)
+		return (NULL);
+	*cylinder = cylinder_init();
+	head = add_cylinder(head, cylinder);
 }

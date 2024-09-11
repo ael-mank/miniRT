@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/30 09:57:24 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:40:37 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void				init_mlx(t_scene *scene, int win_width, int win_height);
 void				init_render(t_render *render);
 void	init_scene(t_scene *scene, char **argv);
 void				init_viewport(t_camera *camera, t_render *render);
+t_cylinder			cylinder_init();
 
 // Rendering
 void				render_scene(t_scene *scene);

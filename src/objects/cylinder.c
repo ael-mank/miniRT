@@ -1,23 +1,16 @@
-typedef struct s_cylinder
-{
-	t_point3	center;
-	t_vec3		axis;
-	double		radius;
-	double		height;
-	t_color		color;
-}	t_cylinder;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cylinder.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/11 17:35:00 by yrigny            #+#    #+#             */
+/*   Updated: 2024/09/11 18:06:45 by yrigny           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_cylinder	cylinder_init()
-{
-	t_cylinder	cy;
-
-	cy.center = vec3(0, -1, 20);
-	cy.axis = vec3(-0.2, 1, 0.2);
-	cy.radius = 20.0 / 2;
-	cy.height = 0.5;
-	cy.color = color(80, 0, 180);
-	return (cy);
-}
+#include "minirt.h"
 
 void	intersect_cylinder_front(t_ray *ray, t_cam cam, t_cylinder *cy)
 {

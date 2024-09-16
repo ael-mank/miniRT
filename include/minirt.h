@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 11:50:23 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:31:05 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,13 @@
 # include <time.h>
 # include <unistd.h>
 
+// #ifndef SPP
+// # define SPP 12
+// #endif
 
+// #ifndef MD
+// # define MD 1
+// #endif
 
 // Structs
 typedef struct s_render
@@ -103,6 +109,7 @@ typedef struct s_scene
 
 
 void *get_mlx_ptr(void);
+t_interval *get_plane_interval(void);
 // Memory management
 int					ft_exit(t_scene *scene);
 //void				free_scene(t_object *objects);

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 05:18:49 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/11 13:53:31 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:11:11 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,6 @@ static inline double	hit_quad(t_ray r, t_quad quad, t_interval ray_t, t_hitrecor
     hitp_vec = vector_subtract(p, quad.start);
     alpha = dot_product(quad.w, cross_product(quad.u, hitp_vec));
     beta = dot_product(quad.w, cross_product(hitp_vec, quad.v));
-    
-    // Debugging print statements
-    printf("alpha: %f, beta: %f\n", alpha, beta);
     
     if (!is_interior(alpha, beta, rec))
         return 0;

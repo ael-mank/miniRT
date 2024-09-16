@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:30:38 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/24 12:40:40 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:55:05 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ void	*get_mlx_ptr(void)
 	if (!mlx_ptr)
 		mlx_ptr = mlx_init();
 	return (mlx_ptr);
+}
+
+t_interval *get_plane_interval(void)
+{
+    static t_interval large_interval;
+    return &large_interval;
 }
 
 void	init_mlx(t_scene *scene, int win_width, int win_height)

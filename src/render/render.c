@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/07 14:50:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:17:36 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,6 @@ void	render_scene(t_scene *scene)
 	double	elapsed_time;
 
 	start_time = clock();
-	printf("cam at %f %f %f\n", scene->camera.lookfrom.x,
-		scene->camera.lookfrom.y, scene->camera.lookfrom.z);
 	while (scene->rdr.j < scene->render.image_height)
 	{
 		scene->rdr.i = 0;
@@ -167,7 +165,7 @@ void	render_scene(t_scene *scene)
 	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 	printf("Time to render: %.10f seconds\n", elapsed_time);
 	mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
-		scene->mlx.img.img, 50, 28);
+		scene->mlx.img.img, 0, 0);
 }
 
 // static inline t_vec3	calculate_pixel_position(int i, int j, t_camera *camera)

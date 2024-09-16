@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:16:14 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/07 11:41:02 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:11:28 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
 		t_ray *scattered, t_material *mat)
 {
 	t_vec3	direction;
-	//printf("fuzz: %f\n", mat->fuzz);
 
 	if (mat->fuzz > 1)
 		mat->fuzz = 1;

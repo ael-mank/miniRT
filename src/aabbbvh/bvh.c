@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:28:31 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 12:01:15 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:37:00 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,26 @@ static inline int	bvh_hit_node(t_bvh *node, t_ray r, t_interval ray_t, t_hitreco
 	return (1);
 }
 
-int	bvh_hit(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
-{
-	if (!node || !bvh_hit_check_box(node, r, ray_t))
-	{
-		
-		return (0);
-	}
-	return (bvh_hit_node(node, r, ray_t, rec));
+int bvh_hit(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec) {
+    if (!node) {
+        return (0);
+    }
+
+    // Check if node->object is not null
+    if (node->object) {
+        // Cast node->object->object to t_object *
+        t_object *object = (t_object *)node->object->object;
+
+        // Check if the object is a plane and bypass BVH check
+        if (object->hit == hit_plane_wrapper) {
+            return (object->hit(r, object, ray_t, rec));
+        }
+    }
+
+    // Proceed with BVH traversal for non-plane objects or if node->object is null
+    if (!bvh_hit_check_box(node, r, ray_t)) {
+        return (0);
+    }
+
+    return (bvh_hit_node(node, r, ray_t, rec));
 }

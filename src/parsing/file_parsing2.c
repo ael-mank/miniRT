@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:20:49 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/11 17:17:03 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:10:51 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,9 @@ int	parse_camera(t_scene *scene, char *line)
 	scene->camera.lookat = orientation;
 	scene->camera.v_up = vec3(0, 1, 0);
 	scene->camera.fov = fov;
+	double view_distance = scene->camera.lookfrom.z / cos((scene->camera.fov / 2.0) * (M_PI / 180.0));
+	if (view_distance <= 0)
+		view_distance = 10;
+	*get_plane_interval() = (t_interval){-view_distance, view_distance};
 	return (1);
 }

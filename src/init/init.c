@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/11 19:46:35 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/12 08:37:33 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	init_viewport(t_camera *camera, t_render *render)
 	camera->pixel_delta_v = vector_divide(camera->viewport_v,
 			render->image_height);
 	camera->samples_per_pixel = 1;
-	camera->max_depth = 55;
+	camera->max_depth = 2;
 }
  
 void	init_camera(t_camera *camera)

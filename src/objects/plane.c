@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 05:18:49 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/11 17:14:45 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:50:52 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static inline double	hit_plane(t_ray r, t_plane plane, t_interval ray_t, t_hitre
     t_point3	p;
 
     denom = dot_product(plane.normal, r.dir);
-    if (fabs(denom) < 1e-6) // Check if the ray is parallel to the plane
+    if (fabs(denom) < 1e-6)
     {
         return 0;
     }
-    t = (dot_product(plane.normal, plane.point) - dot_product(plane.normal, r.org)) / denom;
+  t = (dot_product(plane.normal, vector_subtract(plane.point, r.org))) / denom;
     if (!contains(ray_t, t))
         return 0;
     p = ray_at(&r, t);

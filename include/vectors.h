@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:40:11 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/25 10:32:58 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:57:20 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ typedef struct s_vec3
 	double				y;
 	double				z;
 }						t_vec3;
+
+typedef struct s_tri3
+{
+	t_vec3				v0;
+	t_vec3				v1;
+	t_vec3				v2;
+}						t_tri3;
 
 typedef struct s_vec3	t_point3;
 typedef struct s_vec3	t_vec3;

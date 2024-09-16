@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:30:38 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 15:55:05 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:55:19 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 
 void	*get_mlx_ptr(void)
 {
-	static void	*mlx_ptr = NULL;
+	static void	*mlx_ptr;
 
+	mlx_ptr = NULL;
 	if (!mlx_ptr)
 		mlx_ptr = mlx_init();
 	return (mlx_ptr);
 }
 
-t_interval *get_plane_interval(void)
+t_interval	*get_plane_interval(void)
 {
-    static t_interval large_interval;
-    return &large_interval;
+	static t_interval	large_interval;
+
+	return (&large_interval);
 }
 
 void	init_mlx(t_scene *scene, int win_width, int win_height)
@@ -44,7 +46,7 @@ void	init_mlx(t_scene *scene, int win_width, int win_height)
 		exit(EXIT_FAILURE);
 	img->img = mlx_new_image(mlx->mlx_ptr, scene->render.image_width,
 			scene->render.image_height);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp,
-			&img->line_length, &img->endian);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_length,
+			&img->endian);
 	img->samples_per_pixel = scene->camera.samples_per_pixel;
 }

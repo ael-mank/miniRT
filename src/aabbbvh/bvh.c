@@ -6,56 +6,58 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:28:31 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 15:37:00 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:50:23 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void print_indent(int level) {
-    for (int i = 0; i < level; i++) {
-        printf("  ");
-    }
-}
+// void print_indent(int level) {
+//     for (int i = 0; i < level; i++) {
+//         printf("  ");
+//     }
+// }
 
-void print_bvh_tree(t_bvh *node, int level) {
-    if (node == NULL) {
-        print_indent(level);
-        printf("NULL\n");
-        return;
-    }
+// void print_bvh_tree(t_bvh *node, int level) {
+//     if (node == NULL) {
+//         print_indent(level);
+//         printf("NULL\n");
+//         return ;
+//     }
 
-    print_indent(level);
-    printf("{\n");
+//     print_indent(level);
+//     printf("{\n");
 
-    print_indent(level + 1);
-    printf("\"min\": [%.2f, %.2f, %.2f],\n", node->box.x.min, node->box.y.min, node->box.z.min);
+//     print_indent(level + 1);
+//     printf("\"min\": [%.2f, %.2f, %.2f],\n", node->box.x.min,
+	//	node->box.y.min, node->box.z.min);
 
-    print_indent(level + 1);
-    printf("\"max\": [%.2f, %.2f, %.2f],\n", node->box.x.max, node->box.y.max, node->box.z.max);
+//     print_indent(level + 1);
+//     printf("\"max\": [%.2f, %.2f, %.2f],\n", node->box.x.max,
+		//node->box.y.max, node->box.z.max);
 
-    print_indent(level + 1);
-    if (node->object != NULL) {
-        printf("\"object\": \"%p\",\n", (void *)node->object);
-    } else {
-        printf("\"object\": null,\n");
-    }
+//     print_indent(level + 1);
+//     if (node->object != NULL) {
+//         printf("\"object\": \"%p\",\n", (void *)node->object);
+//     } else {
+//         printf("\"object\": null,\n");
+//     }
 
-    print_indent(level + 1);
-    printf("\"children\": [\n");
+//     print_indent(level + 1);
+//     printf("\"children\": [\n");
 
-    if (node->left || node->right) {
-        print_bvh_tree(node->left, level + 2);
-        printf(",\n");
-        print_bvh_tree(node->right, level + 2);
-    }
+//     if (node->left || node->right) {
+//         print_bvh_tree(node->left, level + 2);
+//         printf(",\n");
+//         print_bvh_tree(node->right, level + 2);
+//     }
 
-    print_indent(level + 1);
-    printf("]\n");
+//     print_indent(level + 1);
+//     printf("]\n");
 
-    print_indent(level);
-    printf("}");
-}
+//     print_indent(level);
+//     printf("}");
+// }
 
 static inline int	bvh_hit_check_box(t_bvh *node, t_ray r, t_interval ray_t)
 {
@@ -95,26 +97,19 @@ static inline int	bvh_hit_node(t_bvh *node, t_ray r, t_interval ray_t, t_hitreco
 	return (1);
 }
 
-int bvh_hit(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec) {
-    if (!node) {
-        return (0);
-    }
+int	bvh_hit(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
+{
+	t_object	*object;
 
-    // Check if node->object is not null
-    if (node->object) {
-        // Cast node->object->object to t_object *
-        t_object *object = (t_object *)node->object->object;
-
-        // Check if the object is a plane and bypass BVH check
-        if (object->hit == hit_plane_wrapper) {
-            return (object->hit(r, object, ray_t, rec));
-        }
-    }
-
-    // Proceed with BVH traversal for non-plane objects or if node->object is null
-    if (!bvh_hit_check_box(node, r, ray_t)) {
-        return (0);
-    }
-
-    return (bvh_hit_node(node, r, ray_t, rec));
+	if (!node)
+		return (0);
+	if (node->object)
+	{
+		object = (t_object *)node->object->object;
+		if (object->hit == hit_plane_wrapper)
+			return (object->hit(r, object, ray_t, rec));
+	}
+	if (!bvh_hit_check_box(node, r, ray_t))
+		return (0);
+	return (bvh_hit_node(node, r, ray_t, rec));
 }

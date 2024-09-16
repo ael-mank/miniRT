@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 16:17:36 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/16 18:35:26 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_vec3	calculate_lighting(t_hitrecord *rec, t_scene *scene)
 	t_vec3			diffuse;
 
 	final_color = vec3(0, 0, 0);
+	ft_bzero(&shadow_rec, sizeof(t_hitrecord));
 	t_vec3 material_color = rec->mat->texture(rec->mat, rec);
 	light = scene->lights;
 	while (light != NULL)

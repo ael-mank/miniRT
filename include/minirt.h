@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/11 20:25:50 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/16 19:53:15 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,24 @@
 // int	win_close(t_win *e);
 // int	key_event(int key, t_win *e);
 
-// parsing
+// parse
 void	parse_rt(t_scene *scene, int ac, char **av);
 bool	parse_element(t_scene *scene, char *element);
 bool	parse_and_add_ambient(char *line, t_scene *scene);
 bool	parse_ratio(char **line, double *ratio);
+bool	parse_color(char **line, t_color *color);
+
+// parse_helper
+bool	is_float_format(char *s);
+int		count_parts(char *s, char c);
+bool	str_is_int(char *s);
+bool	str_is_digit(char *s);
+double	ft_atof(char *s);
+bool	is_vec3_format(char *s, int type);
+t_color	ft_atorgb(char *s);
+t_vec3	ft_atovec3(char *s);
+
+
 
 // setting
 // void		win_init(t_win *win, t_scene *scene);

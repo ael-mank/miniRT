@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:13:52 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/11 23:33:24 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/16 20:02:00 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ bool	parse_element(t_scene *scene, char *line)
 		line++;
 	if (!ft_strncmp(line, "A ", 2))
 		return (parse_and_add_ambient(++line, scene));
-	if (!ft_strncmp(line, "C ", 2))
-		return (parse_and_add_camera(++line, scene));
-	if (!ft_strncmp(line, "L ", 2))
-		return (parse_and_add_light(++line, scene));
-	if (!ft_strncmp(line, "pl ", 3))
-		return (parse_and_add_plane(++line, scene));
-	if (!ft_strncmp(line, "sp ", 3))
-		return (parse_and_add_sphere(++line, scene));
-	if (!ft_strncmp(line, "cy ", 3))
-		return (parse_and_add_cylinder(++line, scene));
+	// if (!ft_strncmp(line, "C ", 2))
+	// 	return (parse_and_add_camera(++line, scene));
+	// if (!ft_strncmp(line, "L ", 2))
+	// 	return (parse_and_add_light(++line, scene));
+	// if (!ft_strncmp(line, "pl ", 3))
+	// 	return (parse_and_add_plane(++line, scene));
+	// if (!ft_strncmp(line, "sp ", 3))
+	// 	return (parse_and_add_sphere(++line, scene));
+	// if (!ft_strncmp(line, "cy ", 3))
+	// 	return (parse_and_add_cylinder(++line, scene));
 	else
 	{
 		ft_putstr_fd("Error: Wrong type of element.\n", 2);
@@ -64,81 +64,37 @@ bool	parse_element(t_scene *scene, char *line)
 
 bool	parse_and_add_ambient(char *line, t_scene *scene)
 {
-	printf("Ambient light | ");
 	if (scene->a != NULL)
 	{
 		ft_putstr_fd("Error: Ambient light can only be declared once.\n", 2);
 		return (false);
 	}
+	scene->a = malloc(sizeof(t_ambient));
+	if (scene->a == NULL)
+		return (false);
 	// printf("+++%s\n", line);
 	if (!parse_ratio(&line, &scene->a->ratio))
 	{
 		ft_putstr_fd("Error: Ambient light's ratio is invalid\n", 2);
-		ft_printf("Ambient light must have a ratio in range [0.0,1.0]\n", 1);
+		ft_putstr_fd("Ambient light must have a ratio in range [0.0,1.0]\n", 1);
+		free(scene->a);
 		return (false);
 	}
 	// printf("---%s\n", line);
 	if (!parse_color(&line, &scene->a->color))
 	{
 		ft_putstr_fd("Error: Ambient lightning's color is invalid\n", 2);
-		ft_printf("Ambient light must have R, G, B colors in range [0-255]\n", 1);
+		ft_putstr_fd("Ambient light must have R, G, B colors in range [0-255]\n", 1);
 		return (false);
 	}
 	while (ft_isspace(*line))
 		line++;
 	if (*line == '\0')
 	{
-		printf("\n");
+		printf("Ambient light | Ratio: %f | Color: %d,%d,%d\n", scene->a->ratio, scene->a->color.r, scene->a->color.g, scene->a->color.b);
 		return (true);
 	}
-}
-
-bool	parse_ratio(char **line, double *ratio)
-{
-	char	*tmp;
-	int		i;
-	float	f;
-
-	while (ft_isspace(**line))
-		(*line)++;
-	tmp = *line;
-	if (*tmp == '\0')
-		return (false);
-	i = 0;
-	while (!ft_isspace(tmp[i]))
-		i++;
-	tmp = malloc(i + 1);
-	ft_strlcpy(tmp, *line, i + 1);
-	// printf("tmp: %s\n", tmp);
-	if (!is_float_format(tmp))
-		return (false);
-	f = ft_atof(tmp);
-	if (f < 0.0 || f > 1.0)
-		return (false);
-	*ratio = f;
-	printf("Ratio: %f ", f);
-	free(tmp);
-	*line += i;
-	return (true);
-}
-
-bool	parse_color(char **line, t_color *color)
-{
-	char	*tmp;
-	int		i;
-	int		rgb[3];
-
-	while (ft_isspace(**line))
-		(*line)++;
-	tmp = *line;
-	if (*tmp == '\0')
-		return (false);
-	i = 0;
-	while (!ft_isspace(tmp[i]))
-		i++;
-	tmp = malloc(i + 1);
-	ft_strlcpy(tmp, *line, i + 1);
-	if (!is_rgb_format(tmp))
-		return (false);
-	rgb = ft_atorgb(tmp);
+	free(scene->a);
+	ft_putstr_fd("Error: Ambient light has noise information\n", 2);
+	return (false);
 }

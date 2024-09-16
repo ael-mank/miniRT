@@ -6,7 +6,7 @@ MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
 CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude
 HEADER = ./include/minirt.h
-SRC_FILES = main parse
+SRC_FILES = main parse parse_helper_1 parse_helper_2
 # init event ray_cast ray_hit ray_color vec_helper color_helper
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

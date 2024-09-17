@@ -6,12 +6,12 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/11 18:32:32 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/17 22:20:27 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-/*
+
 int	calculate_image(t_win *win)
 {
 	int		x;
@@ -28,7 +28,7 @@ int	calculate_image(t_win *win)
 		{
 			dst = win->img.addr + (y * win->img.line_length + x
 					* (win->img.bits_per_pixel / 8));
-			*(unsigned int *)dst = calculate_pixel(x, y, *win->scene);
+			*(unsigned int *)dst = calculate_pixel(x, y, win->scene);
 		}
 		x = 0;
 	}
@@ -60,7 +60,7 @@ void	win_init(t_win *win, t_scene *scene)
 			&win->img.line_length, &win->img.endian);
 	win->render = 1;
 }
-*/
+
 // void	scene_init(t_scene *scene)
 // {
 // 	scene->l = light_init();
@@ -74,17 +74,18 @@ void	win_init(t_win *win, t_scene *scene)
 
 int main(int ac, char **av)
 {
-	// t_win	win;
+	t_win	win;
 	t_scene	scene;
 
 	ft_bzero(&scene, sizeof(t_scene));
 	parse_rt(&scene, ac, av);
 	// scene_init(&scene);
-	// win_init(&win, &scene);
-	// mlx_loop_hook(win.mlx, calculate_image, &win);
-	// mlx_hook(win.mlx_win, 17, 1L << 5, win_close, &win);
-	// mlx_hook(win.mlx_win, 2, 1L << 0, key_event, &win);
-	// mlx_loop(win.mlx);
-	// mlx_destroy_display(win.mlx);
-	// free(win.mlx);
+	win_init(&win, &scene);
+	// printf("%.1f\n", win.scene->a->ratio);
+	mlx_loop_hook(win.mlx, calculate_image, &win);
+	mlx_hook(win.mlx_win, 17, 1L << 5, win_close, &win);
+	mlx_hook(win.mlx_win, 2, 1L << 0, key_event, &win);
+	mlx_loop(win.mlx);
+	mlx_destroy_display(win.mlx);
+	free(win.mlx);
 }

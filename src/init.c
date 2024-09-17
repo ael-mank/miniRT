@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:53:44 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/10 19:00:57 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/17 19:46:23 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_plane		plane_init()
 {
 	t_plane	pl;
 
-	pl.point_instance = vec3(0, -5, 0);
+	pl.point = vec3(0, -5, 0);
 	pl.normal = vec3(0, 1, 0);
 	pl.color = color(200, 200, 200);
 	// pl.color = color(0, 200, 0);

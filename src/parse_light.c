@@ -1,8 +1,10 @@
 #include "minirt.h"
 
-bool	parse_and_add_light(char *line, t_light *l)
+bool	parse_and_add_light(char *line, t_scene *scene)
 {
-	if (l != NULL)
+	t_light	*l;
+
+	if (scene->l != NULL)
 	{
 		ft_putstr_fd("Error: Light can only be declared once.\n", 2);
 		return (false);
@@ -34,7 +36,8 @@ bool	parse_and_add_light(char *line, t_light *l)
 		line++;
 	if (*line == '\0')
 	{
-		printf("Light | Point: %.1f,%.1f,%.1f | Ratio: %.1f | Color: %d,%d,%d\n", l->org.x, l->org.y, l->org.z, l->ratio, l->color.r, l->color.g, l->color.b);
+		printf("Light    | Point: %.1f,%.1f,%.1f | Ratio: %.1f | Color: %d,%d,%d\n", l->org.x, l->org.y, l->org.z, l->ratio, l->color.r, l->color.g, l->color.b);
+		scene->l = l;
 		return (true);
 	}
 	free(l);

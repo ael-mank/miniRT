@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/16 19:45:22 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/17 20:33:07 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ typedef enum e_obj_type
 	CYLINDER,
 }	t_obj_type;
 
+typedef struct s_obj	t_obj;
 typedef	struct s_vec3	t_point3;
 typedef	struct s_vec3	t_vec3;
 typedef	struct s_color	t_color;
 typedef struct s_ray	t_ray;
-typedef struct s_cam	t_cam;
 typedef struct s_viewport	t_viewport;
+typedef struct s_cam	t_cam;
 typedef struct s_light	t_light;
 typedef struct s_ambient	t_ambient;
 typedef struct s_sphere	t_sphere;
@@ -36,6 +37,13 @@ typedef struct s_cylinder	t_cylinder;
 typedef struct s_img	t_img;
 typedef struct s_scene	t_scene;
 typedef struct s_win	t_win;
+
+typedef struct s_obj
+{
+	t_obj_type		type;
+	void			*obj;
+	struct s_obj	*next;	
+}	t_obj;
 
 typedef struct s_vec3
 {
@@ -55,14 +63,6 @@ typedef struct s_ray
 	t_point3	intersect;
 }	t_ray;
 
-typedef struct s_cam
-{
-	t_point3	org;
-	t_vec3		dir;
-	double		fov;
-	double		theta_radian;
-}	t_cam;
-
 typedef struct s_viewport
 {
 	double	w;
@@ -74,6 +74,15 @@ typedef struct s_viewport
 	t_point3	upperleft;
 	t_point3	pixel00;
 }	t_viewport;
+
+typedef struct s_cam
+{
+	t_point3	org;
+	t_vec3		dir;
+	double		fov;
+	double		theta_radian;
+	t_viewport	v;
+}	t_cam;
 
 typedef struct s_color
 {
@@ -98,6 +107,7 @@ typedef struct s_ambient
 typedef struct s_sphere
 {
 	t_point3	center;
+	double		diameter;
 	double		radius;
 	t_color		color;
 }	t_sphere;
@@ -113,6 +123,7 @@ typedef struct s_cylinder
 {
 	t_point3	center;
 	t_vec3		axis;
+	double		diameter;
 	double		radius;
 	double		height;
 	t_color		color;
@@ -132,11 +143,7 @@ typedef struct s_scene
 	t_ambient	*a;
 	t_light		*l;
 	t_cam		*c;
-	t_viewport	v;
-	t_list		*objs;
-	// t_sphere	sp;
-	// t_plane		pl;
-	// t_cylinder	cy;
+	t_obj		*objs;
 }	t_scene;
 
 typedef struct s_win

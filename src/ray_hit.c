@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:12:32 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/10 19:12:33 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/17 22:27:52 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 	double		ray_dot_normal;
 	double		root;
 
-	cam_p0 = vector_subtract(pl->point_instance, cam.org);
+	cam_p0 = vector_subtract(pl->point, cam.org);
 	cam_p0_dot_normal = dot_product(cam_p0, pl->normal);
 	ray_dot_normal = dot_product(ray->dir, pl->normal);
 	if (ray_dot_normal != 0)

@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-bool	parse_and_add_plane(char *line, t_list **objs)
+bool	parse_and_add_plane(char *line, t_scene *scene)
 {
 	t_plane	*pl;
 
@@ -18,7 +18,7 @@ bool	parse_and_add_plane(char *line, t_list **objs)
         if (!parse_direction(&line, &pl->normal))
         {
                 ft_putstr_fd("Error: The normal vector of the plane is invalid\n", 2);
-                ft_putstr_fd("Normal vector must have x, y, z axis in range [-1,1]\n", 1);
+                ft_putstr_fd("Normal vector must have x, y, z in range [-1,1]\n", 1);
                 free(pl);
                 return (false);
         }
@@ -33,8 +33,8 @@ bool	parse_and_add_plane(char *line, t_list **objs)
                 line++;
         if (*line == '\0')
         {
-                printf("Plane | Point: %.1f,%.1f,%.1f | Normal: %.1f,%.1f,%.1f | Color: %d,%d,%d\n", pl->point.x, pl->point.y, pl->point.z, pl->normal.x, pl->normal.y, pl->normal.z, pl->color.r, pl->color.g, pl->color.b);
-		add_to_obj_list(pl, objs);
+                printf("Plane    | Point: %.1f,%.1f,%.1f | Normal: %.1f,%.1f,%.1f | Color: %d,%d,%d\n", pl->point.x, pl->point.y, pl->point.z, pl->normal.x, pl->normal.y, pl->normal.z, pl->color.r, pl->color.g, pl->color.b);
+				add_to_obj_list(pl, scene, PLANE);
                 return (true);
         }
         free(pl);
@@ -42,14 +42,40 @@ bool	parse_and_add_plane(char *line, t_list **objs)
         return (false);
 }
 
-void	add_to_obj_list(void *obj, t_list **objs)
+void	add_to_obj_list(void *obj, t_scene *scene, t_obj_type type)
 {
-	t_list	*new;
+	t_obj	*new;
+	t_obj	*node;
 
-	new = malloc(sizeof(t_list));
+	new = malloc(sizeof(t_obj));
 	if (!new)
 		return ;
-	new->content = obj;
+	new->type = type;
+	new->obj = obj;
 	new->next = NULL;
-	ft_lstadd_back(objs, new);
+	// add_obj_back(scene, new);
+	if (scene->objs == NULL)
+		scene->objs = new;
+	else
+	{
+		node = scene->objs;
+		while (node->next)
+			node = node->next;
+		node->next = new;
+	}
 }
+
+// void	add_obj_back(t_scene *scene, t_obj *new)
+// {
+// 	t_obj	*node;
+
+// 	node = *lst;
+// 	if (node == NULL)
+// 		node = new;
+// 	else
+// 	{
+// 		while (node->next)
+// 			node = node->next;
+// 		node->next = new;
+// 	}
+// }

@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#define INTEGER 1
-#define FLOAT 2
 
 bool	parse_ratio(char **line, double *ratio)
 {

@@ -44,17 +44,17 @@ bool	parse_element(t_scene *scene, char *line)
 	while (ft_isspace(*line))
 		line++;
 	if (!ft_strncmp(line, "A ", 2))
-		return (parse_and_add_ambient(++line, scene));
+		return (parse_and_add_ambient(++line, scene->a));
 	if (!ft_strncmp(line, "C ", 2))
-		return (parse_and_add_camera(++line, scene));
+		return (parse_and_add_camera(++line, scene->c));
 	if (!ft_strncmp(line, "L ", 2))
-		return (parse_and_add_light(++line, scene));
-	// if (!ft_strncmp(line, "pl ", 3))
-	// 	return (parse_and_add_plane(++line, scene));
-	// if (!ft_strncmp(line, "sp ", 3))
-	// 	return (parse_and_add_sphere(++line, scene));
-	// if (!ft_strncmp(line, "cy ", 3))
-	// 	return (parse_and_add_cylinder(++line, scene));
+		return (parse_and_add_light(++line, scene->l));
+	if (!ft_strncmp(line, "pl ", 3))
+	 	return (parse_and_add_plane(line, &scene->objs));
+	if (!ft_strncmp(line, "sp ", 3))
+	 	return (parse_and_add_sphere(line, &scene->objs));
+	if (!ft_strncmp(line, "cy ", 3))
+	 	return (parse_and_add_cylinder(line, &scene->objs));
 	else
 	{
 		ft_putstr_fd("Error: Wrong type of element.\n", 2);
@@ -62,69 +62,41 @@ bool	parse_element(t_scene *scene, char *line)
 	}
 }
 
-bool	parse_and_add_ambient(char *line, t_scene *scene)
+bool	parse_and_add_ambient(char *line, t_ambient *a)
 {
-	if (scene->a != NULL)
+	if (a != NULL)
 	{
 		ft_putstr_fd("Error: Ambient light can only be declared once.\n", 2);
 		return (false);
 	}
-	scene->a = malloc(sizeof(t_ambient));
-	if (scene->a == NULL)
+	a = malloc(sizeof(t_ambient));
+	if (a == NULL)
 		return (false);
 	// printf("+++%s\n", line);
-	if (!parse_ratio(&line, &scene->a->ratio))
+	if (!parse_ratio(&line, &a->ratio))
 	{
 		ft_putstr_fd("Error: Ambient light's ratio is invalid\n", 2);
 		ft_putstr_fd("Ambient light must have a ratio in range [0.0,1.0]\n", 1);
-		free(scene->a);
+		free(a);
 		return (false);
 	}
 	// printf("---%s\n", line);
-	if (!parse_color(&line, &scene->a->color))
+	if (!parse_color(&line, &a->color))
 	{
 		ft_putstr_fd("Error: Ambient lightning's color is invalid\n", 2);
 		ft_putstr_fd("Ambient light must have R, G, B colors in range [0-255]\n", 1);
-		free(scene->a);
+		free(a);
 		return (false);
 	}
 	while (ft_isspace(*line))
 		line++;
 	if (*line == '\0')
 	{
-		printf("Ambient light | Ratio: %f | Color: %d,%d,%d\n", scene->a->ratio, scene->a->color.r, scene->a->color.g, scene->a->color.b);
+		printf("Ambient light | Ratio: %.1f | Color: %d,%d,%d\n", a->ratio, a->color.r, a->color.g, a->color.b);
 		return (true);
 	}
-	free(scene->a);
+	free(a);
 	ft_putstr_fd("Error: Ambient light has noise information\n", 2);
 	return (false);
 }
 
-bool	parse_and_add_camera(char *line, t_scene *c)
-{
-	if (scene->c != NULL)
-	{
-		ft_putstr_fd("Error: Camera can only be declared once.\n", 2);
-		return (false);
-	}
-	scene->c = malloc(sizeof(t_cam));
-	if (scene->c == NULL)
-		return (false);
-	if (!parse_point(&line, &scene->c->org))
-	{
-		ft_putstr_fd("Error: Camera's view point is invalid\n", 2);
-		free(scene->c);
-		return (false);
-	}
-	if (!parse_direction(&line, &scene->c->dir))
-	{
-		ft_putstr_fd("Error: Camera's orientation is invalid\n", 2);
-		ft_putstr_fd("Orientation must have x, y, z values in range [-1,1]\n", 1);
-		free(scene->c);
-		return (false);
-	}
-	if (!parse_fov(&line, &scene->c->fov))
-	{
-		
-	}
-}

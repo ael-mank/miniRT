@@ -104,7 +104,7 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	t_point3	point_instance;
+	t_point3	point;
 	t_vec3		normal;
 	t_color		color;
 }	t_plane;

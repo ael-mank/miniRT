@@ -19,6 +19,8 @@
 # define NO_HIT 0
 # define TRUE_HIT 1
 # define FALSE_HIT -1
+# define INTEGER 1
+# define FLOAT 2
 # include "libft.h"
 # include "mlx.h"
 # include "struct.h"
@@ -36,9 +38,19 @@
 // parse
 void	parse_rt(t_scene *scene, int ac, char **av);
 bool	parse_element(t_scene *scene, char *element);
-bool	parse_and_add_ambient(char *line, t_scene *scene);
+bool	parse_and_add_camera(char *line, t_cam *c);
+bool	parse_and_add_ambient(char *line, t_ambient *a);
+bool	parse_and_add_light(char *line, t_light *l);
+bool    parse_and_add_plane(char *line, t_list **objs);
+bool    parse_and_add_sphere(char *line, t_list **objs);
 bool	parse_ratio(char **line, double *ratio);
 bool	parse_color(char **line, t_color *color);
+bool	parse_point(char **line, t_vec3 *point);
+bool	parse_direction(char **line, t_vec3 *vec);
+bool	parse_fov(char **line, double *fov);
+bool    parse_length(char **line, double *length);
+
+void    add_to_obj_list(void *obj, t_list **objs);
 
 // parse_helper
 bool	is_float_format(char *s);

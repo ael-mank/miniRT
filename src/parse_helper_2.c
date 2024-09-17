@@ -97,10 +97,14 @@ double	ft_atof(char *s)
 	int		e;
 	double	res;
 
-	no_dot = malloc(ft_strlen(s));
+	//printf("%s\n", s);
+	if (ft_strchr(s, '.'))
+		no_dot = malloc(ft_strlen(s));
+	else
+		no_dot = malloc(ft_strlen(s) + 1);
 	i = -1;
 	e = 0;
-	while (s[++i] != '.')
+	while (s[++i] && s[i] != '.')
 		no_dot[i] = s[i];
 	if (s[i] == '.')
 	{
@@ -110,9 +114,12 @@ double	ft_atof(char *s)
 			no_dot[i - 1 + e] = s[i + e];
 			e++;
 		}
+		no_dot[i + e - 1] = '\0';
 	}
-	no_dot[i + e] = '\0';
+	else
+		no_dot[i] = '\0';
 	significant = ft_atoi(no_dot);
+	//printf("significant = %d\n", significant);
 	free(no_dot);
 	res = significant / pow(10, e);
 	return (res);

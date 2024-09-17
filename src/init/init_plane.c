@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:01:57 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 18:04:06 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 09:55:10 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ inline t_interval	get_interval(double normal_component,
 	}
 }
 
-inline t_aabb	create_aabb(t_plane *plane)
+static inline t_aabb	create_aabb(t_plane *plane)
 {
 	t_interval	x;
 	t_interval	y;

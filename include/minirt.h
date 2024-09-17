@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 10:25:33 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:00:07 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_scene
     t_render_info	rdr;
     int				file_fd;
     t_list			*lst_map;
+	int				c_and_a;
 }					t_scene;
 
 // Memory management

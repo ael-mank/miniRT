@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:05:41 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 16:11:02 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:56:29 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	parse_sphere(t_scene *scene, char *line)
 	if (!parse_position(&position, &line))
 		return (0);
 	radius = parse_radius(&line);
+	radius /= 2;
 	if (!parse_color(&r, &g, &b, &line))
 		return (0);
 	get_string(line, &type);

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 10:19:21 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 10:53:47 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:27:06 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ int	parse_cylinder(t_scene *scene, char *line)
 		line++;
 	if (!parse_color(&r, &g, &b, &line))
 		return (0);
+	while (ft_isdigit(*line) || *line == ',' || ft_isspace(*line))
+		line++;
 	get_string(line, &type);
+	printf("type: %s\n", type);
 	cylinder = create_cylinder(center, axis, diameter, height, get_type(type), vec3(r/255.0, g/255.0, b/255.0));
 	free(type);
 	scene->objects = add_cylinder(scene->objects, cylinder);

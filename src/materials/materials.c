@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:16:14 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 16:11:28 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:23:53 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,31 @@ int light_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
 	return (0);
 }
 
-int	metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
-		t_ray *scattered, t_material *mat)
+int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat)
 {
-	t_vec3	direction;
+    t_vec3 reflected;
+    t_vec3 fuzzed_direction;
 
-	if (mat->fuzz > 1)
-		mat->fuzz = 1;
-	direction = reflect(vector_normalize(r->dir), rec->normal);
-	direction = vector_add(unit_vector(direction),
-			vector_scale(random_unit_vector(), mat->fuzz));
-	ray_init(scattered, &rec->p, &direction);
-	*attenuation = mat->texture(mat, rec);
-	if (dot(scattered->dir, rec->normal) > 0)
-		return (1);
-	else
-		return (0);
+    if (mat->fuzz > 1)
+        mat->fuzz = 1;
+
+    // Reflect the ray direction around the normal
+    reflected = reflect(vector_normalize(r->dir), rec->normal);
+
+    // Apply fuzziness to the reflected direction
+    fuzzed_direction = vector_add(reflected, vector_scale(random_unit_vector(), mat->fuzz));
+
+    // Initialize the scattered ray
+    ray_init(scattered, &rec->p, &fuzzed_direction);
+
+    // Set the attenuation based on the material's texture
+    *attenuation = mat->texture(mat, rec);
+
+    // Check if the scattered ray is in the same hemisphere as the normal
+    if (dot(scattered->dir, rec->normal) > 0)
+        return 1;
+    else
+        return 0;
 }
 
 double	reflectance(double cosine, double ref_idx)

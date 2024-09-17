@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 14:35:01 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 10:46:41 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:26:29 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ int	parse_plane(t_scene *scene, char *line)
 		return (0);
 	if (!parse_color(&r, &g, &b, &line))
 		return (0);
+	while (ft_isdigit(*line) || *line == ',' || ft_isspace(*line))
+		line++;
 	get_string(line, &type);
 	plane = create_plane(position, normale, get_type(type), vec3(r/255.0, g/255.0, b/255.0));
 	free(type);

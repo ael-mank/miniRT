@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:20:49 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 11:19:43 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:01:03 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	parse_ambient(t_scene *scene, char *line)
 		return (0);
 	scene->bg_color = vec3(r / 255.0, g / 255.0, b / 255.0);
 	scene->bg_color = vector_scale(scene->bg_color, ambient_value);
+	scene->c_and_a += 1;
 	return (1);
 }
 
@@ -111,5 +112,6 @@ int	parse_camera(t_scene *scene, char *line)
 	if (view_distance <= 0)
 		view_distance = 555;
 	*get_plane_interval() = (t_interval){-view_distance, view_distance};
+	scene->c_and_a += 1;
 	return (1);
 }

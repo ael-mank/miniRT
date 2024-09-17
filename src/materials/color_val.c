@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:40:09 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/24 12:52:01 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:47:08 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ t_vec3	checkerboard(t_material *mat, t_hitrecord *rec)
 	int		vinteger;
 	int		iseven;
 
-	scale = 60;
+	scale = 15;
 	uinteger = (int)floor(scale * rec->u);
 	vinteger = (int)floor(scale * rec->v);
 	iseven = (uinteger + vinteger) % 2 == 0;
 	if (iseven)
-		return (vec3(0.8, 0.8, 0.8));
+		return (vec3(0, 0, 0));
 	else
 		return (mat->albedo);
 }

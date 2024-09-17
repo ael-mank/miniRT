@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 09:51:52 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 11:14:40 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:02:00 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,13 @@ void	print_lst(t_scene *scene)
 
 void	parse_file(t_scene *scene, char **argv)
 {
+	scene->c_and_a = 0;
 	if (!open_map(scene, argv[1]))
 		ft_error(scene, "Unable to open scene file.");
 	if (!fill_lst(scene))
 		ft_error(scene, "Empty File.");
 	if (!parse_lst(scene))
 		ft_error(scene, "Parsing error.");
+	if (scene->c_and_a != 2)
+		ft_error(scene, "No ambient or camera.");
 }

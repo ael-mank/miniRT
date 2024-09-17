@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:13:52 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/16 20:02:00 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/17 14:54:11 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ bool	parse_element(t_scene *scene, char *line)
 		line++;
 	if (!ft_strncmp(line, "A ", 2))
 		return (parse_and_add_ambient(++line, scene));
-	// if (!ft_strncmp(line, "C ", 2))
-	// 	return (parse_and_add_camera(++line, scene));
-	// if (!ft_strncmp(line, "L ", 2))
-	// 	return (parse_and_add_light(++line, scene));
+	if (!ft_strncmp(line, "C ", 2))
+		return (parse_and_add_camera(++line, scene));
+	if (!ft_strncmp(line, "L ", 2))
+		return (parse_and_add_light(++line, scene));
 	// if (!ft_strncmp(line, "pl ", 3))
 	// 	return (parse_and_add_plane(++line, scene));
 	// if (!ft_strncmp(line, "sp ", 3))
@@ -85,6 +85,7 @@ bool	parse_and_add_ambient(char *line, t_scene *scene)
 	{
 		ft_putstr_fd("Error: Ambient lightning's color is invalid\n", 2);
 		ft_putstr_fd("Ambient light must have R, G, B colors in range [0-255]\n", 1);
+		free(scene->a);
 		return (false);
 	}
 	while (ft_isspace(*line))
@@ -97,4 +98,33 @@ bool	parse_and_add_ambient(char *line, t_scene *scene)
 	free(scene->a);
 	ft_putstr_fd("Error: Ambient light has noise information\n", 2);
 	return (false);
+}
+
+bool	parse_and_add_camera(char *line, t_scene *c)
+{
+	if (scene->c != NULL)
+	{
+		ft_putstr_fd("Error: Camera can only be declared once.\n", 2);
+		return (false);
+	}
+	scene->c = malloc(sizeof(t_cam));
+	if (scene->c == NULL)
+		return (false);
+	if (!parse_point(&line, &scene->c->org))
+	{
+		ft_putstr_fd("Error: Camera's view point is invalid\n", 2);
+		free(scene->c);
+		return (false);
+	}
+	if (!parse_direction(&line, &scene->c->dir))
+	{
+		ft_putstr_fd("Error: Camera's orientation is invalid\n", 2);
+		ft_putstr_fd("Orientation must have x, y, z values in range [-1,1]\n", 1);
+		free(scene->c);
+		return (false);
+	}
+	if (!parse_fov(&line, &scene->c->fov))
+	{
+		
+	}
 }

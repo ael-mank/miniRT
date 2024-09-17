@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:13:52 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/17 22:49:07 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/17 23:01:25 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	parse_rt(t_scene *scene, int ac, char **av)
 	bool	parse;
 
 	element = NULL;
+	parse = true;
 	if (ac != 2 || av[1] == NULL)
 	{
 		ft_putstr_fd("Usage: ./miniRT *.rc\n", 2);
@@ -50,6 +51,8 @@ bool	parse_element(t_scene *scene, char *line)
 {
 	while (ft_isspace(*line))
 		line++;
+	if (*line == '\0')
+		return (true);
 	if (!ft_strncmp(line, "A ", 2))
 		return (parse_and_add_ambient(++line, scene));
 	if (!ft_strncmp(line, "C ", 2))

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 09:51:52 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/11 16:47:58 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 11:14:40 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	check_char(t_scene *scene, char *line)
 {
 	if (*line == 'A' || *line == 'a')
 		return (parse_ambient(scene, line));
+	else if (*line == 'c' && *(line + 1) == 'y')
+		return(parse_cylinder(scene, line));
 	else if (*line == 'C' || *line == 'c')
 		return (parse_camera(scene, line));
 	else if (*line == 'L' || *line == 'l')
@@ -64,16 +66,14 @@ int	check_char(t_scene *scene, char *line)
 		return(parse_sphere(scene, line));
 	else if (*line == 'p' && *(line + 1) == 'l')
 		return(parse_plane(scene, line));
-	else if (*line == 's' && *(line + 1) == 'q')
-		return(parse_square(scene, line));
+	// else if (*line == 's' && *(line + 1) == 'q')
+	// 	return(parse_square(scene, line));
 	// else if (*line == 's' && *(line + 1) == 'q')
 	// 	//return(parse_square(scene, line));
-	// else if (*line == 'c' && *(line + 1) == 'y')
-	// 	//return(parse_cylinder(scene, line));
 	// else if (*line == 't' && *(line + 1) == 'r')
 	// 	//return(parse_triangle(scene, line));
-	// else if (*line == '#')
-	// 	return ;
+	else if (*line == '#')
+		return (0);
 	else
 		return (0);
 }
@@ -89,6 +89,7 @@ int	parse_lst(t_scene *scene)
 		line = tmp->content;
 		while (ft_isspace(*line))
 			line++;
+		//printf("line: %s\n", line);
 		if (!check_char(scene, line) && *line != '\n' && *line != '\0')
 			return (0);
 		tmp = tmp->next;

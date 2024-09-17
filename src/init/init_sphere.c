@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 18:01:42 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 10:09:20 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ t_object	*add_sphere(t_object *head, t_sphere *sphere)
 	new_object->hit = hit_sphere_wrapper;
 	new_object->free = free_sphere;
 	rvec = vec3(sphere->radius, sphere->radius, sphere->radius);
-	new_object->box = aabb_points(
-			vector_subtract(sphere->center, rvec),
+	new_object->box = aabb_points(vector_subtract(sphere->center, rvec),
 			vector_add(sphere->center, rvec));
 	new_object->next = NULL;
 	return (add_object_end(head, new_object));

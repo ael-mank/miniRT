@@ -6,13 +6,13 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 14:35:01 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/11 17:36:07 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 10:46:41 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int parse_position(t_vec3 *position, char **line)
+int 	parse_position(t_vec3 *position, char **line)
 {
     *line += 2;
     while (ft_isspace(**line))

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:01:57 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 09:55:10 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 11:12:22 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_plane	*create_plane(t_point3 point, t_vec3 normal, t_material_type type,
 	return (plane);
 }
 
-inline t_object	*create_new_object(t_plane *plane)
+static inline t_object	*create_new_object(t_plane *plane)
 {
 	t_object	*new_object;
 
@@ -53,20 +53,16 @@ inline t_object	*create_new_object(t_plane *plane)
 	return (new_object);
 }
 
-inline t_interval	get_interval(double normal_component,
+static inline t_interval	get_interval(double normal_component,
 		double point_component)
 {
 	t_interval	*plane_interval_ptr;
 
 	plane_interval_ptr = get_plane_interval();
 	if (normal_component == 0)
-	{
 		return (*plane_interval_ptr);
-	}
 	else
-	{
 		return (interval(point_component, point_component));
-	}
 }
 
 static inline t_aabb	create_aabb(t_plane *plane)

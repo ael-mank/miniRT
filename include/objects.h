@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 18:04:37 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 10:17:07 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,15 @@ typedef struct s_triangle {
     t_material *mat;    // Material of the triangle
 } t_triangle;
 
+typedef struct s_cylinder
+{
+    t_point3        center;     // Center of the cylinder
+    t_vec3          axis;       // Axis of the cylinder (should be a unit vector)
+    double          radius;     // Radius of the cylinder
+    double          height;     // Height of the cylinder
+    t_material      *mat;       // Material of the cylinder
+}               t_cylinder;
+
 // Object structure
 typedef struct s_object {
     void *object;
@@ -119,6 +128,7 @@ double	hit_sphere_wrapper(t_ray r, void *object, t_interval ray_t,
 		t_hitrecord *rec);
 double hit_triangle_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord *rec);
 double	hit_plane_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord *rec);
+double	hit_cylinder_wrapper(t_ray r, void *object, t_interval ray_t, t_hitrecord *rec);
 
 // Creation functions for objects
 t_sphere *create_sphere(t_point3 center, double radius, t_material_type type, t_vec3 color);
@@ -132,6 +142,10 @@ t_triangle *create_triangle(t_tri3 tri, t_material_type type, t_vec3 color);
 
 t_plane	*create_plane(t_point3 point, t_vec3 normal, t_material_type type, t_vec3 color);
 t_object	*add_plane(t_object *head, t_plane *plane);
+
+t_cylinder	*create_cylinder(t_point3 center, t_vec3 axis, double diameter, double height, t_material_type type, t_vec3 color);
+t_object	*add_cylinder(t_object *head, t_cylinder *cylinder);
+
 
 // Texture functions
 t_vec3 solid_color(t_material *mat, t_hitrecord *rec);
@@ -148,5 +162,6 @@ void free_sphere(t_bvh *node);
 void free_quad(t_bvh *node);
 void free_triangle(t_bvh *node);
 void free_plane(t_bvh *node);
+void free_cylinder(t_bvh *node);
 
 #endif

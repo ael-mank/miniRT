@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 09:56:05 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/17 11:21:07 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	init_scene(t_scene *scene, char **argv)
 	scene->num_lights = 0;
 	scene->objects = NULL;
 	parse_file(scene, argv);
-	scene->mouse_mode = 0;
 	init_render(&scene->render);
 	init_viewport(&scene->camera, &scene->render);
 	init_camera(&scene->camera);

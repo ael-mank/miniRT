@@ -27,7 +27,6 @@ bool	parse_and_add_camera(char *line, t_scene *scene)
 	}
 	if (!parse_fov(&line, &c->fov))
 	{
-		
 		ft_putstr_fd("Error: Camera's field of view is invalid\n", 2);
 		ft_putstr_fd("Field of view must be in range [0,180]\n", 1);
 		free(c);

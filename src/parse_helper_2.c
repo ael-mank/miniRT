@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:03:27 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/17 14:08:40 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/17 23:51:11 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ bool	is_float_format(char *s)
 		res = true;
 	else if (nb_parts == 2)
 	{
+		if (*s == '-')
+			s++;
 		parts = ft_split(s, '.');
 		if (str_is_int(parts[0]) && str_is_digit(parts[1]))
 			res = true;

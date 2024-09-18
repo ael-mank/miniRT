@@ -20,12 +20,13 @@ void	parse_rt(t_scene *scene, int ac, char **av)
 
 	element = NULL;
 	parse = true;
-	if (ac != 2 || av[1] == NULL)
+/*	if (ac != 2 || av[1] == NULL)
 	{
 		ft_putstr_fd("Usage: ./miniRT *.rc\n", 2);
 		exit(0);
 	}
-	fd = open(av[1], O_RDONLY);
+	fd = open(av[1], O_RDONLY);*/
+	fd = try_open_file(ac, av);
 	if (fd == -1)
 	{
 		perror(av[1]);
@@ -45,6 +46,26 @@ void	parse_rt(t_scene *scene, int ac, char **av)
 	}
 	free(element);
 	close(fd);
+}
+
+int		try_open_file(int ac, char **av)
+{
+	int	fd;
+	int	len;
+
+	if (ac != 2 || av[1] == NULL)
+	{
+		ft_putstr_fd("Usage: ./miniRT *.rc\n", 2);
+		exit(0);
+	}
+	len = ft_strlen(av[1]);
+	if (ft_strnstr(av[1], ".rt", ft_strlen(av[1])) != av[1] + len - 3)
+	{
+		ft_putstr_fd("Error: Input must be .rc suffixed file\n", 2);
+		exit(0);
+	}
+	fd = open(av[1], O_RDONLY);
+	return (fd);
 }
 
 bool	parse_element(t_scene *scene, char *line)

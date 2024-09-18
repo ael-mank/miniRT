@@ -38,6 +38,7 @@ void	free_scene(t_scene *scene);
 
 // parse
 void	parse_rt(t_scene *scene, int ac, char **av);
+int	try_open_file(int ac, char **av);
 bool	parse_element(t_scene *scene, char *element);
 bool	parse_and_add_camera(char *line, t_scene *scene);
 void	init_viewport(t_cam *cam);

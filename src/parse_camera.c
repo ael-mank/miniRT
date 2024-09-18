@@ -52,18 +52,30 @@ void	init_viewport(t_cam *cam)
 	t_vec3	v1;
 	t_vec3	v2;
 
-	v1.x = 1;
-	v1.y = 1;
-	v1.z = 0 - cam->org.x - cam->org.y;
-	v2 = cross_product(cam->org, v1);
+	v1.y = 0;
+	if (cam->dir.x != 0)
+	{
+		v1.z = 1;
+		v1.x = cam->dir.z / fabs(cam->dir.x);
+	}
+	else
+	{
+		v1.x = 1;
+		v1.z = - cam->dir.x / cam->dir.z;
+	}
+	v2 = cross_product(cam->dir, v1);
+	if (v2.y > 0)
+		v2.y *= -1;
 	v1 = vector_normalize(v1);
 	v2 = vector_normalize(v2);
 	cam->v.w = F_LENGTH * tan(cam->theta_radian) * 2;
 	cam->v.h = cam->v.w / LENGTH * HEIGHT;
 	// cam->v.u = vec3(cam->v.w, 0, 0);
 	// cam->v.v = vec3(0, -cam->v.h, 0);
-	cam->v.v = vector_scale(v1, cam->v.w);
-	cam->v.u = vector_scale(v2, cam->v.h);
+	cam->v.u = vector_scale(v1, cam->v.w);
+	cam->v.v = vector_scale(v2, cam->v.h);
+	//print_vec3(v1);
+	//print_vec3(v2);
 	cam->v.pixel_delta_u = vector_scale(cam->v.u, 1.0 / LENGTH);
 	cam->v.pixel_delta_v = vector_scale(cam->v.v, 1.0 / HEIGHT);
 	cam->v.upperleft = vector_subtract(vector_add(cam->org, vector_scale(cam->dir, F_LENGTH)), vector_add(vector_scale(cam->v.u, 0.5), vector_scale(cam->v.v, 0.5)));

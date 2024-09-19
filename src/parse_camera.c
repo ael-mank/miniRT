@@ -56,31 +56,33 @@ void	init_viewport(t_cam *cam)
 	if (cam->dir.x != 0)
 	{
 		v1.z = 1;
-		v1.x = cam->dir.z / fabs(cam->dir.x);
+		v1.x = - cam->dir.z / cam->dir.x;
 	}
-	else
+	else if (cam->dir.z != 0)
 	{
 		v1.x = 1;
 		v1.z = - cam->dir.x / cam->dir.z;
 	}
+	else
+		v1 = vec3(1, 0, 0);
 	v2 = cross_product(cam->dir, v1);
+	// printf("%f %f\n", dot_product(v1, cam->dir), dot_product(v2, cam->dir));
+	if (cam->dir.z * v1.x < 0)
+		v1 = vector_scale(v1, -1);
 	if (v2.y > 0)
-		v2.y *= -1;
+		v2 = vector_scale(v2, -1);
 	v1 = vector_normalize(v1);
 	v2 = vector_normalize(v2);
 	cam->v.w = F_LENGTH * tan(cam->theta_radian) * 2;
-	cam->v.h = cam->v.w / LENGTH * HEIGHT;
-	// cam->v.u = vec3(cam->v.w, 0, 0);
-	// cam->v.v = vec3(0, -cam->v.h, 0);
+	cam->v.h = cam->v.w / ((double)LENGTH / (double)HEIGHT);
 	cam->v.u = vector_scale(v1, cam->v.w);
 	cam->v.v = vector_scale(v2, cam->v.h);
-	//print_vec3(v1);
-	//print_vec3(v2);
+	// printf("%f %f\n", dot_product(cam->v.u, cam->dir), dot_product(cam->v.v, cam->dir));
 	cam->v.pixel_delta_u = vector_scale(cam->v.u, 1.0 / LENGTH);
 	cam->v.pixel_delta_v = vector_scale(cam->v.v, 1.0 / HEIGHT);
 	cam->v.upperleft = vector_subtract(vector_add(cam->org, vector_scale(cam->dir, F_LENGTH)), vector_add(vector_scale(cam->v.u, 0.5), vector_scale(cam->v.v, 0.5)));
 	cam->v.pixel00 = vector_add(cam->v.upperleft, vector_scale(vector_add(cam->v.pixel_delta_u, cam->v.pixel_delta_v), 0.5));
-}
+	}
 
 bool	parse_point(char **line, t_vec3 *point)
 {

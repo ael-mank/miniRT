@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 08:50:38 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/05 06:35:30 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:15:59 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 
 typedef struct s_list
 {
-	void			*content;
-	struct s_list	*next;
+    void			*content;
+    struct s_list	*next;
 }	t_list;
 
-//Mandatory functions from libft
+// Mandatory functions from libft
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int character);
@@ -69,7 +69,7 @@ size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char	*dest, const char	*src, size_t destsize);
 size_t	ft_strlcat(char *dest, const char *src, size_t destsize);
 
-//Bonus functions from libft
+// Bonus functions from libft
 
 t_list	*ft_lstnew(void *content);
 t_list	*ft_lstlast(t_list *lst);
@@ -81,18 +81,18 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 int		ft_lstsize(t_list *lst);
 
-//ft_Printf
+// ft_Printf
 
 typedef struct s_flags
 {
-	int	zero;
-	int	minus;
-	int	width;
-	int	precision;
-	int	precisize;
-	int	hash;
-	int	space;
-	int	plus;
+    int	zero;
+    int	minus;
+    int	width;
+    int	precision;
+    int	precisize;
+    int	hash;
+    int	space;
+    int	plus;
 }		t_flags;
 
 int		ft_printf(const char *str, ...);
@@ -112,11 +112,9 @@ char	*ft_puthexa(unsigned int nbr, char c, t_flags *flags);
 int		ft_printhexa(unsigned int nbr, char c, t_flags *flags);
 t_flags	*create_struct(void);
 int		ft_setflags(t_flags *flags, const char *str);
-int		ft_setflags(t_flags *flags, const char *str);
 int		ft_get_integer_length(int nbr);
 int		ft_printunsigned(unsigned int nbr, t_flags *flags);
 int		ft_re_setflags(t_flags *flags, const char *str, va_list args);
-int		ft_isdigit(int character);
 void	add_zero_hexa(int len, int i, char *array);
 int		set_v(int n, t_flags *flags);
 int		ft_integer_flag(char sign);
@@ -131,7 +129,7 @@ int		justify_putflags_precisize(t_flags *flags, int n);
 void	reversing_array(char *array, int len);
 int		ft_hexaflag_left(char *str, t_flags *flags, char c, unsigned int nb);
 int		ft_hexaflag_right_zero(char *str, t_flags *flags, char c,
-			unsigned int nb);
+            unsigned int nb);
 int		ft_hexaflag_right(char *str, t_flags *flags, char c, unsigned int nb);
 int		ft_hexaflag_zero(char *str, t_flags *flags);
 int		justify_putflags_zero_ptr(char *str, t_flags *flags);
@@ -144,7 +142,7 @@ int		ft_getprecision(t_flags *flags, const char *str, va_list args);
 int		ft_printnull_char_str(t_flags *flags);
 void	ft_str_toupper(char *str);
 
-//Get_next_line
+// Get_next_line
 
 char	*get_next_line(int fd);
 

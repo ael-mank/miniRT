@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 12:00:07 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/19 18:58:36 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # include <stdlib.h>
 # include <time.h>
 # include <unistd.h>
+# include <omp.h>
+
 
 // Structs
 typedef struct s_render
@@ -98,6 +100,13 @@ typedef struct s_scene
 	int				c_and_a;
 }					t_scene;
 
+typedef struct {
+    t_scene *scene;
+    int start_x;
+    int end_x;
+    int start_y;
+    int end_y;
+} t_thread_data;
 // Memory management
 int					ft_exit(t_scene *scene);
 

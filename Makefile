@@ -1,10 +1,22 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/09/19 19:43:12 by ael-mank          #+#    #+#              #
+#    Updated: 2024/09/19 19:43:18 by ael-mank         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # Variables
 CC = cc
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
-CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -Ofast
+CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude  -fopenmp -g3
 SRC_FILES = main \
             my_mlx/window_inputs my_mlx/my_mlx_pixel_put\
             my_mlx/write_colors \
@@ -44,9 +56,9 @@ NC=\033[0m
 
 # Rules
 all: CFLAGS += -DSPP=1 -DMD=1
-all: $(NAME)
+all: clean $(NAME)
 
-bonus: CFLAGS += -DSPP=10 -DMD=25
+bonus: CFLAGS += -DSPP=500 -DMD=55
 bonus: clean $(BONUS_NAME)
 
 $(NAME): $(OBJ)

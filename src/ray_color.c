@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:09:41 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/19 15:24:40 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/19 15:39:10 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,6 @@ double	light_weight(t_ray *ray, void *obj, t_light *l)
 		surface_normal = vector_normalize(vector_add(temp[0], temp[1]));
 	}
  	light_weight = dot_product(vector_normalize(vector_subtract(l->org, ray->intersect)), surface_normal);
-	if (ray->object_type == SPHERE)
-	{
-		// print_vec3(vector_subtract(l->org, ray->intersect));
-		print_vec3(surface_normal);
-		// printf("%.1f\n", light_weight);
-	}
 	if (light_weight < 0)
 		return (0);
 	return (light_weight);

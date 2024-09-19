@@ -49,6 +49,7 @@ bool	parse_and_add_cylinder(char *line, t_scene *scene)
 	{
 		printf("Cylinder | Center: %.1f,%.1f,%.1f | Axis: %.1f,%.1f,%.1f | Diameter: %.1f | Height: %.1f | Color: %d,%d,%d\n", cy->center.x, cy->center.y, cy->center.z, cy->axis.x, cy->axis.y, cy->axis.z, cy->diameter, cy->height, cy->color.r, cy->color.g, cy->color.b);
 		cy->radius = cy->diameter / 2;
+		cy->axis = vector_normalize(cy->axis);
 		add_to_obj_list(cy, scene, CYLINDER);
 		return (true);
 	}

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:45:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/21 18:11:38 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/19 16:47:16 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ t_vec3	vector_normalize(t_vec3 v)
 
 void	print_vec3(t_vec3 v)
 {
-	printf("(%1f, %1f, %1f)\n", v.x, v.y, v.z);
+	printf("(%.1f, %.1f, %.1f)\n", v.x, v.y, v.z);
 }

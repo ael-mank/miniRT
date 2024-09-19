@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/17 22:21:46 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/19 14:28:38 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ unsigned int	calculate_pixel(int x, int y, t_scene *scene)
 	pixel = find_pixel_on_viewport(x, y, scene->c->v);
 	ray = init_ray(scene->c, pixel);
 	cast_ray(&ray, scene);
-	color = ray_color(ray, scene);
+	color = ray_color(&ray, scene);
 	return ((color.r << 16) + (color.g << 8) + color.b);
 }
 

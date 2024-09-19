@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 22:11:11 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/19 15:02:57 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	intersect_cylinder_back(t_ray *ray, t_cam cam, t_cylinder *cy);
 bool	in_cylinder_limit(double root, t_cam c, t_ray *ray, t_cylinder *cy);
 
 // ray_coloring
-t_color	ray_color(t_ray ray, t_scene *scene);
+t_color	ray_color(t_ray *ray, t_scene *scene);
 t_color	weighted_obj_color(t_ray *ray, void *obj, t_light *l);
 double	light_weight(t_ray *ray, void *obj, t_light *l);
 

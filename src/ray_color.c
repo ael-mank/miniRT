@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:09:41 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/19 17:05:45 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/20 14:22:44 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_color norm(t_ray *ray, void *obj) {
 	double	project;
 	t_color clr;
 
-
 	clr = color(0,0,0);
 	if (ray->object_type == CYLINDER)
 	{
@@ -54,12 +53,13 @@ t_color norm(t_ray *ray, void *obj) {
 		radial_vector = vector_subtract(ray->intersect, closest_pt);
 		radial_vector = (vector_normalize(radial_vector));
 	}
+	if (ray->object_type == SPHERE)
+		radial_vector = vector_normalize(vector_subtract(ray->intersect, ((t_sphere *)obj)->center));
 	clr.r = radial_vector.x * 255;
 	clr.g = radial_vector.y * 255;
 	clr.b = radial_vector.z * 255;
 	return clr;
 }
-
 
 t_color	weighted_obj_color(t_ray *ray, void *obj, t_light *l)
 {
@@ -75,7 +75,7 @@ t_color	weighted_obj_color(t_ray *ray, void *obj, t_light *l)
 		obj_color = ((t_plane *)obj)->color;
 	if (ray->object_type == CYLINDER)
 		obj_color = ((t_cylinder *)obj)->color;
-	return (norm(ray, obj));
+	// return (norm(ray, obj));
 	weighted = color_scale(obj_color, light_weight(ray, obj, l));
 	// if (ray->object_type == SPHERE)
 	// 	printf("%d,%d,%d ", weighted.r, weighted.g, weighted.b);
@@ -97,7 +97,7 @@ double	light_weight(t_ray *ray, void *obj, t_light *l)
 		temp[0] = vector_subtract(ray->intersect, ((t_cylinder *)obj)->center);
 		temp[1] = vector_scale(((t_cylinder *)obj)->axis, dot_product(temp[0], ((t_cylinder *)obj)->axis));
 		// print_vec3(temp[1]);
-		surface_normal = vector_normalize(vector_add(temp[0], temp[1]));
+		surface_normal = vector_normalize(vector_subtract(temp[0], temp[1]));
 	}
  	light_weight = dot_product(vector_normalize(vector_subtract(l->org, ray->intersect)), surface_normal);
 	if (light_weight < 0)

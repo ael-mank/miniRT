@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 10:15:30 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:11:41 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,15 @@ void	free_sphere(t_bvh *node)
 void	free_bvh_tree(t_bvh *node)
 {
 	if (node == NULL)
+		printf("node is null\n");
 		return ;
 	free_bvh_tree(node->left);
 	free_bvh_tree(node->right);
-	if (node->object != NULL && node->object->object != NULL)
+	if (node->object->free)
 	{
 		node->object->free(node);
+		free(node->object);
 	}
-	free(node->object);
 	free(node);
 }
 

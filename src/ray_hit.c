@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:12:32 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/19 14:36:25 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/23 17:13:05 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	intersect_cylinder_front(t_ray *ray, t_cam cam, t_cylinder *cy)
 		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)) && in_cylinder_limit(root, cam, ray, cy))
 		{
 			ray->hit_object = TRUE_HIT;
-			ray->object_type = CYLINDER;
+			ray->object_type = CYLINDER_E;
 			ray->object = cy;
 			ray->hit_distance = root;
 			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));
@@ -128,7 +128,7 @@ void	intersect_cylinder_back(t_ray *ray, t_cam cam, t_cylinder *cy)
 		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)) && in_cylinder_limit(root, cam, ray, cy))
 		{
 			ray->hit_object = TRUE_HIT;
-			ray->object_type = CYLINDER;
+			ray->object_type = CYLINDER_I;
 			ray->object = cy;
 			ray->hit_distance = root;
 			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));

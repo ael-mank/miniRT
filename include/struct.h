@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/17 20:33:07 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/23 17:11:57 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ typedef enum e_obj_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	CYLINDER_E,
+	CYLINDER_I,
 }	t_obj_type;
 
 typedef struct s_obj	t_obj;

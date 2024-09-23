@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:09:41 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/20 14:22:44 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/23 17:28:05 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,13 @@ double	light_weight(t_ray *ray, void *obj, t_light *l)
 		surface_normal = vector_normalize(vector_subtract(ray->intersect, ((t_sphere *)obj)->center));
 	if (ray->object_type == PLANE)
 		surface_normal = vector_normalize(((t_plane *)obj)->normal);
-	if (ray->object_type == CYLINDER)
+	if (ray->object_type == CYLINDER_E || ray->object_type == CYLINDER_I)
 	{
 		temp[0] = vector_subtract(ray->intersect, ((t_cylinder *)obj)->center);
 		temp[1] = vector_scale(((t_cylinder *)obj)->axis, dot_product(temp[0], ((t_cylinder *)obj)->axis));
-		// print_vec3(temp[1]);
 		surface_normal = vector_normalize(vector_subtract(temp[0], temp[1]));
+		if (ray->object_type == CYLINDER_I)
+			surface_normal = vector_scale(surface_normal, -1);
 	}
  	light_weight = dot_product(vector_normalize(vector_subtract(l->org, ray->intersect)), surface_normal);
 	if (light_weight < 0)

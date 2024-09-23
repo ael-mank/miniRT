@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 14:19:19 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/23 11:26:14 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,6 @@ static inline t_ray	get_ray(int i, int j, t_camera *camera)
 void	render_scene(t_scene *scene)
 {
 	clock_t	start_time;
-	clock_t	end_time;
-	double	elapsed_time;
 
 	start_time = clock();
 	while (scene->rdr.j < scene->render.image_height)
@@ -158,13 +156,13 @@ void	render_scene(t_scene *scene)
 				scene->rdr.color);
 			scene->rdr.i++;
 		}
+		if (scene->rdr.j % 100 == 0)
+            ft_printf("Progress: %d%%\n", scene->rdr.j * 100 / scene->render.image_height);
 		scene->rdr.j++;
 	}
 	scene->rdr.j = 0;
 	scene->rdr.i = 0;
-	end_time = clock();
-	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-	printf("Time to render: %.10f seconds\n", elapsed_time);
+	ft_printf("Time to render: %d seconds\n", (int)((clock() - start_time) / CLOCKS_PER_SEC));
 	mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr,
 		scene->mlx.img.img, 0, 0);
 }

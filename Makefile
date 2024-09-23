@@ -6,7 +6,7 @@
 #    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 19:43:12 by ael-mank          #+#    #+#              #
-#    Updated: 2024/09/22 20:40:19 by ael-mank         ###   ########.fr        #
+#    Updated: 2024/09/23 10:52:07 by ael-mank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,10 +55,10 @@ NC=\033[0m
 .PHONY: all bonus clean fclean re
 
 # Rules
-all: CFLAGS += -DSPP=1 -DMD=1
+all: CFLAGS += -DSPP=1 -DMD=2
 all: clean $(NAME)
 
-bonus: CFLAGS += -DSPP=500 -DMD=55
+bonus: CFLAGS += -DSPP=45 -DMD=55
 bonus: clean $(BONUS_NAME)
 
 $(NAME): $(OBJ)

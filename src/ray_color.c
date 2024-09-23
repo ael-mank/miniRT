@@ -73,7 +73,7 @@ t_color	weighted_obj_color(t_ray *ray, void *obj, t_light *l)
 	}
 	if (ray->object_type == PLANE)
 		obj_color = ((t_plane *)obj)->color;
-	if (ray->object_type == CYLINDER)
+	if (ray->object_type == CYLINDER_E || ray->object_type == CYLINDER_I)
 		obj_color = ((t_cylinder *)obj)->color;
 	// return (norm(ray, obj));
 	weighted = color_scale(obj_color, light_weight(ray, obj, l));

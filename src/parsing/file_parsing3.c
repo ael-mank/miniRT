@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:05:41 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 12:56:29 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/23 09:58:55 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,14 @@ t_material_type	get_type(char *line)
 	else if (!ft_strncmp(line, "checkerboard", 13))
 		return (CHECKERBOARD);
 	else
+	{
+		if (line[0] != '\0')
+		{
+			ft_printf("\e[1;31mError :");
+			ft_printf("\t%s\n\033[0m", "Unrecognized material type replaced by matte");
+		}
 		return (MATTE);
+	}
 }
 
 int	parse_sphere(t_scene *scene, char *line)

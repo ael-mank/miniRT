@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/19 18:58:36 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/23 09:50:40 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # include <stdlib.h>
 # include <time.h>
 # include <unistd.h>
-# include <omp.h>
 
 
 // Structs

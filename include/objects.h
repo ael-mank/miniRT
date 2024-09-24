@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:09:50 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:07:49 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ t_object	*add_cylinder(t_object *head, t_cylinder *cylinder);
 
 // Texture functions
 t_vec3 solid_color(t_material *mat, t_hitrecord *rec);
+t_vec3 show_normal(t_material *mat, t_hitrecord *rec);
 t_vec3 checkerboard(t_material *mat, t_hitrecord *rec);
 t_vec3 get_texture_color(t_material *mat, t_hitrecord *rec);
 

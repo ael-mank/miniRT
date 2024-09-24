@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:40:09 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 13:47:08 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:08:00 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@ t_vec3	solid_color(t_material *mat, t_hitrecord *rec)
 {
 	(void)rec;
 	return (mat->albedo);
+}
+
+t_vec3 show_normal(t_material *mat, t_hitrecord *rec)
+{
+	(void)mat;
+	t_vec3 normal;
+
+	normal = rec->normal;
+	normal = vector_add(normal, vec3(1, 1, 1));
+	normal = vector_scale(normal, 0.5);
+	return (normal);
 }
 
 t_vec3	checkerboard(t_material *mat, t_hitrecord *rec)

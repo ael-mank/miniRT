@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:28:31 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:40:36 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:09:49 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static inline int	bvh_hit_check_box(t_bvh *node, t_ray r, t_interval ray_t)
 	return (node->box.hit(r, node->box, ray_t));
 }
 
-static inline int	bvh_hit_node(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
+int	bvh_hit_node(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
 {
 	t_hitrecord	left_rec;
 	t_hitrecord	right_rec;

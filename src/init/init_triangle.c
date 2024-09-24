@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 17:58:59 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:00:23 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 t_aabb	create_triangle_aabb(t_triangle *triangle)
 {
-	t_point3 (min_point) = {
-	fmin(fmin(triangle->v0.x, triangle->v1.x), triangle->v2.x),
-	fmin(fmin(triangle->v0.y, triangle->v1.y), triangle->v2.y),
-	fmin(fmin(triangle->v0.z, triangle->v1.z), triangle->v2.z)};
-	t_point3 (max_point) = {
-	fmax(fmax(triangle->v0.x, triangle->v1.x), triangle->v2.x),
-	fmax(fmax(triangle->v0.y, triangle->v1.y), triangle->v2.y),
-	fmax(fmax(triangle->v0.z, triangle->v1.z), triangle->v2.z)};
+	t_point3(min_point) = {fmin(fmin(triangle->v0.x, triangle->v1.x),
+			triangle->v2.x), fmin(fmin(triangle->v0.y, triangle->v1.y),
+			triangle->v2.y), fmin(fmin(triangle->v0.z, triangle->v1.z),
+			triangle->v2.z)};
+	t_point3(max_point) = {fmax(fmax(triangle->v0.x, triangle->v1.x),
+			triangle->v2.x), fmax(fmax(triangle->v0.y, triangle->v1.y),
+			triangle->v2.y), fmax(fmax(triangle->v0.z, triangle->v1.z),
+			triangle->v2.z)};
 	return (aabb_points(min_point, max_point));
 }
 

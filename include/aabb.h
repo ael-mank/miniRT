@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:06:53 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 15:39:10 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:58:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_check_axis_params
 }						t_check_axis_params;
 
 t_aabb					aabb(t_interval x, t_interval y, t_interval z);
-t_aabb					empty_aabb(void);
 t_aabb					aabb_points(t_point3 a, t_point3 b);
 t_aabb					aabb_aabb(t_aabb a, t_aabb b);
 t_interval				get_axis(t_aabb box, int axis);

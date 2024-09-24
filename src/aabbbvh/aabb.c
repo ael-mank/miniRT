@@ -6,21 +6,11 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:07:50 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 17:49:14 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:58:53 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-t_aabb	empty_aabb(void)
-{
-	t_aabb	aabb;
-
-	aabb.x = (t_interval){0, 0};
-	aabb.y = (t_interval){0, 0};
-	aabb.z = (t_interval){0, 0};
-	return (aabb);
-}
 
 t_interval	expand(double delta, t_interval i)
 {

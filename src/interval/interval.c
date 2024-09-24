@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:04:34 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/11 14:00:18 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:04:39 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,16 @@ t_interval	interval(double min, double max)
 {
 	t_interval	interval;
 
-	interval.min = (min < max) ? min : max;
-	interval.max = (min < max) ? max : min;
+	if (min < max)
+	{
+		interval.min = min;
+		interval.max = max;
+	}
+	else
+	{
+		interval.min = max;
+		interval.max = min;
+	}
 	return (interval);
 }
 

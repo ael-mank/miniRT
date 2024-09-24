@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 09:51:52 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 12:02:00 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:21:15 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	check_char(t_scene *scene, char *line)
 	// else if (*line == 't' && *(line + 1) == 'r')
 	// 	//return(parse_triangle(scene, line));
 	else if (*line == '#')
-		return (0);
+		return (1);
 	else
 		return (0);
 }

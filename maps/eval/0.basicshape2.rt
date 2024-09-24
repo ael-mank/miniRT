@@ -1,0 +1,8 @@
+#Place a cylinder extending along the y axis. With the camera facing the cylinder, display the rendered image.
+#The cylinder should be visible and displayed without glitching.
+
+A 1 255,255,255
+
+C 0,0,-30 0,0,1 70
+
+cy 0,0,0 0,1,0 10 25 150,80,10

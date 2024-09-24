@@ -1,0 +1,10 @@
+#Place a cylinder extending along the y axis, the camera facing
+#the cylinder. Then put a 90° rotation (PI/2 radian) along
+#the z axis and display the rendered image. The cylinder
+#should be visible and displayed without glitching.
+
+A 1 255,255,255
+
+C 0,0,-30 0,0,1 70
+
+cy 0,0,0 0,1,1 10 25 150,80,10

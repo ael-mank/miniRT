@@ -1,0 +1,10 @@
+#Place a sphere at the coordinates {0, 0, 0}. With the camera facing the sphere, display the rendered image.
+#The sphere should be visible and displayed without glitching.
+
+A 0 255,255,255
+
+C 0,0,11 0,0,-1 70
+
+L 10,10,10 1 255,255,255
+
+sp 0,0,0 10 150,80,10 globe

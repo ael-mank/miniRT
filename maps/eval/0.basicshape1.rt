@@ -1,0 +1,8 @@
+#Place a plane with a 'z' value of null. With the camera facing the plane, display the rendered image.
+#The plane should be visible and displayed without glitching.
+
+A 1 255,255,255
+
+C 0,0,-25 0,0,1 40
+
+pl 0,0,0 0,0,1 255,125,225

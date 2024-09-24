@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 08:34:56 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/07 11:58:33 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:50:40 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,20 @@ t_material	make_globe(void)
 {
 	t_material	mat;
 	t_texture	*texture;
+	t_texture	*normal;
 
 	mat.scatter = lambertian_scatter;
 	mat.texture = get_texture_color;
 	mat.emission = no_light;
 	texture = load_img("earthmap.xpm");
+	normal = load_img("earthnormal.xpm");
 	if (!texture)
 	{
 		fprintf(stderr, "Error: Failed to load texture\n");
 		exit(EXIT_FAILURE);
 	}
 	mat.img = texture;
+	mat.normal_map = normal;
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
 	return (mat);

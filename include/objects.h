@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 10:17:07 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:51:17 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_material {
     double fuzz;
     double ref_indx;
     t_texture *img;
+	t_texture *normal_map;
 } t_material;
 
 // Sphere structure

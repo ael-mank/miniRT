@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 15:46:59 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/11 19:47:42 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:46:20 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ static inline double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hi
     if (discriminant < 0)
         return (0);
     sqrtd = sqrt(discriminant);
-
-    // Find the nearest root that lies in the acceptable range.
     root = (-half_b - sqrtd) / a;
     if (!contains(ray_t, root))
     {
@@ -56,12 +54,17 @@ static inline double	hit_sphere(t_ray r, t_sphere sphere, t_interval ray_t, t_hi
         if (!contains(ray_t, root))
             return (0);
     }
-
     rec->t = root;
     rec->p = ray_at(&r, root);
     t_vec3 outward_normal = vector_divide(vector_subtract(rec->p, sphere.center), sphere.radius);
-    set_face_normal(rec, &r, outward_normal);
     get_sphere_uv(outward_normal, &rec->u, &rec->v);
+    if (sphere.mat->normal_map)
+    {
+        t_vec3 normal_color = get_texture_color(sphere.mat, rec);
+        outward_normal = vector_add(outward_normal, normal_color);
+		outward_normal = vector_normalize(outward_normal);
+    }
+    set_face_normal(rec, &r, outward_normal);
     rec->mat = sphere.mat;
     return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:28:31 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/16 17:50:23 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:40:36 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,8 @@ static inline int	bvh_hit_node(t_bvh *node, t_ray r, t_interval ray_t, t_hitreco
 
 int	bvh_hit(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
 {
-	t_object	*object;
-
 	if (!node)
 		return (0);
-	if (node->object)
-	{
-		object = (t_object *)node->object->object;
-		if (object->hit == hit_plane_wrapper)
-			return (object->hit(r, object, ray_t, rec));
-	}
 	if (!bvh_hit_check_box(node, r, ray_t))
 		return (0);
 	return (bvh_hit_node(node, r, ray_t, rec));

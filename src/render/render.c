@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/23 11:26:14 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:32:52 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh, t_scene *scene)
 	t_vec3		emission;
 	t_vec3		lighting;
 
+	ft_bzero(&rec, sizeof(t_hitrecord));
 	if (depth <= 0)
 		return (vec3(0, 0, 0));
 	if (!bvh_hit(bvh, *r, universe_interval, &rec))
@@ -136,6 +137,7 @@ void	render_scene(t_scene *scene)
 	clock_t	start_time;
 
 	start_time = clock();
+	scene->rdr.r = (t_ray){vec3(0, 0, 0), vec3(0, 0, 0)};
 	while (scene->rdr.j < scene->render.image_height)
 	{
 		scene->rdr.i = 0;

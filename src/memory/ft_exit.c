@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/23 09:56:53 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:23:23 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,30 @@ void	free_quad(t_bvh *node)
 
 void	free_sphere(t_bvh *node)
 {
-	t_sphere	*sphere;
+    t_sphere	*sphere;
 
-	sphere = (t_sphere *)node->object->object;
-	if (sphere->mat->img != NULL)
-	{
-		mlx_destroy_image(get_mlx_ptr(), sphere->mat->img->image);
-		free(sphere->mat->img);
-	}
-	if (sphere->mat != NULL)
-		free(sphere->mat);
-	free(sphere);
+    if (node == NULL || node->object == NULL || node->object->object == NULL)
+        return;
+
+    sphere = (t_sphere *)node->object->object;
+
+    if (sphere->mat != NULL)
+    {
+        if (sphere->mat->img != NULL)
+        {
+            if (sphere->mat->img->image != NULL)
+                mlx_destroy_image(get_mlx_ptr(), sphere->mat->img->image);
+            free(sphere->mat->img);
+        }
+        if (sphere->mat->normal_map != NULL)
+        {
+            if (sphere->mat->normal_map->image != NULL)
+                mlx_destroy_image(get_mlx_ptr(), sphere->mat->normal_map->image);
+            free(sphere->mat->normal_map);
+        }
+        free(sphere->mat);
+    }
+    free(sphere);
 }
 void	free_bvh_tree(t_bvh *node)
 {

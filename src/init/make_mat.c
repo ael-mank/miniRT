@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 08:34:56 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 13:50:40 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:39:04 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_material	make_matte(void)
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
 	mat.img = NULL;
+	mat.normal_map = NULL;
 	return (mat);
 }
 
@@ -35,6 +36,7 @@ t_material	make_invisible(void)
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
 	mat.img = NULL;
+	mat.normal_map = NULL;
 	return (mat);
 }
 
@@ -48,6 +50,7 @@ t_material	make_light(void)
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
 	mat.img = NULL;
+	mat.normal_map = NULL;
 	return (mat);
 }
 
@@ -61,6 +64,7 @@ t_material	make_metal(void)
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
 	mat.img = NULL;
+	mat.normal_map = NULL;
 	return (mat);
 }
 
@@ -74,6 +78,7 @@ t_material	make_glass(double ref_indx)
 	mat.fuzz = 0;
 	mat.ref_indx = ref_indx;
 	mat.img = NULL;
+	mat.normal_map = NULL;
 	return (mat);
 }
 
@@ -87,6 +92,7 @@ t_material	make_checkerboard(void)
 	mat.fuzz = 0;
 	mat.ref_indx = 0;
 	mat.img = NULL;
+	mat.normal_map = NULL;
 	return (mat);
 }
 
@@ -121,10 +127,15 @@ t_material	make_globe(void)
 	mat.texture = get_texture_color;
 	mat.emission = no_light;
 	texture = load_img("earthmap.xpm");
-	normal = load_img("earthnormal.xpm");
 	if (!texture)
 	{
-		fprintf(stderr, "Error: Failed to load texture\n");
+		ft_printf("Error loading texture\n");
+		exit(EXIT_FAILURE);
+	}
+	normal = load_img("earthnormal.xpm");
+	if (!normal)
+	{
+		ft_printf("Error loading normal map\n");
 		exit(EXIT_FAILURE);
 	}
 	mat.img = texture;

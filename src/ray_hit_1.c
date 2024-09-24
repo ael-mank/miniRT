@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_hit.c                                          :+:      :+:    :+:   */
+/*   ray_hit_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:12:32 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/23 17:13:05 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 20:50:23 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	solve_equation(t_root *res, double a, double b, double c)
+void	sphere_equation(t_root *res, double a, double b, double c)
 {
 	res->delta = b * b - 4 * a * c;
 	if (res->delta < 0)
@@ -41,7 +41,7 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 	b = -2 * dot_product(ray->dir, vector_subtract(sp->center, ray->org));
 	c = dot_product(vector_subtract(sp->center, ray->org),
 			vector_subtract(sp->center, ray->org)) - pow(sp->radius, 2);
-	solve_equation(&res, a, b, c);
+	sphere_equation(&res, a, b, c);
 	if (res.hit == TRUE_HIT)
 	{
 		ray->hit_object = TRUE_HIT;
@@ -80,78 +80,4 @@ void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));
 		}
 	}
-}
-
-void	intersect_cylinder_front(t_ray *ray, t_cam cam, t_cylinder *cy)
-{
-	double	a;
-	double	b;
-	double	c;
-	t_vec3	temp[3];
-	double	root;
-
-	temp[0] = vector_subtract(cam.org, cy->center);
-	temp[1] = cross_product(ray->dir, cy->axis);
-	temp[2] = cross_product(temp[0], cy->axis);
-	a = dot_product(temp[1], temp[1]);
-	b = 2 * dot_product(temp[1], temp[2]);
-	c = dot_product(temp[2], temp[2]) - pow(cy->radius
-			* vector_length(cy->axis), 2);
-	if (b * b - 4 * a * c >= 0)
-	{
-		root = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
-		if (root > 1 && (!ray->hit_object || (ray->hit_object
-					&& root < ray->hit_distance)) && in_cylinder_limit(root,
-				cam, ray, cy))
-		{
-			ray->hit_object = TRUE_HIT;
-			ray->object_type = CYLINDER_E;
-			ray->object = cy;
-			ray->hit_distance = root;
-			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));
-		}
-	}
-}
-
-void	intersect_cylinder_back(t_ray *ray, t_cam cam, t_cylinder *cy)
-{
-	double	a;
-	double	b;
-	double	c;
-	t_vec3	temp[3];
-	double	root;
-
-	temp[0] = vector_subtract(cam.org, cy->center);
-	temp[1] = cross_product(ray->dir, cy->axis);
-	temp[2] = cross_product(temp[0], cy->axis);
-	a = dot_product(temp[1], temp[1]);
-	b = 2 * dot_product(temp[1], temp[2]);
-	c = dot_product(temp[2], temp[2]) - pow(cy->radius
-			* vector_length(cy->axis), 2);
-	if (b * b - 4 * a * c >= 0)
-	{
-		root = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
-		if (root > 1 && (!ray->hit_object || (ray->hit_object
-					&& root < ray->hit_distance)) && in_cylinder_limit(root,
-				cam, ray, cy))
-		{
-			ray->hit_object = TRUE_HIT;
-			ray->object_type = CYLINDER_I;
-			ray->object = cy;
-			ray->hit_distance = root;
-			ray->intersect = vector_add(cam.org, vector_scale(ray->dir, root));
-		}
-	}
-}
-
-bool	in_cylinder_limit(double root, t_cam c, t_ray *ray, t_cylinder *cy)
-{
-	t_point3	intersect_p;
-	t_vec3		p_center;
-
-	intersect_p = vector_add(c.org, vector_scale(ray->dir, root));
-	p_center = vector_subtract(cy->center, intersect_p);
-	if (pow(dot_product(p_center, cy->axis), 2) <= pow(cy->height / 2.0, 2))
-		return (true);
-	return (false);
 }

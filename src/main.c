@@ -6,11 +6,24 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 15:16:28 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 20:26:59 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+unsigned int	calculate_pixel(int x, int y, t_scene *scene)
+{
+	t_point3	pixel;
+	t_ray		ray;
+	t_color		color;
+
+	pixel = find_pixel_on_viewport(x, y, scene->c->v);
+	ray = init_ray(scene->c, pixel);
+	cast_ray(&ray, scene);
+	color = ray_color(&ray, scene);
+	return ((color.r << 16) + (color.g << 8) + color.b);
+}
 
 int	calculate_image(t_win *win)
 {
@@ -59,6 +72,33 @@ void	win_init(t_win *win, t_scene *scene)
 	win->img.addr = mlx_get_data_addr(win->img.img, &win->img.bits_per_pixel,
 			&win->img.line_length, &win->img.endian);
 	win->render = 1;
+}
+
+void	parse_rt(t_scene *scene, int ac, char **av)
+{
+	int		fd;
+	char	*element;
+	bool	parse;
+
+	element = NULL;
+	parse = true;
+	fd = open_file(ac, av);
+	if (fd < 0)
+		exit(1);
+	element = get_next_line(fd);
+	while (element != NULL)
+	{
+		if (parse == true)
+			parse = parse_element(scene, element);
+		free(element);
+		element = get_next_line(fd);
+	}
+	close(fd);
+	if (parse == false)
+	{
+		free_scene(scene);
+		exit(1);
+	}
 }
 
 int	main(int ac, char **av)

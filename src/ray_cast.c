@@ -6,24 +6,11 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/24 15:23:49 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 20:26:53 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-unsigned int	calculate_pixel(int x, int y, t_scene *scene)
-{
-	t_point3	pixel;
-	t_ray		ray;
-	t_color		color;
-
-	pixel = find_pixel_on_viewport(x, y, scene->c->v);
-	ray = init_ray(scene->c, pixel);
-	cast_ray(&ray, scene);
-	color = ray_color(&ray, scene);
-	return ((color.r << 16) + (color.g << 8) + color.b);
-}
 
 t_point3	find_pixel_on_viewport(int x, int y, t_viewport v)
 {

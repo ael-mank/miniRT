@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/23 17:11:57 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 17:44:40 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,27 @@
 typedef enum e_obj_type
 {
 	DEFAULT,
+	AMBIENT,
+	LIGHT,
+	CAMERA,
 	SPHERE,
 	PLANE,
 	CYLINDER,
 	CYLINDER_E,
 	CYLINDER_I,
 }							t_obj_type;
+
+typedef enum e_err_type
+{
+	REPETITION,
+	RATIO,
+	POINT,
+	COLOR,
+	POS_NUM,
+	DIRECTION,
+	FOV,
+	NOISE,
+}							t_err_type;
 
 typedef struct s_obj		t_obj;
 typedef struct s_vec3		t_point3;

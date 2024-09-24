@@ -1,16 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_helper_2.c                                   :+:      :+:    :+:   */
+/*   parse_subutils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:03:27 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/24 15:20:53 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 20:46:57 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+int	count_parts(char *s, char c)
+{
+	int	count;
+
+	count = 0;
+	if (!s)
+		return (count);
+	while (*s)
+	{
+		while (*s && *s == c)
+			s++;
+		if (*s)
+			count += 1;
+		while (*s && *s != c)
+			s++;
+	}
+	return (count);
+}
 
 bool	is_float_format(char *s)
 {
@@ -40,23 +59,33 @@ bool	is_float_format(char *s)
 	return (res);
 }
 
-int	count_parts(char *s, char c)
+bool	is_vec3_format(char *s, int type)
 {
-	int	count;
+	int		nb_parts;
+	char	**parts;
+	bool	res;
 
-	count = 0;
-	if (!s)
-		return (count);
-	while (*s)
+	nb_parts = count_parts(s, ',');
+	parts = NULL;
+	if (nb_parts != 3)
+		res = false;
+	else
 	{
-		while (*s == c)
-			s++;
-		if (*s)
-			count += 1;
-		while (*s && *s != c)
-			s++;
+		parts = ft_split(s, ',');
+		if (type == INTEGER && str_is_int(parts[0]) && str_is_int(parts[1])
+			&& str_is_int(parts[2]))
+			res = true;
+		else if (type == FLOAT && is_float_format(parts[0])
+			&& is_float_format(parts[1]) && is_float_format(parts[2]))
+			res = true;
+		else
+			res = false;
+		free(parts[0]);
+		free(parts[1]);
+		free(parts[2]);
+		free(parts);
 	}
-	return (count);
+	return (res);
 }
 
 bool	str_is_int(char *s)
@@ -89,38 +118,4 @@ bool	str_is_digit(char *s)
 		s++;
 	}
 	return (true);
-}
-
-double	ft_atof(char *s)
-{
-	char	*no_dot;
-	int		significant;
-	int		i;
-	int		e;
-	double	res;
-
-	if (ft_strchr(s, '.'))
-		no_dot = malloc(ft_strlen(s));
-	else
-		no_dot = malloc(ft_strlen(s) + 1);
-	i = -1;
-	e = 0;
-	while (s[++i] && s[i] != '.')
-		no_dot[i] = s[i];
-	if (s[i] == '.')
-	{
-		i += 1;
-		while (s[i + e])
-		{
-			no_dot[i - 1 + e] = s[i + e];
-			e++;
-		}
-		no_dot[i + e - 1] = '\0';
-	}
-	else
-		no_dot[i] = '\0';
-	significant = ft_atoi(no_dot);
-	free(no_dot);
-	res = significant / pow(10, e);
-	return (res);
 }

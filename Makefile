@@ -6,8 +6,9 @@ MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
 CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude
 HEADER = ./include/minirt.h
-SRC_FILES = main parse parse_helper_1 parse_helper_2 parse_camera parse_light parse_plane parse_sphere parse_cylinder event ray_cast ray_hit ray_color vec_helper color_helper
-# init event ray_cast ray_hit ray_color vec_helper color_helper
+SRC_FILES = main utils \
+	parse_view parse_object parse_parameter parse_util_1 parse_util_2 \
+	ray_cast ray_hit_1 ray_hit_2 ray_color vec_helper_1 vec_helper_2 color_helper
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 NAME = miniRT

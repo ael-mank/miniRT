@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_camera.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/24 15:17:07 by yrigny            #+#    #+#             */
+/*   Updated: 2024/09/24 15:19:06 by yrigny           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 bool	parse_and_add_camera(char *line, t_scene *scene)
@@ -31,12 +43,13 @@ bool	parse_and_add_camera(char *line, t_scene *scene)
 		ft_putstr_fd("Field of view must be in range [0,180]\n", 1);
 		free(c);
 		return (false);
-	}	
-	while (ft_isspace(*line))
+	}
+	while (*line && ft_isspace(*line))
 		line++;
 	if (*line == '\0')
 	{
-		printf("Camera   | Point: %.1f,%.1f,%.1f | Orientation: %.1f,%.1f,%.1f | FOV: %.0f\n", c->org.x, c->org.y, c->org.z, c->dir.x, c->dir.y, c->dir.z, c->fov);
+		printf("Camera   | Point: %.1f,%.1f,%.1f | Orientation: %.1f,%.1f,%.1f | FOV: %.0f\n", c->org.x, c->org.y, c->org.z,
+			c->dir.x, c->dir.y, c->dir.z, c->fov);
 		c->theta_radian = c->fov / 2 * (PI / 180);
 		init_viewport(c);
 		scene->c = c;
@@ -56,17 +69,16 @@ void	init_viewport(t_cam *cam)
 	if (cam->dir.x != 0)
 	{
 		v1.z = 1;
-		v1.x = - cam->dir.z / cam->dir.x;
+		v1.x = -cam->dir.z / cam->dir.x;
 	}
 	else if (cam->dir.z != 0)
 	{
 		v1.x = 1;
-		v1.z = - cam->dir.x / cam->dir.z;
+		v1.z = -cam->dir.x / cam->dir.z;
 	}
 	else
 		v1 = vec3(1, 0, 0);
 	v2 = cross_product(cam->dir, v1);
-	// printf("%f %f\n", dot_product(v1, cam->dir), dot_product(v2, cam->dir));
 	if (cam->dir.z * v1.x < 0)
 		v1 = vector_scale(v1, -1);
 	if (v2.y > 0)
@@ -77,12 +89,16 @@ void	init_viewport(t_cam *cam)
 	cam->v.h = cam->v.w / ((double)LENGTH / (double)HEIGHT);
 	cam->v.u = vector_scale(v1, cam->v.w);
 	cam->v.v = vector_scale(v2, cam->v.h);
-	// printf("%f %f\n", dot_product(cam->v.u, cam->dir), dot_product(cam->v.v, cam->dir));
 	cam->v.pixel_delta_u = vector_scale(cam->v.u, 1.0 / LENGTH);
 	cam->v.pixel_delta_v = vector_scale(cam->v.v, 1.0 / HEIGHT);
-	cam->v.upperleft = vector_subtract(vector_add(cam->org, vector_scale(cam->dir, F_LENGTH)), vector_add(vector_scale(cam->v.u, 0.5), vector_scale(cam->v.v, 0.5)));
-	cam->v.pixel00 = vector_add(cam->v.upperleft, vector_scale(vector_add(cam->v.pixel_delta_u, cam->v.pixel_delta_v), 0.5));
-	}
+	cam->v.upperleft = vector_subtract(vector_add(cam->org,
+				vector_scale(cam->dir, F_LENGTH)),
+			vector_add(vector_scale(cam->v.u, 0.5), vector_scale(cam->v.v,
+					0.5)));
+	cam->v.pixel00 = vector_add(cam->v.upperleft,
+			vector_scale(vector_add(cam->v.pixel_delta_u, cam->v.pixel_delta_v),
+				0.5));
+}
 
 bool	parse_point(char **line, t_vec3 *point)
 {
@@ -135,14 +151,12 @@ bool	parse_direction(char **line, t_vec3 *vec)
 		*vec = ft_atovec3(tmp);
 		res = true;
 		if (!(vec->x >= -1 && vec->x <= 1 && vec->y >= -1 && vec->y <= 1
-			&& vec->z >= -1 && vec->z <= 1))
+				&& vec->z >= -1 && vec->z <= 1))
 			res = false;
-	
 	}
 	free(tmp);
 	*line += i;
 	return (res);
-
 }
 
 bool	parse_fov(char **line, double *fov)

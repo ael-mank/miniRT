@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:13:52 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/17 23:48:52 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 15:23:24 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,35 +20,26 @@ void	parse_rt(t_scene *scene, int ac, char **av)
 
 	element = NULL;
 	parse = true;
-/*	if (ac != 2 || av[1] == NULL)
-	{
-		ft_putstr_fd("Usage: ./miniRT *.rc\n", 2);
-		exit(0);
-	}
-	fd = open(av[1], O_RDONLY);*/
 	fd = try_open_file(ac, av);
-	if (fd == -1)
-	{
-		perror(av[1]);
+	if (fd < 0)
 		exit(1);
-	}
 	element = get_next_line(fd);
 	while (element != NULL)
 	{
-		parse = parse_element(scene, element);
+		if (parse == true)
+			parse = parse_element(scene, element);
 		free(element);
-		if (parse == false)
-		{
-			free_scene(scene);
-			exit(1);
-		}
 		element = get_next_line(fd);
 	}
-	free(element);
 	close(fd);
+	if (parse == false)
+	{
+		free_scene(scene);
+		exit(1);
+	}
 }
 
-int		try_open_file(int ac, char **av)
+int	try_open_file(int ac, char **av)
 {
 	int	fd;
 	int	len;
@@ -65,6 +56,11 @@ int		try_open_file(int ac, char **av)
 		exit(0);
 	}
 	fd = open(av[1], O_RDONLY);
+	if (fd < 0)
+	{
+		ft_putstr_fd("Error: ", 2);
+		perror(av[1]);
+	}
 	return (fd);
 }
 
@@ -81,11 +77,11 @@ bool	parse_element(t_scene *scene, char *line)
 	if (!ft_strncmp(line, "L ", 2))
 		return (parse_and_add_light(++line, scene));
 	if (!ft_strncmp(line, "pl ", 3))
-	 	return (parse_and_add_plane(line, scene));
+		return (parse_and_add_plane(line, scene));
 	if (!ft_strncmp(line, "sp ", 3))
-	 	return (parse_and_add_sphere(line, scene));
+		return (parse_and_add_sphere(line, scene));
 	if (!ft_strncmp(line, "cy ", 3))
-	 	return (parse_and_add_cylinder(line, scene));
+		return (parse_and_add_cylinder(line, scene));
 	else
 	{
 		ft_putstr_fd("Error: Wrong type of element.\n", 2);
@@ -96,7 +92,7 @@ bool	parse_element(t_scene *scene, char *line)
 bool	parse_and_add_ambient(char *line, t_scene *scene)
 {
 	t_ambient	*a;
-	
+
 	if (scene->a != NULL)
 	{
 		ft_putstr_fd("Error: Ambient light can only be declared once.\n", 2);
@@ -119,11 +115,12 @@ bool	parse_and_add_ambient(char *line, t_scene *scene)
 		free(a);
 		return (false);
 	}
-	while (ft_isspace(*line))
+	while (*line && ft_isspace(*line))
 		line++;
 	if (*line == '\0')
 	{
-		printf("Ambient  | Ratio: %.1f | Color: %d,%d,%d\n", a->ratio, a->color.r, a->color.g, a->color.b);
+		printf("Ambient  | Ratio: %.1f | Color: %d,%d,%d\n", a->ratio,
+			a->color.r, a->color.g, a->color.b);
 		scene->a = a;
 		return (true);
 	}
@@ -131,4 +128,3 @@ bool	parse_and_add_ambient(char *line, t_scene *scene)
 	ft_putstr_fd("Error: Ambient light has noise information\n", 2);
 	return (false);
 }
-

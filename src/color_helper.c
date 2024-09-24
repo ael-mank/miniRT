@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 17:16:00 by yrigny            #+#    #+#             */
-/*   Updated: 2024/08/26 18:55:50 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 15:13:03 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_color	color_scale(t_color base, double scaler)
 
 t_color	color_add(t_color a, t_color b)
 {
-	t_color res;
+	t_color	res;
 
 	res.r = a.r + b.r;
 	res.g = a.g + b.g;

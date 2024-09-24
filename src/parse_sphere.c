@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_sphere.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/24 15:22:21 by yrigny            #+#    #+#             */
+/*   Updated: 2024/09/24 15:22:37 by yrigny           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 bool	parse_and_add_sphere(char *line, t_scene *scene)
@@ -6,7 +18,7 @@ bool	parse_and_add_sphere(char *line, t_scene *scene)
 
 	sp = malloc(sizeof(t_sphere));
 	if (sp == NULL)
-			return (false);
+		return (false);
 	while (!ft_isspace(*line))
 		line++;
 	if (!parse_point(&line, &sp->center))
@@ -29,11 +41,12 @@ bool	parse_and_add_sphere(char *line, t_scene *scene)
 		free(sp);
 		return (false);
 	}
-	while (ft_isspace(*line))
+	while (*line && ft_isspace(*line))
 		line++;
 	if (*line == '\0')
 	{
-		printf("Sphere   | Center: %.1f,%.1f,%.1f | Diameter: %.1f | Color: %d,%d,%d\n", sp->center.x, sp->center.y, sp->center.z, sp->diameter, sp->color.r, sp->color.g, sp->color.b);
+		printf("Sphere   | Center: %.1f,%.1f,%.1f | Diameter: %.1f | Color: %d,%d,%d\n", sp->center.x, sp->center.y, sp->center.z, sp->diameter,
+			sp->color.r, sp->color.g, sp->color.b);
 		sp->radius = sp->diameter / 2;
 		add_to_obj_list(sp, scene, SPHERE);
 		return (true);
@@ -45,31 +58,31 @@ bool	parse_and_add_sphere(char *line, t_scene *scene)
 
 bool	parse_length(char **line, double *length)
 {
-	char    *tmp;
-        int             i;
-        bool    res;
+	char	*tmp;
+	int		i;
+	bool	res;
 
-        while (ft_isspace(**line))
-                (*line)++;
-        tmp = *line;
-        if (*tmp == '\0')
-                return (false);
-        i = 0;
-        while (!ft_isspace(tmp[i]))
-                i++;
-        tmp = malloc(i + 1);
-        ft_strlcpy(tmp, *line, i + 1);
-        if (!is_float_format(tmp))
-                res = false;
-        else
-        {
-                *length = ft_atof(tmp);
-                if (*length < 0.0)
-                        res = false;
-                else
-                        res = true;
-        }
-        free(tmp);
-        *line += i;
-        return (res);
+	while (ft_isspace(**line))
+		(*line)++;
+	tmp = *line;
+	if (*tmp == '\0')
+		return (false);
+	i = 0;
+	while (!ft_isspace(tmp[i]))
+		i++;
+	tmp = malloc(i + 1);
+	ft_strlcpy(tmp, *line, i + 1);
+	if (!is_float_format(tmp))
+		res = false;
+	else
+	{
+		*length = ft_atof(tmp);
+		if (*length < 0.0)
+			res = false;
+		else
+			res = true;
+	}
+	free(tmp);
+	*line += i;
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:03:27 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/17 23:51:11 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 15:20:53 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ bool	is_float_format(char *s)
 	return (res);
 }
 
-int		count_parts(char *s, char c)
+int	count_parts(char *s, char c)
 {
-	int		count;
+	int	count;
 
 	count = 0;
 	if (!s)
@@ -99,7 +99,6 @@ double	ft_atof(char *s)
 	int		e;
 	double	res;
 
-	//printf("%s\n", s);
 	if (ft_strchr(s, '.'))
 		no_dot = malloc(ft_strlen(s));
 	else
@@ -121,7 +120,6 @@ double	ft_atof(char *s)
 	else
 		no_dot[i] = '\0';
 	significant = ft_atoi(no_dot);
-	//printf("significant = %d\n", significant);
 	free(no_dot);
 	res = significant / pow(10, e);
 	return (res);

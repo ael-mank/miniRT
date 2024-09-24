@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_cylinder.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/24 15:19:29 by yrigny            #+#    #+#             */
+/*   Updated: 2024/09/24 15:19:45 by yrigny           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 bool	parse_and_add_cylinder(char *line, t_scene *scene)
@@ -5,8 +17,8 @@ bool	parse_and_add_cylinder(char *line, t_scene *scene)
 	t_cylinder	*cy;
 
 	cy = malloc(sizeof(t_cylinder));
-        if (cy == NULL)
-                return (false);
+	if (cy == NULL)
+		return (false);
 	while (!ft_isspace(*line))
 		line++;
 	if (!parse_point(&line, &cy->center))
@@ -43,11 +55,14 @@ bool	parse_and_add_cylinder(char *line, t_scene *scene)
 		free(cy);
 		return (false);
 	}
-	while (ft_isspace(*line))
+	while (*line && ft_isspace(*line))
 		line++;
 	if (*line == '\0')
 	{
-		printf("Cylinder | Center: %.1f,%.1f,%.1f | Axis: %.1f,%.1f,%.1f | Diameter: %.1f | Height: %.1f | Color: %d,%d,%d\n", cy->center.x, cy->center.y, cy->center.z, cy->axis.x, cy->axis.y, cy->axis.z, cy->diameter, cy->height, cy->color.r, cy->color.g, cy->color.b);
+		printf("Cylinder | Center: %.1f,%.1f,%.1f | Axis: %.1f,%.1f,%.1f | Diameter: %.1f | Height: %.1f | Color: %d,%d,%d\n",
+			cy->center.x, cy->center.y, cy->center.z, cy->axis.x, cy->axis.y,
+			cy->axis.z, cy->diameter, cy->height, cy->color.r, cy->color.g,
+			cy->color.b);
 		cy->radius = cy->diameter / 2;
 		cy->axis = vector_normalize(cy->axis);
 		add_to_obj_list(cy, scene, CYLINDER);

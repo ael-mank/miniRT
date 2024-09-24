@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
 #include "minirt.h"
+#include <math.h>
 
 t_vec3	vec3(double x, double y, double z)
 {

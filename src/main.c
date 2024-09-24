@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 22:20:27 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 15:16:28 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,27 +61,14 @@ void	win_init(t_win *win, t_scene *scene)
 	win->render = 1;
 }
 
-// void	scene_init(t_scene *scene)
-// {
-// 	scene->l = light_init();
-// 	scene->a = ambient_init();
-// 	scene->c = cam_init();
-// 	scene->v = viewport_init(scene->c);
-// 	scene->sp = sphere_init();
-// 	scene->pl = plane_init();
-// 	scene->cy = cylinder_init();
-// }
-
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_win	win;
 	t_scene	scene;
 
 	ft_bzero(&scene, sizeof(t_scene));
 	parse_rt(&scene, ac, av);
-	// scene_init(&scene);
 	win_init(&win, &scene);
-	// printf("%.1f\n", win.scene->a->ratio);
 	mlx_loop_hook(win.mlx, calculate_image, &win);
 	mlx_hook(win.mlx_win, 17, 1L << 5, win_close, &win);
 	mlx_hook(win.mlx_win, 2, 1L << 0, key_event, &win);

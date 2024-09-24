@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/19 16:16:02 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 15:23:49 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_point3	find_pixel_on_viewport(int x, int y, t_viewport v)
 	t_vec3		vec_delta;
 	t_point3	this_pixel;
 
-	vec_delta = vector_add(vector_scale(v.pixel_delta_u, x), vector_scale(v.pixel_delta_v, y));
+	vec_delta = vector_add(vector_scale(v.pixel_delta_u, x),
+			vector_scale(v.pixel_delta_v, y));
 	this_pixel = vector_add(v.pixel00, vec_delta);
 	return (this_pixel);
 }
@@ -67,12 +68,4 @@ void	cast_ray(t_ray *ray, t_scene *scene)
 			break ;
 		node = node->next;
 	}
-	// intersect_sphere(ray, *(scene->c), &scene->sp);
-	// if (ray->hit_object == FALSE_HIT)
-	// 	return ;
-	// intersect_plane(ray, scene->c, &scene->pl);
-	// if (ray->hit_object == FALSE_HIT)
-	// 	return ;
-	// intersect_cylinder_front(ray, scene->c, &scene->cy);
-	// intersect_cylinder_back(ray, scene->c, &scene->cy);
 }

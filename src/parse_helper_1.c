@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:05:04 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/16 20:04:25 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/24 15:20:19 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ bool	parse_color(char **line, t_color *color)
 	int		i;
 	bool	res;
 
-	while (ft_isspace(**line))
+	while (**line && ft_isspace(**line))
 		(*line)++;
 	tmp = *line;
 	if (*tmp == '\0')
 		return (false);
 	i = 0;
-	while (!ft_isspace(tmp[i]))
+	while (tmp[i] && !ft_isspace(tmp[i]))
 		i++;
 	tmp = malloc(i + 1);
 	ft_strlcpy(tmp, *line, i + 1);
@@ -65,8 +65,8 @@ bool	parse_color(char **line, t_color *color)
 	{
 		*color = ft_atorgb(tmp);
 		res = true;
-		if (!(color->r >= 0 && color->r <= 255 && color->g >= 0 && color->g <= 255
-			&& color->b >= 0 && color->b <= 255))
+		if (!(color->r >= 0 && color->r <= 255 && color->g >= 0
+				&& color->g <= 255 && color->b >= 0 && color->b <= 255))
 			res = false;
 	}
 	free(tmp);
@@ -87,11 +87,11 @@ bool	is_vec3_format(char *s, int type)
 	else
 	{
 		parts = ft_split(s, ',');
-		if (type == INTEGER &&
-			str_is_int(parts[0]) && str_is_int(parts[1]) && str_is_int(parts[2]))
+		if (type == INTEGER && str_is_int(parts[0]) && str_is_int(parts[1])
+			&& str_is_int(parts[2]))
 			res = true;
-		else if (type == FLOAT && is_float_format(parts[0]) && is_float_format(parts[1])
-			&& is_float_format(parts[2]))
+		else if (type == FLOAT && is_float_format(parts[0])
+			&& is_float_format(parts[1]) && is_float_format(parts[2]))
 			res = true;
 		else
 			res = false;
@@ -109,11 +109,9 @@ t_color	ft_atorgb(char *s)
 	t_color	color;
 
 	parts = ft_split(s, ',');
-	// printf("%s %s %s\n", parts[0], parts[1], parts[2]);
 	color.r = ft_atoi(parts[0]);
 	color.g = ft_atoi(parts[1]);
 	color.b = ft_atoi(parts[2]);
-	// printf("%d %d %d\n", color.r, color.g, color.b);
 	free(parts[0]);
 	free(parts[1]);
 	free(parts[2]);

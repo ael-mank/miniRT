@@ -39,7 +39,8 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 
 	a = dot_product(ray->dir, ray->dir);
 	b = -2 * dot_product(ray->dir, vector_subtract(sp->center, ray->org));
-	c = dot_product(vector_subtract(sp->center, ray->org), vector_subtract(sp->center, ray->org)) - pow(sp->radius, 2);
+	c = dot_product(vector_subtract(sp->center, ray->org),
+			vector_subtract(sp->center, ray->org)) - pow(sp->radius, 2);
 	solve_equation(&res, a, b, c);
 	if (res.hit == TRUE_HIT)
 	{
@@ -58,10 +59,10 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 
 void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 {
-	t_vec3		cam_p0;
-	double		cam_p0_dot_normal;
-	double		ray_dot_normal;
-	double		root;
+	t_vec3	cam_p0;
+	double	cam_p0_dot_normal;
+	double	ray_dot_normal;
+	double	root;
 
 	cam_p0 = vector_subtract(pl->point, cam.org);
 	cam_p0_dot_normal = dot_product(cam_p0, pl->normal);
@@ -69,7 +70,8 @@ void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
 	if (ray_dot_normal != 0)
 	{
 		root = cam_p0_dot_normal / ray_dot_normal;
-		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)))
+		if (root > 1 && (!ray->hit_object || (ray->hit_object
+					&& root < ray->hit_distance)))
 		{
 			ray->hit_object = TRUE_HIT;
 			ray->object_type = PLANE;
@@ -93,11 +95,14 @@ void	intersect_cylinder_front(t_ray *ray, t_cam cam, t_cylinder *cy)
 	temp[2] = cross_product(temp[0], cy->axis);
 	a = dot_product(temp[1], temp[1]);
 	b = 2 * dot_product(temp[1], temp[2]);
-	c = dot_product(temp[2], temp[2]) - pow(cy->radius * vector_length(cy->axis), 2);
+	c = dot_product(temp[2], temp[2]) - pow(cy->radius
+			* vector_length(cy->axis), 2);
 	if (b * b - 4 * a * c >= 0)
 	{
 		root = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
-		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)) && in_cylinder_limit(root, cam, ray, cy))
+		if (root > 1 && (!ray->hit_object || (ray->hit_object
+					&& root < ray->hit_distance)) && in_cylinder_limit(root,
+				cam, ray, cy))
 		{
 			ray->hit_object = TRUE_HIT;
 			ray->object_type = CYLINDER_E;
@@ -121,11 +126,14 @@ void	intersect_cylinder_back(t_ray *ray, t_cam cam, t_cylinder *cy)
 	temp[2] = cross_product(temp[0], cy->axis);
 	a = dot_product(temp[1], temp[1]);
 	b = 2 * dot_product(temp[1], temp[2]);
-	c = dot_product(temp[2], temp[2]) - pow(cy->radius * vector_length(cy->axis), 2);
+	c = dot_product(temp[2], temp[2]) - pow(cy->radius
+			* vector_length(cy->axis), 2);
 	if (b * b - 4 * a * c >= 0)
 	{
 		root = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
-		if (root > 1 && (!ray->hit_object || (ray->hit_object && root < ray->hit_distance)) && in_cylinder_limit(root, cam, ray, cy))
+		if (root > 1 && (!ray->hit_object || (ray->hit_object
+					&& root < ray->hit_distance)) && in_cylinder_limit(root,
+				cam, ray, cy))
 		{
 			ray->hit_object = TRUE_HIT;
 			ray->object_type = CYLINDER_I;

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/23 09:50:40 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:49:47 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,5 +152,7 @@ int					get_color(int *r, int *g, int *b, char *line);
 // Miscellaneous
 void				*get_mlx_ptr(void);
 t_interval			*get_plane_interval(void);
+
+void save_image(t_scene *scene);
 
 #endif

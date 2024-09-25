@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/24 17:44:40 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/25 17:42:50 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ typedef enum e_obj_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
-	CYLINDER_E,
-	CYLINDER_I,
+	CYLINDER_E,				/* external side of cylinder */
+	CYLINDER_I,				/* internal side of cylinder */
 }							t_obj_type;
 
 typedef enum e_err_type
@@ -38,6 +38,14 @@ typedef enum e_err_type
 	FOV,
 	NOISE,
 }							t_err_type;
+
+typedef enum e_hit_status
+{
+	NO_HIT = 0,
+	TRUE_HIT = 1,
+	FALSE_HIT = -1,			/* hit inside of sphere */
+	SHADOWED = 2,
+}							t_hit_status;
 
 typedef struct s_obj		t_obj;
 typedef struct s_vec3		t_point3;
@@ -73,11 +81,12 @@ typedef struct s_ray
 {
 	t_point3				org;
 	t_vec3					dir;
-	int						hit_object;
+	int						hit_status;
 	t_obj_type				object_type;
 	void					*object;
 	double					hit_distance;
 	t_point3				intersect;
+	// bool					shadow;
 }							t_ray;
 
 typedef struct s_viewport

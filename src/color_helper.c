@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 17:16:00 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/24 15:13:03 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/25 15:45:05 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,15 @@ t_color	color_add(t_color a, t_color b)
 		res.g = 255;
 	if (res.b > 255)
 		res.b = 255;
+	return (res);
+}
+
+t_color	color_multiply(t_color a, t_color b)
+{
+	t_color	res;
+
+	res.r = (int)(((float)a.r / 255.0) * ((float)b.r / 255.0) * 255.0);
+	res.g = (int)(((float)a.g / 255.0) * ((float)b.g / 255.0) * 255.0);
+	res.b = (int)(((float)a.b / 255.0) * ((float)b.b / 255.0) * 255.0);
 	return (res);
 }

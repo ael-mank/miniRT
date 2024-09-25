@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/24 20:26:53 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/25 19:22:19 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ t_ray	init_ray(t_cam *c, t_point3 pixel)
 {
 	t_ray	ray;
 
-	ray.org = c->org;
+	ray.org = pixel;
 	ray.dir = vector_subtract(pixel, c->org);
-	ray.hit_object = NO_HIT;
+	ray.dir = vector_normalize(ray.dir);
+	ray.hit_status = NO_HIT;
 	ray.object_type = DEFAULT;
 	ray.object = NULL;
 	return (ray);
@@ -51,8 +52,39 @@ void	cast_ray(t_ray *ray, t_scene *scene)
 			intersect_cylinder_front(ray, *(scene->c), node->obj);
 			intersect_cylinder_back(ray, *(scene->c), node->obj);
 		}
-		if (ray->hit_object == FALSE_HIT)
+		if (ray->hit_status == FALSE_HIT)
 			break ;
 		node = node->next;
 	}
+	if (ray->hit_status == TRUE_HIT)
+		check_shadow(ray, scene);
+}
+
+void	check_shadow(t_ray *ray, t_scene *scene)
+{
+	t_obj	*node;
+	t_ray	shadow_ray;
+
+	shadow_ray.org = ray->intersect;
+	shadow_ray.dir = vector_subtract(scene->l->org, ray->intersect);
+	shadow_ray.hit_status = NO_HIT;
+	shadow_ray.object = NULL;
+	node = scene->objs;
+	while (node)
+	{
+		if (node->obj != ray->object && node->type == SPHERE)
+			intersect_sphere(&shadow_ray, *(scene->c), node->obj);
+		else if (node->obj != ray->object && node->type == PLANE)
+			intersect_plane(&shadow_ray, *(scene->c), node->obj);
+		else if (node->obj != ray->object && node->type == CYLINDER)
+		{
+			intersect_cylinder_front(&shadow_ray, *(scene->c), node->obj);
+			intersect_cylinder_back(&shadow_ray, *(scene->c), node->obj);
+		}
+		if (shadow_ray.hit_status == TRUE_HIT && shadow_ray.hit_distance < 1)
+			break ;
+		node = node->next;
+	}
+	if (shadow_ray.hit_status == TRUE_HIT && shadow_ray.hit_distance < 1)
+		ray->hit_status = SHADOWED;
 }

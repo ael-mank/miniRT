@@ -6,19 +6,16 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 13:57:19 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/25 19:23:32 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
-# define LENGTH 1600
-# define HEIGHT 900
+# define LENGTH 960
+# define HEIGHT 540
 # define F_LENGTH 1.0
 # define PI 3.1415927
-# define NO_HIT 0
-# define TRUE_HIT 1
-# define FALSE_HIT -1
 # define INTEGER 1
 # define FLOAT 2
 # include "libft.h"
@@ -94,11 +91,13 @@ void			print_vec3(t_vec3 v);
 t_color			color(int r, int g, int b);
 t_color			color_scale(t_color base, double scaler);
 t_color			color_add(t_color a, t_color b);
+t_color			color_multiply(t_color a, t_color b);
 
 /* ray cast */
 t_point3		find_pixel_on_viewport(int x, int y, t_viewport v);
 t_ray			init_ray(t_cam *c, t_point3 pixel);
 void			cast_ray(t_ray *ray, t_scene *scene);
+void			check_shadow(t_ray *ray, t_scene *scene);
 
 /* ray hit */
 void			sphere_equation(t_root *res, double a, double b, double c);

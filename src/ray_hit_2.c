@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 20:50:04 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/24 20:50:31 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/25 17:32:55 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ t_vec3	cy_quadratic_coefficient(t_ray *ray, t_cam cam, t_cylinder *cy)
 	t_vec3	coef;
 	t_vec3	temp[3];
 
-	temp[0] = vector_subtract(cam.org, cy->center);
+	(void)cam;
+	temp[0] = vector_subtract(ray->org, cy->center);
 	temp[1] = cross_product(ray->dir, cy->axis);
 	temp[2] = cross_product(temp[0], cy->axis);
 	coef.x = dot_product(temp[1], temp[1]);
@@ -42,11 +43,11 @@ void	intersect_cylinder_front(t_ray *ray, t_cam cam, t_cylinder *cy)
 	if (b * b - 4 * a * c >= 0)
 	{
 		root = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
-		if (root > 1 && (!ray->hit_object || (ray->hit_object
+		if (root > 0 && (!ray->hit_status || (ray->hit_status
 					&& root < ray->hit_distance))
 			&& in_cylinder_limit(root, cam, ray, cy))
 		{
-			ray->hit_object = TRUE_HIT;
+			ray->hit_status = TRUE_HIT;
 			ray->object_type = CYLINDER_E;
 			ray->object = cy;
 			ray->hit_distance = root;
@@ -70,11 +71,11 @@ void	intersect_cylinder_back(t_ray *ray, t_cam cam, t_cylinder *cy)
 	if (b * b - 4 * a * c >= 0)
 	{
 		root = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
-		if (root > 1 && (!ray->hit_object || (ray->hit_object
+		if (root > 0 && (!ray->hit_status || (ray->hit_status
 					&& root < ray->hit_distance))
 			&& in_cylinder_limit(root, cam, ray, cy))
 		{
-			ray->hit_object = TRUE_HIT;
+			ray->hit_status = TRUE_HIT;
 			ray->object_type = CYLINDER_I;
 			ray->object = cy;
 			ray->hit_distance = root;

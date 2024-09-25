@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:09:41 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/24 15:25:50 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/25 19:09:11 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ t_color	ray_color(t_ray *ray, t_scene *scene)
 	t_color	res;
 
 	ambient = color_scale(scene->a->color, scene->a->ratio);
-	if (ray->hit_object == TRUE_HIT)
-	{
-		from_obj = weighted_obj_color(ray, ray->object, scene->l);
+	from_obj = weighted_obj_color(ray, ray->object, scene->l);
+	if (ray->hit_status == TRUE_HIT)
 		res = color_add(from_obj, ambient);
-		return (res);
-	}
-	else if (ray->hit_object == FALSE_HIT && ray->object_type == SPHERE)
+	else if (ray->hit_status == SHADOWED)
+		res = color_multiply(from_obj, ambient);
+	else if (ray->hit_status == FALSE_HIT && ray->object_type == SPHERE)
 		return (color(50, 50, 50));
 	else
-		return (ambient);
+		res = ambient;
+	return (res);
 }
 /*
 t_color	norm(t_ray *ray, void *obj)
@@ -69,6 +69,8 @@ t_color	weighted_obj_color(t_ray *ray, void *obj, t_light *l)
 		obj_color = ((t_plane *)obj)->color;
 	if (ray->object_type == CYLINDER_E || ray->object_type == CYLINDER_I)
 		obj_color = ((t_cylinder *)obj)->color;
+	if (ray->hit_status == SHADOWED)
+		return (obj_color);
 	weighted = color_scale(obj_color, light_weight(ray, obj, l));
 	return (weighted);
 }

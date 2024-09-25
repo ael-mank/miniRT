@@ -6,14 +6,14 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 20:50:39 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/25 13:57:19 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
-# define LENGTH 800
-# define HEIGHT 600
+# define LENGTH 1600
+# define HEIGHT 900
 # define F_LENGTH 1.0
 # define PI 3.1415927
 # define NO_HIT 0

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 10:58:08 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 12:12:06 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,7 @@ t_plane						*create_plane(t_point3 point, t_vec3 normal,
 								t_material_type type, t_vec3 color);
 t_object					*add_plane(t_object *head, t_plane *plane);
 
-t_cylinder					*create_cylinder(t_point3 center, t_vec3 axis,
-								double diameter, double height,
+t_cylinder					*create_cylinder(t_cylinder *cylinder,
 								t_material_type type, t_vec3 color);
 t_object					*add_cylinder(t_object *head, t_cylinder *cylinder);
 

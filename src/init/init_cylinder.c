@@ -6,21 +6,16 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 10:11:43 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 11:01:17 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 11:58:16 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_cylinder	*create_cylinder(t_point3 center, t_vec3 axis, double diameter,
-		double height, t_material_type type, t_vec3 color)
+t_cylinder	*create_cylinder(t_cylinder *cylinder, t_material_type type, t_vec3 color)
 {
-	t_cylinder	*cylinder;
 	t_material	*mat;
 
-	cylinder = malloc(sizeof(t_cylinder));
-	if (!cylinder)
-		return (NULL);
 	mat = create_material(type);
 	if (!mat)
 	{
@@ -29,10 +24,7 @@ t_cylinder	*create_cylinder(t_point3 center, t_vec3 axis, double diameter,
 	}
 	mat->albedo = color;
 	cylinder->mat = mat;
-	cylinder->center = center;
-	cylinder->axis = vector_normalize(axis);
-	cylinder->radius = diameter / 2.0;
-	cylinder->height = height;
+	cylinder->axis = vector_normalize(cylinder->axis);
 	return (cylinder);
 }
 

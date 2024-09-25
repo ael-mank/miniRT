@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 14:35:01 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 10:58:19 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 11:57:46 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ int	parse_square(t_scene *scene, char *line)
 {
 	t_vec3		position;
 	t_vec3		normale;
-	t_quad		*plane;
+	// t_quad		*plane;
 	char		*type;
-
+	(void)scene;
 	int			r, g, b;
 	if (!parse_position(&position, &line))
 		return (0);
@@ -99,7 +99,7 @@ int	parse_square(t_scene *scene, char *line)
 	// t_vec3 v = vec3(20, 0, 0);
 	//plane =create_quad((t_point3){268,268,268}, (t_vec3){555, 0, 0}, (t_vec3){0, -555, 0}, MATTE, (t_vec3){0.73, 0, 0});
 	free(type);
-	scene->objects = add_quad(scene->objects, plane);
+	// scene->objects = add_quad(scene->objects, plane);
 	return (1);
 }
 

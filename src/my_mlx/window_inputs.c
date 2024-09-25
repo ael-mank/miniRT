@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:55:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:50:07 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 12:08:23 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,33 +94,28 @@ void save_image(t_scene *scene) {
     time_t now = time(NULL);
     struct tm *t = localtime(&now);
     strftime(filename, sizeof(filename) - 1, "screenshot_%Y-%m-%d_%H-%M-%S.png", t);
-
     int width = 960;
     int height = 540;
-    int channels = 4; // Assuming the image has RGBA channels
-
-    // Allocate memory for the image buffer
+    int channels = 4;
     unsigned char *image_data = (unsigned char *)malloc(width * height * channels);
-
-    // Loop through each pixel and retrieve its color
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-            int color = get_pixel_color(&scene->mlx.img, x, y);
-            int index = (y * width + x) * channels;
-            image_data[index + 0] = (color >> 16) & 0xFF; // Red
-            image_data[index + 1] = (color >> 8) & 0xFF;  // Green
-            image_data[index + 2] = color & 0xFF;         // Blue
-            image_data[index + 3] = 0xFF;                 // Alpha
-        }
-    }
-
-    // Save the image to a PNG file
+	int index = 0;
+	int y = 0;
+	while (y < height) {
+		int x = 0;
+		while (x < width) {
+			int color = get_pixel_color(&scene->mlx.img, x, y);
+			image_data[index + 0] = (color >> 16) & 0xFF; 
+			image_data[index + 1] = (color >> 8) & 0xFF;  
+			image_data[index + 2] = color & 0xFF;         
+			image_data[index + 3] = 0xFF;                
+			index += channels;
+			x++;
+		}
+		y++;
+	}
     stbi_write_png(filename, width, height, channels, image_data, width * channels);
-
-    // Free the image buffer
     free(image_data);
-
-    printf("Image saved as %s\n", filename);
+    ft_printf("Image saved as %s\n", filename);
 }
 
 int keys_handler(int key_code, t_scene *scene)

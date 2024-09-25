@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 14:35:01 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 13:26:29 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:58:19 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	parse_square(t_scene *scene, char *line)
 	get_string(line, &type);
 	// t_vec3 u = vec3(0, 0, 20);
 	// t_vec3 v = vec3(20, 0, 0);
-	plane =create_quad((t_point3){268,268,268}, (t_vec3){555, 0, 0}, (t_vec3){0, -555, 0}, MATTE, (t_vec3){0.73, 0, 0});
+	//plane =create_quad((t_point3){268,268,268}, (t_vec3){555, 0, 0}, (t_vec3){0, -555, 0}, MATTE, (t_vec3){0.73, 0, 0});
 	free(type);
 	scene->objects = add_quad(scene->objects, plane);
 	return (1);

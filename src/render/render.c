@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:17:54 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:32:52 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:49:47 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,33 @@ t_vec3	calculate_lighting(t_hitrecord *rec, t_scene *scene)
 	return (final_color);
 }
 
-t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh, t_scene *scene)
+t_vec3 ray_color(t_ray *r, int depth, t_bvh *bvh, t_scene *scene)
 {
-	t_hitrecord	rec;
-	t_vec3		attenuation;
-	t_ray		scattered;
-	t_vec3		color_from_scatter;
-	t_vec3		emission;
-	t_vec3		lighting;
+    t_hitrecord rec;
+    t_vec3 attenuation;
+    t_ray scattered;
+    t_vec3 color_from_scatter;
+    t_vec3 emission;
+    t_scatter_params params;
 
-	ft_bzero(&rec, sizeof(t_hitrecord));
-	if (depth <= 0)
-		return (vec3(0, 0, 0));
-	if (!bvh_hit(bvh, *r, universe_interval, &rec))
-		return (scene->bg_color);
-	if (!rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
-		return (rec.mat->emission(rec.mat, &rec));
-	color_from_scatter = vector_multiply(attenuation, ray_color(&scattered,
-				depth - 1, bvh, scene));
-	emission = rec.mat->emission(rec.mat, &rec);
-	lighting = calculate_lighting(&rec, scene);
-	return (vector_add(vector_add(color_from_scatter, emission), lighting));
+    ft_bzero(&rec, sizeof(t_hitrecord));
+    if (depth <= 0)
+        return vec3(0, 0, 0);
+    if (!bvh_hit(bvh, *r, universe_interval(), &rec))
+        return scene->bg_color;
+
+    params.r = r;
+    params.rec = &rec;
+    params.attenuation = &attenuation;
+    params.scattered = &scattered;
+    params.mat = rec.mat;
+
+    if (!rec.mat->scatter(&params))
+        return rec.mat->emission(rec.mat, &rec);
+
+    color_from_scatter = vector_multiply(attenuation, ray_color(&scattered, depth - 1, bvh, scene));
+    emission = rec.mat->emission(rec.mat, &rec);
+    return vector_add(vector_add(color_from_scatter, emission), calculate_lighting(&rec, scene));
 }
 
 // t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh)
@@ -84,7 +90,7 @@ t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh, t_scene *scene)
 
 // 	if (depth <= 0)
 // 		return (vec3(0, 0, 0));
-// 	if (bvh_hit(bvh, *r, universe_interval, &rec))
+// 	if (bvh_hit(bvh, *r, universe_interval(), &rec))
 // 	{
 // 		if (rec.mat->scatter(r, &rec, &attenuation, &scattered, rec.mat))
 // 		{

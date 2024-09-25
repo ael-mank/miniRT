@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:16:14 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 13:23:53 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:52:18 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,74 +14,72 @@
 
 #define EPSILON 1e-4
 
-int invisible_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat)
+int invisible_scatter(t_scatter_params *params)
 {
-    (void)mat;
-    *attenuation = vec3(1, 1, 1); // No attenuation, fully transparent
+    (void)params->mat;
+    *params->attenuation = vec3(1, 1, 1); // No attenuation, fully transparent
 
     // Check the direction of the incoming ray
-    if (dot_product(r->dir, rec->normal) > 0) {
+    if (dot_product(params->r->dir, params->rec->normal) > 0) {
         // Ray is coming from outside the box, reflect it back
-        t_vec3 reflected_dir = reflect(r->dir, rec->normal);
-        t_vec3 offset_origin = vector_add(rec->p, vector_scale(rec->normal, EPSILON));
-        ray_init(scattered, &offset_origin, &reflected_dir);
+        t_vec3 reflected_dir = reflect(params->r->dir, params->rec->normal);
+        t_vec3 offset_origin = vector_add(params->rec->p, vector_scale(params->rec->normal, EPSILON));
+        ray_init(params->scattered, &offset_origin, &reflected_dir);
     } else {
         // Ray is coming from inside the box, pass it through
-        t_vec3 offset_origin = vector_subtract(rec->p, vector_scale(rec->normal, EPSILON));
-        ray_init(scattered, &offset_origin, &r->dir);
+        t_vec3 offset_origin = vector_subtract(params->rec->p, vector_scale(params->rec->normal, EPSILON));
+        ray_init(params->scattered, &offset_origin, &params->r->dir);
     }
 
     return 1; // Indicate that scattering occurred
 }
 
-int	lambertian_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
-		t_ray *scattered, t_material *mat)
+int lambertian_scatter(t_scatter_params *params)
 {
-	t_vec3	direction;
+    t_vec3 direction;
 
-	(void)r;
-	direction = vector_add(rec->normal, random_unit_vector());
-	if (near_zero(direction))
-		direction = rec->normal;
-	ray_init(scattered, &rec->p, &direction);
-	*attenuation = mat->texture(mat, rec);
-	return (1);
+    (void)params->r;
+    direction = vector_add(params->rec->normal, random_unit_vector());
+    if (near_zero(direction))
+        direction = params->rec->normal;
+    ray_init(params->scattered, &params->rec->p, &direction);
+    *params->attenuation = params->mat->texture(params->mat, params->rec);
+    return 1;
 }
 
-int light_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
-		t_ray *scattered, t_material *mat)
+int light_scatter(t_scatter_params *params)
 {
-	//void them all and return 0
-	(void)r;
-	(void)rec;
-	(void)attenuation;
-	(void)scattered;
-	(void)mat;
-	return (0);
+    //void them all and return 0
+    (void)params->r;
+    (void)params->rec;
+    (void)params->attenuation;
+    (void)params->scattered;
+    (void)params->mat;
+    return 0;
 }
 
-int metal_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation, t_ray *scattered, t_material *mat)
+int metal_scatter(t_scatter_params *params)
 {
     t_vec3 reflected;
     t_vec3 fuzzed_direction;
 
-    if (mat->fuzz > 1)
-        mat->fuzz = 1;
+    if (params->mat->fuzz > 1)
+        params->mat->fuzz = 1;
 
     // Reflect the ray direction around the normal
-    reflected = reflect(vector_normalize(r->dir), rec->normal);
+    reflected = reflect(vector_normalize(params->r->dir), params->rec->normal);
 
     // Apply fuzziness to the reflected direction
-    fuzzed_direction = vector_add(reflected, vector_scale(random_unit_vector(), mat->fuzz));
+    fuzzed_direction = vector_add(reflected, vector_scale(random_unit_vector(), params->mat->fuzz));
 
     // Initialize the scattered ray
-    ray_init(scattered, &rec->p, &fuzzed_direction);
+    ray_init(params->scattered, &params->rec->p, &fuzzed_direction);
 
     // Set the attenuation based on the material's texture
-    *attenuation = mat->texture(mat, rec);
+    *params->attenuation = params->mat->texture(params->mat, params->rec);
 
     // Check if the scattered ray is in the same hemisphere as the normal
-    if (dot(scattered->dir, rec->normal) > 0)
+    if (dot(params->scattered->dir, params->rec->normal) > 0)
         return 1;
     else
         return 0;
@@ -96,28 +94,26 @@ double	reflectance(double cosine, double ref_idx)
 	return (r0 + (1 - r0) * pow((1 - cosine), 5));
 }
 
-int	glass_scatter(t_ray *r, t_hitrecord *rec, t_vec3 *attenuation,
-		t_ray *scattered, t_material *mat)
+int glass_scatter(t_scatter_params *params)
 {
-	double	ri;
-	t_vec3	unit_direction;
-	double	sin_theta;
-	t_vec3	direction;
-	double	cos_theta;
+    double ri;
+    t_vec3 unit_direction;
+    double sin_theta;
+    t_vec3 direction;
+    double cos_theta;
 
-	if (rec->front_face)
-		ri = 1 / mat->ref_indx;
-	else
-		ri = mat->ref_indx;
-	*attenuation = vec3(1, 1, 1);
-	unit_direction = vector_normalize(r->dir);
-	cos_theta = fmin(dot(vector_scale(unit_direction, -1), rec->normal),
-			1.0);
-	sin_theta = sqrt(1.0 - cos_theta * cos_theta);
-	if (ri * sin_theta > 1.0 || reflectance(cos_theta, ri) > random_double())
-		direction = reflect(unit_direction, rec->normal);
-	else
-		direction = refract(&unit_direction, &rec->normal, ri);
-	ray_init(scattered, &rec->p, &direction);
-	return (1);
+    if (params->rec->front_face)
+        ri = 1 / params->mat->ref_indx;
+    else
+        ri = params->mat->ref_indx;
+    *params->attenuation = vec3(1, 1, 1);
+    unit_direction = vector_normalize(params->r->dir);
+    cos_theta = fmin(dot(vector_scale(unit_direction, -1), params->rec->normal), 1.0);
+    sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+    if (ri * sin_theta > 1.0 || reflectance(cos_theta, ri) > random_double())
+        direction = reflect(unit_direction, params->rec->normal);
+    else
+        direction = refract(&unit_direction, &params->rec->normal, ri);
+    ray_init(params->scattered, &params->rec->p, &direction);
+    return 1;
 }

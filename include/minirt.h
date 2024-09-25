@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 15:41:51 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:51:23 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_thread_data
 	int						start_y;
 	int						end_y;
 }							t_thread_data;
+
 // Memory management
 int							ft_exit(t_scene *scene);
 

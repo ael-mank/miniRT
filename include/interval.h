@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:02:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 15:39:31 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:02:53 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,6 @@
 # define INTERVAL_H
 
 # include "minirt.h"
-
-# define empty_interval \
-	(t_interval)       \
-	{                  \
-		0, 0           \
-	}
-
-# define universe_interval \
-	(t_interval)          \
-	{                     \
-		0.001, INFINITY   \
-	}
-
-# define infinite_interval   \
-	(t_interval)            \
-	{                       \
-		-INFINITY, INFINITY \
-	}
 
 /* Structure representing an interval with a minimum and maximum value */
 typedef struct s_interval
@@ -51,5 +33,9 @@ int			contains(t_interval interval, double x);
 
 /* Clamp a value 'x' between 'min' and 'max' */
 double		clamp(double x, double min, double max);
+
+/* Interval Getters*/
+t_interval	universe_interval(void);
+t_interval	infinite_interval(void);
 
 #endif

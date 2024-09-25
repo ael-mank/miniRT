@@ -6,7 +6,7 @@
 #    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 19:43:12 by ael-mank          #+#    #+#              #
-#    Updated: 2024/09/24 14:47:12 by ael-mank         ###   ########.fr        #
+#    Updated: 2024/09/25 10:52:49 by ael-mank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRC_FILES = main \
             init/init_plane init/init_cylinder\
             init/make_mat init/init_bvh\
             render/render \
-            interval/interval \
+            interval/interval interval/get_intervals\
             utility/utility utility/ft_err\
             objects/sphere objects/quad objects/triangle \
             objects/plane objects/cylinder\
@@ -58,7 +58,7 @@ NC=\033[0m
 all: CFLAGS += -DSPP=1 -DMD=2
 all: clean $(NAME)
 
-bonus: CFLAGS += -DSPP=45 -DMD=55
+bonus: CFLAGS += -DSPP=4 -DMD=25
 bonus: clean $(BONUS_NAME)
 
 $(NAME): $(OBJ)

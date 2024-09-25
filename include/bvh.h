@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:25:35 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 15:43:32 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 09:54:10 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_bvh
 {
 	t_aabb			box;
 	int				(*hit)(t_bvh *node, t_ray r, t_interval ray_t,
-					t_hitrecord *rec);
+			t_hitrecord *rec);
 	struct s_bvh	*left;
 	struct s_bvh	*right;
 	t_object		*object;

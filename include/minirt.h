@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 10:51:23 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 12:31:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "my_mlx.h"
 # include "objects.h"
 # include "vectors.h"
+# include "mats.h"
 # include <X11/keysym.h>
 # include <math.h>
 # include <stdio.h>

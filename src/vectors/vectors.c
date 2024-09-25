@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:41:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/22 10:16:06 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 12:16:45 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,4 +187,14 @@ t_vec3	random_in_unit_disk(void)
 			break ;
 	}
 	return (p);
+}
+
+t_vec3	vector_min(t_vec3 a, t_vec3 b)
+{
+	return (vec3(fmin(a.x, b.x), fmin(a.y, b.y), fmin(a.z, b.z)));
+}
+
+t_vec3	vector_max(t_vec3 a, t_vec3 b)
+{
+	return (vec3(fmax(a.x, b.x), fmax(a.y, b.y), fmax(a.z, b.z)));
 }

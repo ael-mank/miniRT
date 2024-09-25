@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:40:11 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 15:39:13 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 12:17:05 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,9 @@ t_vec3					random_unit_vector(void);
 t_vec3					reflect(t_vec3 v, t_vec3 n);
 t_vec3					refract(t_vec3 *uv, const t_vec3 *n,
 							double etai_over_etat);
+
+/*MAXMIN*/
+t_vec3	vector_min(t_vec3 a, t_vec3 b);
+t_vec3	vector_max(t_vec3 a, t_vec3 b);
 
 #endif

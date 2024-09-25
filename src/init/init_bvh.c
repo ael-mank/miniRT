@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 21:00:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/26 09:21:39 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 12:37:09 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	handle_single_object(t_bvh *node, t_object *objects)
 	node->right = NULL;
 	node->object = objects;
 	node->box = objects->box;
-	node->box.hit = hit_aabb;
 	node->hit = bvh_hit;
 }
 
@@ -125,12 +124,9 @@ int	handle_two_objects(t_bvh *node, t_object *objects, int axis)
 	node->right->right = NULL;
 	node->left->box = objects->box;
 	node->right->box = objects->next->box;
-	node->left->box.hit = hit_aabb;
-	node->right->box.hit = hit_aabb;
 	node->left->hit = bvh_hit;
 	node->right->hit = bvh_hit;
 	node->box = aabb_aabb(node->left->box, node->right->box);
-	node->box.hit = hit_aabb;
 	node->hit = bvh_hit;
 	node->object = NULL;
 	return (0);
@@ -177,7 +173,6 @@ int	handle_multiple_objects(t_bvh *node, t_object *objects, size_t object_count,
 		return (-1);
 	}
 	node->box = aabb_aabb(node->left->box, node->right->box);
-	node->box.hit = hit_aabb;
 	node->hit = bvh_hit;
 	node->object = NULL;
 	return (0);

@@ -6,22 +6,35 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 16:00:23 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/25 12:18:38 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_aabb	create_triangle_aabb(t_triangle *triangle)
+static inline t_point3	calculate_min_point(t_triangle *triangle)
 {
-	t_point3(min_point) = {fmin(fmin(triangle->v0.x, triangle->v1.x),
+	return ((t_point3){fmin(fmin(triangle->v0.x, triangle->v1.x),
 			triangle->v2.x), fmin(fmin(triangle->v0.y, triangle->v1.y),
 			triangle->v2.y), fmin(fmin(triangle->v0.z, triangle->v1.z),
-			triangle->v2.z)};
-	t_point3(max_point) = {fmax(fmax(triangle->v0.x, triangle->v1.x),
+			triangle->v2.z)});
+}
+
+static inline t_point3	calculate_max_point(t_triangle *triangle)
+{
+	return ((t_point3){fmax(fmax(triangle->v0.x, triangle->v1.x),
 			triangle->v2.x), fmax(fmax(triangle->v0.y, triangle->v1.y),
 			triangle->v2.y), fmax(fmax(triangle->v0.z, triangle->v1.z),
-			triangle->v2.z)};
+			triangle->v2.z)});
+}
+
+t_aabb	create_triangle_aabb(t_triangle *triangle)
+{
+	t_point3	min_point;
+	t_point3	max_point;
+
+	min_point = calculate_min_point(triangle);
+	max_point = calculate_max_point(triangle);
 	return (aabb_points(min_point, max_point));
 }
 

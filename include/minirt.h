@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 11:10:23 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:56:57 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,30 @@
 # include "bvh.h"
 # include "interval.h"
 # include "libft.h"
+# include "mats.h"
 # include "mlx.h"
 # include "mlx_int.h"
 # include "my_mlx.h"
 # include "objects.h"
 # include "vectors.h"
-# include "mats.h"
 # include <X11/keysym.h>
 # include <math.h>
+# include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <time.h>
 # include <unistd.h>
-# include <pthread.h>
 
 // Structs
 typedef struct s_render
 {
-    double  aspect_ratio;
-    int     image_width;
-    int     image_height;
-    int     next_chunk;     // For tracking the next available chunk of work
-    int     progress;       // For tracking overall rendering progress
-    pthread_mutex_t mutex;  // Mutex for thread-safe operations
-}   t_render;
+	double					aspect_ratio;
+	int						image_width;
+	int						image_height;
+	int						next_chunk;
+	int						progress;
+	pthread_mutex_t			mutex;
+}							t_render;
 
 typedef struct s_camera
 {
@@ -123,7 +123,6 @@ void						add_light(t_scene *scene, t_vec3 position,
 								t_vec3 color, double intensity);
 void						parse_file(t_scene *scene, char **argv);
 int							parse_ambient(t_scene *scene, char *line);
-int							parse_square(t_scene *scene, char *line);
 int							parse_plane(t_scene *scene, char *line);
 int							parse_cylinder(t_scene *scene, char *line);
 int							parse_camera(t_scene *scene, char *line);
@@ -151,7 +150,6 @@ void						render_scene(t_scene *scene);
 
 // Utility
 double						deg_to_rad(double degrees);
-double						ft_fmin(double a, double b);
 double						rand_double(double min, double max);
 double						random_double(void);
 void						ft_error(t_scene *scene, char *msg);

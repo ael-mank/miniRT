@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 13:40:11 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 12:17:05 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:26:06 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_vec3					refract(t_vec3 *uv, const t_vec3 *n,
 							double etai_over_etat);
 
 /*MAXMIN*/
-t_vec3	vector_min(t_vec3 a, t_vec3 b);
-t_vec3	vector_max(t_vec3 a, t_vec3 b);
+t_vec3					vector_min(t_vec3 a, t_vec3 b);
+t_vec3					vector_max(t_vec3 a, t_vec3 b);
 
 #endif

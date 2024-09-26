@@ -6,7 +6,7 @@
 #    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 19:43:12 by ael-mank          #+#    #+#              #
-#    Updated: 2024/09/26 11:41:57 by ael-mank         ###   ########.fr        #
+#    Updated: 2024/09/26 16:54:15 by ael-mank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,13 @@ SRC_FILES = main \
             parsing/file_parsing3 parsing/file_parsing4\
 			parsing/file_parsing5 \
             init/init_mlx init/init init/init_objects\
-            init/init_sphere init/init_quad init/init_triangle\
+            init/init_sphere init/init_triangle\
             init/init_plane init/init_cylinder\
-            init/make_mat init/make_mat2  init/init_bvh\
+            init/make_mat init/make_mat2 init/init_bvh init/init_bvh2\
             render/render \
             interval/interval interval/get_intervals\
             utility/utility utility/ft_err\
-            objects/sphere objects/quad objects/triangle \
+            objects/sphere objects/triangle \
             objects/plane objects/cylinder\
             materials/materials materials/color_val \
             materials/lights \

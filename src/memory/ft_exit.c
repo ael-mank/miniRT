@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:23:23 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:54:47 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,6 @@ void	free_triangle(t_bvh *node)
 	free(triangle);
 }
 
-void	free_quad(t_bvh *node)
-{
-	t_quad	*quad;
-
-	quad = (t_quad *)node->object->object;
-	if (quad->mat->img != NULL)
-	{
-		mlx_destroy_image(get_mlx_ptr(), quad->mat->img->image);
-		free(quad->mat->img);
-	}
-	if (quad->mat != NULL)
-		free(quad->mat);
-	free(quad);
-}
 
 void	free_sphere(t_bvh *node)
 {

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:05:41 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/23 09:58:55 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:22:10 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ t_material_type	get_type(char *line)
 		if (line[0] != '\0')
 		{
 			ft_printf("\e[1;31mError :");
-			ft_printf("\t%s\n\033[0m", "Unrecognized material type replaced by matte");
+			ft_printf("\t%s\n\033[0m",
+				"Unrecognized material type replaced by matte");
 		}
 		return (MATTE);
 	}
@@ -113,7 +114,7 @@ int	parse_sphere(t_scene *scene, char *line)
 	t_sphere	*sphere;
 	char		*type;
 
-	int			r, g, b;
+	int r, g, b;
 	if (!parse_position(&position, &line))
 		return (0);
 	radius = parse_radius(&line);

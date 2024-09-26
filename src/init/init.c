@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:56:04 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	init_camera(t_camera *camera)
 	camera->defocus_disk_u = vector_scale(camera->u, defocus_radius);
 	camera->defocus_disk_v = vector_scale(camera->v, defocus_radius);
 	camera->camera_center = camera->lookfrom;
-	camera->viewport_upper_left = vector_subtract(vector_subtract(vector_subtract(camera->camera_center,
+	camera->viewport_upper_left = vector_subtract(vector_subtract(
+				vector_subtract(camera->camera_center,
 					vector_scale(camera->w, camera->focus_dist)),
 				vector_divide(camera->viewport_u, 2)),
 			vector_divide(camera->viewport_v, 2));

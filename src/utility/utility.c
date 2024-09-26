@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 11:40:42 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/19 11:03:11 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:57:04 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,40 @@ double	random_double(void)
 	return (rand() / (RAND_MAX + 1.0));
 }
 
-double	ft_fmin(double a, double b)
+t_object	*insertion_sort(t_object *head, int (*comparator)(const void *,
+			const void *))
 {
-	if (a < b)
-		return (a);
-	else
-		return (b);
+	t_object	*sorted;
+	t_object	*current;
+	t_object	*next;
+
+	sorted = NULL;
+	current = head;
+	while (current)
+	{
+		next = current->next;
+		sorted = sorted_insert(sorted, current, comparator);
+		current = next;
+	}
+	return (sorted);
+}
+
+t_object	*sorted_insert(t_object *sorted, t_object *new_node,
+		int (*comparator)(const void *, const void *))
+{
+	t_object	*current;
+
+	if (!sorted || comparator(&new_node, &sorted) < 0)
+	{
+		new_node->next = sorted;
+		return (new_node);
+	}
+	current = sorted;
+	while (current->next && comparator(&new_node, &current->next) >= 0)
+	{
+		current = current->next;
+	}
+	new_node->next = current->next;
+	current->next = new_node;
+	return (sorted);
 }

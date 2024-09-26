@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 09:51:52 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 13:21:15 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:55:34 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,6 @@ int	check_char(t_scene *scene, char *line)
 		return(parse_sphere(scene, line));
 	else if (*line == 'p' && *(line + 1) == 'l')
 		return(parse_plane(scene, line));
-	// else if (*line == 's' && *(line + 1) == 'q')
-	// 	return(parse_square(scene, line));
-	// else if (*line == 's' && *(line + 1) == 'q')
-	// 	//return(parse_square(scene, line));
 	// else if (*line == 't' && *(line + 1) == 'r')
 	// 	//return(parse_triangle(scene, line));
 	else if (*line == '#')

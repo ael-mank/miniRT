@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:25:35 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 09:54:10 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:53:08 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ typedef struct s_bvh	t_bvh;
 
 typedef struct s_bvh
 {
-	t_aabb			box;
-	int				(*hit)(t_bvh *node, t_ray r, t_interval ray_t,
-			t_hitrecord *rec);
-	struct s_bvh	*left;
-	struct s_bvh	*right;
-	t_object		*object;
+	t_aabb				box;
+	int					(*hit)(t_bvh *node, t_ray r, t_interval ray_t,
+							t_hitrecord *rec);
+	struct s_bvh		*left;
+	struct s_bvh		*right;
+	t_object			*object;
 }						t_bvh;
 
 // Function prototypes for BVH operations
@@ -63,5 +63,18 @@ int						compare_objects_y(const void *a, const void *b);
 // Compare two objects along the y-axis (alternative)
 int						compare_objects_z(const void *a, const void *b);
 // Compare two objects along the z-axis (alternative)
+
+int						longest_axis(t_aabb box);
+t_object				*insertion_sort(t_object *head,
+							int (*comparator)(const void *, const void *));
+t_object				*sorted_insert(t_object *sorted, t_object *new_node,
+							int (*comparator)(const void *, const void *));
+t_bvh					*create_new_bvh_node(void);
+void					handle_single_object(t_bvh *node, t_object *objects);
+int						compare_objects(const void *a, const void *b, int axis);
+int						handle_two_objects(t_bvh *node, t_object *objects,
+							int axis);
+void	swap_objects_if_needed(t_object **objects, int axis);
+int	create_bvh_nodes(t_bvh *node, t_object *objects);
 
 #endif

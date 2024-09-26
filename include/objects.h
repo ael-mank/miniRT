@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 12:12:06 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:54:34 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,6 @@ typedef struct s_sphere
 	t_material				*mat;
 }							t_sphere;
 
-typedef struct s_quad
-{
-	t_point3				start;
-	t_vec3					u;
-	t_vec3					v;
-	t_material				*mat;
-	t_vec3					normal;
-	double					d;
-	t_vec3					w;
-}							t_quad;
-
 typedef struct s_plane
 {
 	t_point3				point;
@@ -131,8 +120,6 @@ int							glass_scatter(t_scatter_params *params);
 int							light_scatter(t_scatter_params *params);
 int							invisible_scatter(t_scatter_params *params);
 
-double						hit_quad_wrapper(t_ray r, void *object,
-								t_interval ray_t, t_hitrecord *rec);
 double						hit_sphere_wrapper(t_ray r, void *object,
 								t_interval ray_t, t_hitrecord *rec);
 double						hit_triangle_wrapper(t_ray r, void *object,
@@ -145,10 +132,6 @@ double						hit_cylinder_wrapper(t_ray r, void *object,
 t_sphere					*create_sphere(t_point3 center, double radius,
 								t_material_type type, t_vec3 color);
 t_object					*add_sphere(t_object *head, t_sphere *sphere);
-
-// t_quad						*create_quad(t_point3 start, t_vec3 
-//u, t_vec3 v, t_material_type type, t_vec3 color);
-// t_object					*add_quad(t_object *head, t_quad *quad);
 
 t_object					*add_triangle(t_object *head, t_triangle *triangle);
 t_triangle					*create_triangle(t_tri3 tri, t_material_type type,
@@ -172,7 +155,6 @@ t_vec3						no_light(t_material *mat, t_hitrecord *rec);
 t_vec3						diffuse_light(t_material *mat, t_hitrecord *rec);
 
 void						free_sphere(t_bvh *node);
-void						free_quad(t_bvh *node);
 void						free_triangle(t_bvh *node);
 void						free_plane(t_bvh *node);
 void						free_cylinder(t_bvh *node);

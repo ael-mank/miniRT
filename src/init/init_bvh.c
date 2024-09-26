@@ -6,108 +6,27 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 21:00:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 12:37:09 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:53:02 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	longest_axis(t_aabb box)
-{
-	double	x_extent;
-	double	y_extent;
-	double	z_extent;
-
-	x_extent = box.x.max - box.x.min;
-	y_extent = box.y.max - box.y.min;
-	z_extent = box.z.max - box.z.min;
-	if (x_extent > y_extent && x_extent > z_extent)
-		return (0);
-	else if (y_extent > z_extent)
-		return (1);
-	else
-		return (2);
-}
-
-t_object	*insertion_sort(t_object *head, int (*comparator)(const void *,
-			const void *))
-{
-	t_object	*sorted;
-	t_object	*current;
-	t_object	*next;
-
-	sorted = NULL;
-	current = head;
-	while (current)
-	{
-		next = current->next;
-		sorted = sorted_insert(sorted, current, comparator);
-		current = next;
-	}
-	return (sorted);
-}
-
-t_object	*sorted_insert(t_object *sorted, t_object *new_node,
-		int (*comparator)(const void *, const void *))
-{
-	t_object	*current;
-
-	if (!sorted || comparator(&new_node, &sorted) < 0)
-	{
-		new_node->next = sorted;
-		return (new_node);
-	}
-	current = sorted;
-	while (current->next && comparator(&new_node, &current->next) >= 0)
-	{
-		current = current->next;
-	}
-	new_node->next = current->next;
-	current->next = new_node;
-	return (sorted);
-}
-
-t_bvh	*create_new_bvh_node(void)
-{
-	t_bvh	*node;
-
-	node = malloc(sizeof(t_bvh));
-	if (node == NULL)
-	{
-		return (NULL);
-	}
-	return (node);
-}
-
-void	handle_single_object(t_bvh *node, t_object *objects)
-{
-	node->left = NULL;
-	node->right = NULL;
-	node->object = objects;
-	node->box = objects->box;
-	node->hit = bvh_hit;
-}
-
-int	compare_objects(const void *a, const void *b, int axis)
-{
-	if (axis == 0)
-		return (box_x_compare(a, b));
-	if (axis == 1)
-		return (box_y_compare(a, b));
-	return (box_z_compare(a, b));
-}
-
-int	handle_two_objects(t_bvh *node, t_object *objects, int axis)
+void	swap_objects_if_needed(t_object **objects, int axis)
 {
 	t_object	*temp;
 
-	if (compare_objects(&objects, &objects->next, axis) > 0)
+	if (compare_objects(objects, &(*objects)->next, axis) > 0)
 	{
-		temp = objects;
-		objects = objects->next;
-		objects->next = temp;
+		temp = *objects;
+		*objects = (*objects)->next;
+		(*objects)->next = temp;
 		temp->next = NULL;
 	}
+}
+
+int	create_bvh_nodes(t_bvh *node, t_object *objects)
+{
 	node->left = create_new_bvh_node();
 	node->right = create_new_bvh_node();
 	if (node->left == NULL || node->right == NULL)
@@ -189,28 +108,19 @@ t_bvh	*create_bvh_node(t_object *objects)
 		return (NULL);
 	object_count = count_objects(objects);
 	if (object_count == 0)
-	{
-		free(node);
-		return (NULL);
-	}
+		return (free(node), NULL);
 	axis = longest_axis(objects->box);
 	if (object_count == 1)
 		handle_single_object(node, objects);
 	else if (object_count == 2)
 	{
 		if (handle_two_objects(node, objects, axis) != 0)
-		{
-			free(node);
-			return (NULL);
-		}
+			return (free(node), NULL);
 	}
 	else
 	{
 		if (handle_multiple_objects(node, objects, object_count, axis) != 0)
-		{
-			free(node);
-			return (NULL);
-		}
+			return (free(node), NULL);
 	}
 	return (node);
 }

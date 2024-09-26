@@ -5,7 +5,7 @@
 #include "minirt.h"
 
 #define EPSILON 1e-4
-#define NUM_THREADS 18
+#define NUM_THREADS 20
 #define TILE_SIZE 64
 
 typedef struct s_tile {

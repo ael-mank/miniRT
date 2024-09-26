@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:12:32 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/25 19:23:12 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 12:28:37 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ void	sphere_equation(t_root *res, double a, double b, double c)
 	}
 }
 
-void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
+void	intersect_sphere(t_ray *ray, t_sphere *sp)
 {
 	double	a;
 	double	b;
 	double	c;
 	t_root	res;
 
-	(void)cam;
 	a = dot_product(ray->dir, ray->dir);
 	b = -2 * dot_product(ray->dir, vector_subtract(sp->center, ray->org));
 	c = dot_product(vector_subtract(sp->center, ray->org),
@@ -59,14 +58,13 @@ void	intersect_sphere(t_ray *ray, t_cam cam, t_sphere *sp)
 	}
 }
 
-void	intersect_plane(t_ray *ray, t_cam cam, t_plane *pl)
+void	intersect_plane(t_ray *ray, t_plane *pl)
 {
 	t_vec3	cam_p0;
 	double	cam_p0_dot_normal;
 	double	ray_dot_normal;
 	double	root;
 
-	(void)cam;
 	cam_p0 = vector_subtract(pl->point, ray->org);
 	cam_p0_dot_normal = dot_product(cam_p0, pl->normal);
 	ray_dot_normal = dot_product(ray->dir, pl->normal);

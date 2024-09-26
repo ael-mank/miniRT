@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 15:38:54 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/25 19:22:19 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 12:43:34 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ void	cast_ray(t_ray *ray, t_scene *scene)
 	while (node)
 	{
 		if (node->type == SPHERE)
-			intersect_sphere(ray, *(scene->c), node->obj);
+			intersect_sphere(ray, node->obj);
 		else if (node->type == PLANE)
-			intersect_plane(ray, *(scene->c), node->obj);
+			intersect_plane(ray, node->obj);
 		else if (node->type == CYLINDER)
 		{
-			intersect_cylinder_front(ray, *(scene->c), node->obj);
-			intersect_cylinder_back(ray, *(scene->c), node->obj);
+			intersect_cylinder_front(ray, node->obj);
+			intersect_cylinder_back(ray, node->obj);
 		}
 		if (ray->hit_status == FALSE_HIT)
 			break ;
@@ -73,13 +73,13 @@ void	check_shadow(t_ray *ray, t_scene *scene)
 	while (node)
 	{
 		if (node->obj != ray->object && node->type == SPHERE)
-			intersect_sphere(&shadow_ray, *(scene->c), node->obj);
+			intersect_sphere(&shadow_ray, node->obj);
 		else if (node->obj != ray->object && node->type == PLANE)
-			intersect_plane(&shadow_ray, *(scene->c), node->obj);
+			intersect_plane(&shadow_ray, node->obj);
 		else if (node->obj != ray->object && node->type == CYLINDER)
 		{
-			intersect_cylinder_front(&shadow_ray, *(scene->c), node->obj);
-			intersect_cylinder_back(&shadow_ray, *(scene->c), node->obj);
+			intersect_cylinder_front(&shadow_ray, node->obj);
+			intersect_cylinder_back(&shadow_ray, node->obj);
 		}
 		if (shadow_ray.hit_status == TRUE_HIT && shadow_ray.hit_distance < 1)
 			break ;

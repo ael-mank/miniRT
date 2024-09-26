@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 19:23:32 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 12:31:18 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,12 @@ void			check_shadow(t_ray *ray, t_scene *scene);
 
 /* ray hit */
 void			sphere_equation(t_root *res, double a, double b, double c);
-void			intersect_sphere(t_ray *ray, t_cam cam, t_sphere *s);
-void			intersect_plane(t_ray *ray, t_cam cam, t_plane *pl);
-void			intersect_cylinder_front(t_ray *ray, t_cam cam, t_cylinder *cy);
-void			intersect_cylinder_back(t_ray *ray, t_cam cam, t_cylinder *cy);
-t_vec3			cy_quadratic_coefficient(t_ray *ray, t_cam cam, t_cylinder *cy);
-bool			in_cylinder_limit(double root, t_cam c, t_ray *ray,
+void			intersect_sphere(t_ray *ray, t_sphere *s);
+void			intersect_plane(t_ray *ray, t_plane *pl);
+void			intersect_cylinder_front(t_ray *ray, t_cylinder *cy);
+void			intersect_cylinder_back(t_ray *ray, t_cylinder *cy);
+t_vec3			cy_quadratic_coefficient(t_ray *ray, t_cylinder *cy);
+bool			in_cylinder_limit(double root, t_ray *ray,
 					t_cylinder *cy);
 
 /* ray_color */

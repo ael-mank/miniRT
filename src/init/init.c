@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/23 15:30:41 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:06:38 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,17 @@ void	init_render(t_render *render)
 
 void	init_viewport(t_camera *camera, t_render *render)
 {
+	double	aspect_ratio;
 	double	h;
 
 	camera->defocus_angle = 0;
 	camera->focus_dist = 10;
 	camera->theta = deg_to_rad(camera->fov);
+	aspect_ratio = render->image_width / (double)render->image_height;
 	h = tan(camera->theta / 2);
-	camera->viewport_height = 2.0 * h * camera->focus_dist;
-	camera->viewport_width = camera->viewport_height * (render->image_width
-			/ (double)render->image_height);
-	camera->w = vector_scale(camera->lookat, -1);
+	camera->viewport_width = 2.0 * h * camera->focus_dist;
+	camera->viewport_height = camera->viewport_width / aspect_ratio;
+	camera->w = vector_scasle(camera->lookat, -1);
 	camera->u = cross_product(camera->w, camera->v_up);
 	camera->v = cross_product(camera->u, camera->w);
 	camera->viewport_u = vector_scale(camera->u, camera->viewport_width);
@@ -57,10 +58,8 @@ void	init_camera(t_camera *camera)
 	camera->defocus_disk_u = vector_scale(camera->u, defocus_radius);
 	camera->defocus_disk_v = vector_scale(camera->v, defocus_radius);
 	camera->camera_center = camera->lookfrom;
-	camera->viewport_upper_left = vector_subtract(
-			vector_subtract(vector_subtract(camera->camera_center,
-					vector_scale(camera->w,
-						camera->focus_dist)),
+	camera->viewport_upper_left = vector_subtract(vector_subtract(vector_subtract(camera->camera_center,
+					vector_scale(camera->w, camera->focus_dist)),
 				vector_divide(camera->viewport_u, 2)),
 			vector_divide(camera->viewport_v, 2));
 	camera->pixel00_loc.x = camera->viewport_upper_left.x + 0.5

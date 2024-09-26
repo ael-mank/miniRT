@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/24 20:26:59 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 15:59:35 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ unsigned int	calculate_pixel(int x, int y, t_scene *scene)
 	t_ray		ray;
 	t_color		color;
 
-	pixel = find_pixel_on_viewport(x, y, scene->c->v);
-	ray = init_ray(scene->c, pixel);
-	cast_ray(&ray, scene);
-	color = ray_color(&ray, scene);
+	if (scene->l == NULL)
+		color = color_scale(scene->a->color, scene->a->ratio);
+	else
+	{
+		pixel = find_pixel_on_viewport(x, y, scene->c->v);
+		ray = init_ray(scene->c, pixel);
+		cast_ray(&ray, scene);
+		color = ray_color(&ray, scene);
+	}
 	return ((color.r << 16) + (color.g << 8) + color.b);
 }
 
@@ -95,10 +100,7 @@ void	parse_rt(t_scene *scene, int ac, char **av)
 	}
 	close(fd);
 	if (parse == false)
-	{
-		free_scene(scene);
-		exit(1);
-	}
+		free_scene_exit(scene, 1);
 }
 
 int	main(int ac, char **av)
@@ -108,6 +110,14 @@ int	main(int ac, char **av)
 
 	ft_bzero(&scene, sizeof(t_scene));
 	parse_rt(&scene, ac, av);
+	if (!scene.a || !scene.c)
+	{
+		if (!scene.a)
+			err("Error: Ambient light ", ABSENT);
+		if (!scene.c)
+			err("Error: Camera ", ABSENT);
+		free_scene_exit(&scene, 1);
+	}
 	win_init(&win, &scene);
 	mlx_loop_hook(win.mlx, calculate_image, &win);
 	mlx_hook(win.mlx_win, 17, 1L << 5, win_close, &win);

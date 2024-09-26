@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:09:41 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/26 14:16:15 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 18:23:55 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_color	ray_color(t_ray *ray, t_scene *scene)
 	ambient = color_scale(scene->a->color, scene->a->ratio);
 	diffuse_ratio = light_weight(ray, ray->object, scene->l);
 	from_obj = weighted_obj_color(ray, ray->object, diffuse_ratio);
-	if (ray->hit_status == TRUE_HIT)
+	if (ray->hit_status != NO_HIT)
 		res = color_add(from_obj, ambient);
 	else
 		res = ambient;
@@ -81,26 +81,41 @@ t_color	weighted_obj_color(t_ray *ray, void *obj, double diffuse_ratio)
 double	light_weight(t_ray *ray, void *obj, t_light *l)
 {
 	t_vec3	surface_normal;
-	t_vec3	temp[2];
 	double	light_weight;
 
+	surface_normal = get_normal(ray, obj);
+	if (ray->hit_status == FALSE_HIT && (vector_length
+			(vector_subtract(((t_sphere *)obj)->center, l->org))
+			> ((t_sphere *)obj)->radius))
+		light_weight = 0;
+	else
+		light_weight = dot_product(vector_normalize(vector_subtract
+					(l->org, ray->intersect)), surface_normal) * l->ratio;
+	if (light_weight < 0)
+		return (0);
+	return (light_weight);
+}
+
+t_vec3	get_normal(t_ray *ray, void *obj)
+{
+	t_vec3	normal;
+	t_vec3	temp[2];
+
 	if (ray->object_type == SPHERE)
-		surface_normal = vector_normalize(vector_subtract(ray->intersect,
+		normal = vector_normalize(vector_subtract(ray->intersect,
 					((t_sphere *)obj)->center));
+	if (ray->hit_status == FALSE_HIT)
+		normal = vector_scale(normal, -1);
 	if (ray->object_type == PLANE)
-		surface_normal = vector_normalize(((t_plane *)obj)->normal);
+		normal = vector_normalize(((t_plane *)obj)->normal);
 	if (ray->object_type == CYLINDER_E || ray->object_type == CYLINDER_I)
 	{
 		temp[0] = vector_subtract(ray->intersect, ((t_cylinder *)obj)->center);
 		temp[1] = vector_scale(((t_cylinder *)obj)->axis, dot_product(temp[0],
 					((t_cylinder *)obj)->axis));
-		surface_normal = vector_normalize(vector_subtract(temp[0], temp[1]));
+		normal = vector_normalize(vector_subtract(temp[0], temp[1]));
 		if (ray->object_type == CYLINDER_I)
-			surface_normal = vector_scale(surface_normal, -1);
+			normal = vector_scale(normal, -1);
 	}
-	light_weight = dot_product(vector_normalize(vector_subtract(l->org,
-					ray->intersect)), surface_normal) * l->ratio;
-	if (light_weight < 0)
-		return (0);
-	return (light_weight);
+	return (normal);
 }

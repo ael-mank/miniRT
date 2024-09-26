@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/25 17:42:50 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 17:26:16 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef enum e_err_type
 	DIRECTION,
 	FOV,
 	NOISE,
+	ABSENT,
 }							t_err_type;
 
 typedef enum e_hit_status
@@ -187,6 +188,7 @@ typedef struct s_root
 	int						hit;
 	double					root1;
 	double					root2;
+	double					root;
 }							t_root;
 
 #endif

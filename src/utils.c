@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:51:25 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/24 20:31:40 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 16:24:01 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,11 @@ int	win_close(t_win *win)
 	mlx_destroy_window(win->mlx, win->mlx_win);
 	mlx_destroy_display(win->mlx);
 	free(win->mlx);
-	free_scene(win->scene);
-	exit(0);
+	free_scene_exit(win->scene, 0);
 	return (0);
 }
 
-void	free_scene(t_scene *scene)
+void	free_scene_exit(t_scene *scene, int exit_code)
 {
 	t_obj	*head;
 	t_obj	*temp;
@@ -76,6 +75,11 @@ void	free_scene(t_scene *scene)
 		free(head);
 		head = temp;
 	}
+	if (exit_code == 0)
+		printf("\e[0;32m./miniRT exited\n\e[0m");
+	else if (exit_code == 1)
+		printf("\e[0;31m./miniRT exited\n\e[0m");
+	exit(exit_code);
 }
 
 bool	err(char *obj, t_err_type err)
@@ -84,7 +88,7 @@ bool	err(char *obj, t_err_type err)
 
 	detail = NULL;
 	if (err == REPETITION)
-		detail = "can't be declared more than once.\n";
+		detail = "can't be declared more than once\n";
 	else if (err == RATIO)
 		detail = "must be a number in range [0.0,1.0]\n";
 	else if (err == POINT)
@@ -99,6 +103,8 @@ bool	err(char *obj, t_err_type err)
 		detail = "must be a number in range [0,180]\n";
 	else if (err == NOISE)
 		detail = "has noise information\n";
+	else if (err == ABSENT)
+		detail = "can't be absent\n";
 	printf("%s%s", obj, detail);
 	return (false);
 }

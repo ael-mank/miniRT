@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 13:46:00 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 17:49:18 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ unsigned int	calculate_pixel(int x, int y, t_scene *scene);
 int				open_file(int ac, char **av);
 int				key_event(int key, t_win *e);
 int				win_close(t_win *e);
-void			free_scene(t_scene *scene);
+void			free_scene_exit(t_scene *scene, int exit_code);
 bool			err(char *obj, t_err_type err);
 
 /* parse view */
@@ -113,5 +113,6 @@ bool			in_cylinder_limit(double root, t_ray *ray,
 t_color			ray_color(t_ray *ray, t_scene *scene);
 t_color			weighted_obj_color(t_ray *ray, void *obj, double diffuse_ratio);
 double			light_weight(t_ray *ray, void *obj, t_light *l);
+t_vec3			get_normal(t_ray *ray, void *obj);
 
 #endif

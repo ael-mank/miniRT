@@ -4,7 +4,7 @@ SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
-CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude
+CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -g3
 HEADER = ./include/minirt.h
 SRC_FILES = main utils \
 	parse_view parse_object parse_parameter parse_util_1 parse_util_2 \

@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 18:02:26 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/26 13:25:44 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 16:30:55 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ bool	parse_and_add_ambient(char *line, t_scene *scene)
 		line++;
 	if (*line != '\0')
 		return (free(a), err("Error: Ambient light ", NOISE));
-	printf("Ambient  | Ratio: %.1f | Color: %d,%d,%d\n", a->ratio,
-		a->color.r, a->color.g, a->color.b);
+	printf("\e[90mAmbient  | Ratio: %.1f | Color: %d,%d,%d\n\e[0m",
+		a->ratio, a->color.r, a->color.g, a->color.b);
 	scene->a = a;
 	return (true);
 }
@@ -54,8 +54,8 @@ bool	parse_and_add_light(char *line, t_scene *scene)
 		line++;
 	if (*line != '\0')
 		return (free(l), err("Error: Light ", NOISE));
-	printf("Light    | Point: %.1f,%.1f,%.1f | Ratio: %.1f | "
-		"Color: %d,%d,%d\n", l->org.x, l->org.y, l->org.z, l->ratio,
+	printf("\e[90mLight    | Point: %.1f,%.1f,%.1f | Ratio: %.1f | "
+		"Color: %d,%d,%d\n\e[0m", l->org.x, l->org.y, l->org.z, l->ratio,
 		l->color.r, l->color.g, l->color.b);
 	scene->l = l;
 	return (true);
@@ -80,9 +80,10 @@ bool	parse_and_add_plane(char *line, t_scene *scene)
 		line++;
 	if (*line != '\0')
 		return (free(pl), err("Error: Plane ", NOISE));
-	printf("Plane    | Point: %.1f,%.1f,%.1f | Normal: %.1f,%.1f,%.1f | Color:"
-		" %d,%d,%d\n", pl->point.x, pl->point.y, pl->point.z, pl->normal.x,
-		pl->normal.y, pl->normal.z, pl->color.r, pl->color.g, pl->color.b);
+	printf("\e[90mPlane    | Point: %.1f,%.1f,%.1f | Normal: %.1f,%.1f,%.1f "
+		"| Color: %d,%d,%d\n\e[0m", pl->point.x, pl->point.y, pl->point.z,
+		pl->normal.x, pl->normal.y, pl->normal.z, pl->color.r, pl->color.g,
+		pl->color.b);
 	pl->normal = vector_normalize(pl->normal);
 	return (add_to_obj_list(pl, scene, PLANE));
 }
@@ -106,9 +107,9 @@ bool	parse_and_add_sphere(char *line, t_scene *scene)
 		line++;
 	if (*line != '\0')
 		return (free(sp), err("Error: Sphere ", NOISE));
-	printf("Sphere   | Center: %.1f,%.1f,%.1f | Diameter: %.1f | Color: "
-		"%d,%d,%d\n", sp->center.x, sp->center.y, sp->center.z, sp->diameter,
-		sp->color.r, sp->color.g, sp->color.b);
+	printf("\e[90mSphere   | Center: %.1f,%.1f,%.1f | Diameter: %.1f | Color: "
+		"%d,%d,%d\n\e[0m", sp->center.x, sp->center.y, sp->center.z,
+		sp->diameter, sp->color.r, sp->color.g, sp->color.b);
 	sp->radius = sp->diameter / 2;
 	return (add_to_obj_list(sp, scene, SPHERE));
 }

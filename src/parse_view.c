@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:13:52 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/25 14:38:19 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 16:29:07 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ bool	parse_and_add_camera(char *line, t_scene *scene)
 		line++;
 	if (*line != '\0')
 		return (free(c), err("Error: Camera ", NOISE));
-	printf("Camera   | Point: %.1f,%.1f,%.1f | Orientation: %.1f,%.1f,%.1f | "
-		"FOV: %.0f\n", c->org.x, c->org.y, c->org.z, c->dir.x, c->dir.y,
-		c->dir.z, c->fov);
+	printf("\e[90mCamera   | Point: %.1f,%.1f,%.1f | Orientation: "
+		"%.1f,%.1f,%.1f | FOV: %.0f\n\e[0m", c->org.x, c->org.y,
+		c->org.z, c->dir.x, c->dir.y, c->dir.z, c->fov);
 	c->dir = vector_normalize(c->dir);
 	c->theta_radian = c->fov / 2 * (PI / 180);
 	init_viewport(c);

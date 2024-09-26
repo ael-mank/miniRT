@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   parse_util_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:05:04 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/24 20:46:19 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 16:27:48 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ bool	add_to_obj_list(void *obj, t_scene *scene, t_obj_type type)
 
 void	print_cylinder(t_cylinder *cy)
 {
-	printf("Cylinder | Center: %.1f,%.1f,%.1f | Axis: %.1f,%.1f,%.1f | "
-		"Diameter: %.1f | Height: %.1f | Color: %d,%d,%d\n",
+	printf("\e[90mCylinder | Center: %.1f,%.1f,%.1f | Axis: %.1f,%.1f,%.1f | "
+		"Diameter: %.1f | Height: %.1f | Color: %d,%d,%d\n\e[0m",
 		cy->center.x, cy->center.y, cy->center.z, cy->axis.x, cy->axis.y,
 		cy->axis.z, cy->diameter, cy->height, cy->color.r, cy->color.g,
 		cy->color.b);

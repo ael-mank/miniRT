@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:09:41 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/25 19:09:11 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 14:16:15 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,24 @@ t_color	ray_color(t_ray *ray, t_scene *scene)
 	t_color	ambient;
 	t_color	from_obj;
 	t_color	res;
+	double	diffuse_ratio;
 
 	ambient = color_scale(scene->a->color, scene->a->ratio);
-	from_obj = weighted_obj_color(ray, ray->object, scene->l);
+	diffuse_ratio = light_weight(ray, ray->object, scene->l);
+	from_obj = weighted_obj_color(ray, ray->object, diffuse_ratio);
 	if (ray->hit_status == TRUE_HIT)
 		res = color_add(from_obj, ambient);
-	else if (ray->hit_status == SHADOWED)
-		res = color_multiply(from_obj, ambient);
-	else if (ray->hit_status == FALSE_HIT && ray->object_type == SPHERE)
-		return (color(50, 50, 50));
 	else
 		res = ambient;
 	return (res);
 }
+/*	else if (ray->hit_status == SHADOWED)
+	{
+		if (diffuse_ratio == 0)
+			res = ambient;
+		else
+			res = color_multiply(from_obj, ambient);
+	}*/
 /*
 t_color	norm(t_ray *ray, void *obj)
 {
@@ -58,7 +63,7 @@ t_color	norm(t_ray *ray, void *obj)
 	return (clr);
 }*/
 
-t_color	weighted_obj_color(t_ray *ray, void *obj, t_light *l)
+t_color	weighted_obj_color(t_ray *ray, void *obj, double diffuse_ratio)
 {
 	t_color	obj_color;
 	t_color	weighted;
@@ -69,9 +74,7 @@ t_color	weighted_obj_color(t_ray *ray, void *obj, t_light *l)
 		obj_color = ((t_plane *)obj)->color;
 	if (ray->object_type == CYLINDER_E || ray->object_type == CYLINDER_I)
 		obj_color = ((t_cylinder *)obj)->color;
-	if (ray->hit_status == SHADOWED)
-		return (obj_color);
-	weighted = color_scale(obj_color, light_weight(ray, obj, l));
+	weighted = color_scale(obj_color, diffuse_ratio);
 	return (weighted);
 }
 
@@ -96,7 +99,7 @@ double	light_weight(t_ray *ray, void *obj, t_light *l)
 			surface_normal = vector_scale(surface_normal, -1);
 	}
 	light_weight = dot_product(vector_normalize(vector_subtract(l->org,
-					ray->intersect)), surface_normal);
+					ray->intersect)), surface_normal) * l->ratio;
 	if (light_weight < 0)
 		return (0);
 	return (light_weight);

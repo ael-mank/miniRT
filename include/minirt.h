@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 12:31:18 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/26 13:46:00 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ bool			in_cylinder_limit(double root, t_ray *ray,
 
 /* ray_color */
 t_color			ray_color(t_ray *ray, t_scene *scene);
-t_color			weighted_obj_color(t_ray *ray, void *obj, t_light *l);
+t_color			weighted_obj_color(t_ray *ray, void *obj, double diffuse_ratio);
 double			light_weight(t_ray *ray, void *obj, t_light *l);
 
 #endif

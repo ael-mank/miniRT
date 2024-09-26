@@ -6,7 +6,7 @@
 #    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 19:43:12 by ael-mank          #+#    #+#              #
-#    Updated: 2024/09/25 12:30:08 by ael-mank         ###   ########.fr        #
+#    Updated: 2024/09/26 11:41:57 by ael-mank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ $(NAME): $(OBJ)
 	@echo -e "$(GREEN)Built MiniLibX ✅ $(NC)"
 	@cd ./libft && $(MAKE) > /dev/null && $(MAKE) bonus > /dev/null && $(MAKE) printf > /dev/null
 	@echo -e "$(GREEN)Built Libft ✅ $(NC)"
-	@$(CC) $(CFLAGS) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx -lX11 -lXext -lm
+	@$(CC) $(CFLAGS) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx -lX11 -lXext -lm -lpthread
 	@echo -e "$(BLUE)Compiled $(NAME) 🎮 $(NC)"
 
 $(BONUS_NAME): $(OBJ)
@@ -74,7 +74,7 @@ $(BONUS_NAME): $(OBJ)
 	@echo -e "$(GREEN)Built MiniLibX ✅ $(NC)"
 	@cd ./libft && $(MAKE) > /dev/null && $(MAKE) bonus > /dev/null && $(MAKE) printf > /dev/null
 	@echo -e "$(GREEN)Built Libft ✅ $(NC)"
-	@$(CC) $(CFLAGS) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx -lX11 -lXext -lm
+	@$(CC) $(CFLAGS) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx -lX11 -lXext -lm -lpthread
 	@echo -e "$(BLUE)Compiled $(BONUS_NAME) 🎮 $(NC)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c

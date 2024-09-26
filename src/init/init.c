@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:31:07 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 12:06:38 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:33:53 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init_viewport(t_camera *camera, t_render *render)
 	h = tan(camera->theta / 2);
 	camera->viewport_width = 2.0 * h * camera->focus_dist;
 	camera->viewport_height = camera->viewport_width / aspect_ratio;
-	camera->w = vector_scasle(camera->lookat, -1);
+	camera->w = vector_scale(camera->lookat, -1);
 	camera->u = cross_product(camera->w, camera->v_up);
 	camera->v = cross_product(camera->u, camera->w);
 	camera->viewport_u = vector_scale(camera->u, camera->viewport_width);

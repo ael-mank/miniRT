@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 12:31:56 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:10:23 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,18 @@
 # include <stdlib.h>
 # include <time.h>
 # include <unistd.h>
+# include <pthread.h>
 
 // Structs
 typedef struct s_render
 {
-	double					aspect_ratio;
-	int						image_width;
-	int						image_height;
-}							t_render;
+    double  aspect_ratio;
+    int     image_width;
+    int     image_height;
+    int     next_chunk;     // For tracking the next available chunk of work
+    int     progress;       // For tracking overall rendering progress
+    pthread_mutex_t mutex;  // Mutex for thread-safe operations
+}   t_render;
 
 typedef struct s_camera
 {

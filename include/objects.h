@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 16:54:34 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/27 21:00:09 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ typedef struct s_object
 	struct s_object			*next;
 }							t_object;
 
+double						reflectance(double cosine, double ref_idx);
 int							metal_scatter(t_scatter_params *params);
 int							lambertian_scatter(t_scatter_params *params);
 int							glass_scatter(t_scatter_params *params);

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 16:54:47 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:44:40 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,34 +74,33 @@ void	free_triangle(t_bvh *node)
 	free(triangle);
 }
 
-
 void	free_sphere(t_bvh *node)
 {
-    t_sphere	*sphere;
+	t_sphere	*sphere;
 
-    if (node == NULL || node->object == NULL || node->object->object == NULL)
-        return;
-
-    sphere = (t_sphere *)node->object->object;
-
-    if (sphere->mat != NULL)
-    {
-        if (sphere->mat->img != NULL)
-        {
-            if (sphere->mat->img->image != NULL)
-                mlx_destroy_image(get_mlx_ptr(), sphere->mat->img->image);
-            free(sphere->mat->img);
-        }
-        if (sphere->mat->normal_map != NULL)
-        {
-            if (sphere->mat->normal_map->image != NULL)
-                mlx_destroy_image(get_mlx_ptr(), sphere->mat->normal_map->image);
-            free(sphere->mat->normal_map);
-        }
-        free(sphere->mat);
-    }
-    free(sphere);
+	if (node == NULL || node->object == NULL || node->object->object == NULL)
+		return ;
+	sphere = (t_sphere *)node->object->object;
+	if (sphere->mat != NULL)
+	{
+		if (sphere->mat->img != NULL)
+		{
+			if (sphere->mat->img->image != NULL)
+				mlx_destroy_image(get_mlx_ptr(), sphere->mat->img->image);
+			free(sphere->mat->img);
+		}
+		if (sphere->mat->normal_map != NULL)
+		{
+			if (sphere->mat->normal_map->image != NULL)
+				mlx_destroy_image(get_mlx_ptr(),
+					sphere->mat->normal_map->image);
+			free(sphere->mat->normal_map);
+		}
+		free(sphere->mat);
+	}
+	free(sphere);
 }
+
 void	free_bvh_tree(t_bvh *node)
 {
 	if (node == NULL)
@@ -114,10 +113,10 @@ void	free_bvh_tree(t_bvh *node)
 	free(node);
 }
 
-void free_ligts(t_point_light *lights)
+void	free_ligts(t_point_light *lights)
 {
-	t_point_light *current;
-	t_point_light *next;
+	t_point_light	*current;
+	t_point_light	*next;
 
 	current = lights;
 	while (current)

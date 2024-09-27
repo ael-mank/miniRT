@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 09:12:56 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/08/20 22:25:09 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:44:57 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	set_pixel_color(t_data *img, int x, int y, t_vec3 color)
 	res = create_trgb(0, r, g, b);
 	my_mlx_pixel_put(img, x, y, res);
 }
-	//fprintf(out, "%d %d %d\n", r, g, b);
+//fprintf(out, "%d %d %d\n", r, g, b);
 
 void	write_colors(t_data *img, int x, int y, t_vec3 color)
 {

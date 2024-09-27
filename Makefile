@@ -6,7 +6,7 @@
 #    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 19:43:12 by ael-mank          #+#    #+#              #
-#    Updated: 2024/09/26 16:54:15 by ael-mank         ###   ########.fr        #
+#    Updated: 2024/09/27 21:00:33 by ael-mank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ SRC_FILES = main \
             objects/sphere objects/triangle \
             objects/plane objects/cylinder\
             materials/materials materials/color_val \
-            materials/lights \
+            materials/lights materials/ray_manip\
             aabbbvh/aabb aabbbvh/bvh aabbbvh/bvh_comp aabbbvh/bvh_comp2 \
             aabbbvh/hit_aabb 
 

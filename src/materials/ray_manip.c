@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bvh_comp2.c                                        :+:      :+:    :+:   */
+/*   ray_manip.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/20 20:58:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/27 21:55:29 by ael-mank         ###   ########.fr       */
+/*   Created: 2024/09/27 20:59:31 by ael-mank          #+#    #+#             */
+/*   Updated: 2024/09/27 20:59:47 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	compare_objects_x(const void *a, const void *b)
+double	reflectance(double cosine, double ref_idx)
 {
-	return (box_x_compare(a, b));
-}
+	double	r0;
 
-int	compare_objects_y(const void *a, const void *b)
-{
-	return (box_y_compare(a, b));
-}
-
-int	compare_objects_z(const void *a, const void *b)
-{
-	return (box_z_compare(a, b));
+	r0 = (1 - ref_idx) / (1 + ref_idx);
+	r0 = r0 * r0;
+	return (r0 + (1 - r0) * pow((1 - cosine), 5));
 }

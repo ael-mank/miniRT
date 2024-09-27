@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:16:14 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 17:02:24 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/27 20:59:09 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,6 @@ int	metal_scatter(t_scatter_params *params)
 		return (1);
 	else
 		return (0);
-}
-
-double	reflectance(double cosine, double ref_idx)
-{
-	double	r0;
-
-	r0 = (1 - ref_idx) / (1 + ref_idx);
-	r0 = r0 * r0;
-	return (r0 + (1 - r0) * pow((1 - cosine), 5));
 }
 
 int	glass_scatter(t_scatter_params *params)

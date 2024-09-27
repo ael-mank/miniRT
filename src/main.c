@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 12:02:35 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:53:04 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	init_rt(t_scene *scene, char **argv)
 {
 	int		win_width;
 	int		win_height;
+
 	(void)argv;
 	ft_bzero(scene, sizeof(t_scene));
 	win_width = 960;
@@ -24,10 +25,10 @@ void	init_rt(t_scene *scene, char **argv)
 	init_mlx(scene, win_width, win_height);
 }
 
-// FILE *out;
 int	main(int argc, char **argv)
 {
 	t_scene	scene;
+
 	(void)argv;
 	if (argc != 2)
 	{

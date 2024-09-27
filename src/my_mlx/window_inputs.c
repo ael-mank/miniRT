@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:55:32 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 12:08:23 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:44:55 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,55 +84,74 @@ void	moove_down(t_scene *scene)
 	render_scene(scene);
 }
 
-static inline int get_pixel_color(t_data *data, int x, int y) {
-    char *pixel = data->addr + (y * data->line_length + x * (data->bpp / 8));
-    return *(int *)pixel;
+static inline int	get_pixel_color(t_data *data, int x, int y)
+{
+	char	*pixel;
+
+	pixel = data->addr + (y * data->line_length + x * (data->bpp / 8));
+	return (*(int *)pixel);
 }
 
-void save_image(t_scene *scene) {
-    char filename[100];
-    time_t now = time(NULL);
-    struct tm *t = localtime(&now);
-    strftime(filename, sizeof(filename) - 1, "screenshot_%Y-%m-%d_%H-%M-%S.png", t);
-    int width = 960;
-    int height = 540;
-    int channels = 4;
-    unsigned char *image_data = (unsigned char *)malloc(width * height * channels);
-	int index = 0;
-	int y = 0;
-	while (y < height) {
-		int x = 0;
-		while (x < width) {
-			int color = get_pixel_color(&scene->mlx.img, x, y);
-			image_data[index + 0] = (color >> 16) & 0xFF; 
-			image_data[index + 1] = (color >> 8) & 0xFF;  
-			image_data[index + 2] = color & 0xFF;         
-			image_data[index + 3] = 0xFF;                
+void	save_image(t_scene *scene)
+{
+	char			filename[100];
+	time_t			now;
+	struct tm		*t;
+	int				width;
+	int				height;
+	int				channels;
+	unsigned char	*image_data;
+	int				index;
+	int				y;
+	int				x;
+	int				color;
+
+	now = time(NULL);
+	t = localtime(&now);
+	strftime(filename, sizeof(filename) - 1, "screenshot_%Y-%m-%d_%H-%M-%S.png",
+			t);
+	width = 960;
+	height = 540;
+	channels = 4;
+	image_data = (unsigned char *)malloc(width * height * channels);
+	index = 0;
+	y = 0;
+	while (y < height)
+	{
+		x = 0;
+		while (x < width)
+		{
+			color = get_pixel_color(&scene->mlx.img, x, y);
+			image_data[index + 0] = (color >> 16) & 0xFF;
+			image_data[index + 1] = (color >> 8) & 0xFF;
+			image_data[index + 2] = color & 0xFF;
+			image_data[index + 3] = 0xFF;
 			index += channels;
 			x++;
 		}
 		y++;
 	}
-    stbi_write_png(filename, width, height, channels, image_data, width * channels);
-    free(image_data);
-    ft_printf("Image saved as %s\n", filename);
+	stbi_write_png(filename, width, height, channels, image_data, width
+			* channels);
+	free(image_data);
+	ft_printf("Image saved as %s\n", filename);
 }
 
-int keys_handler(int key_code, t_scene *scene)
+int	keys_handler(int key_code, t_scene *scene)
 {
-    if (key_code == XK_Escape)
-        ft_exit(scene);
-    else if (key_code == XK_Right)
-        moove_right(scene);
-    else if (key_code == XK_Left)
-        moove_left(scene);
-    else if (key_code == XK_Up)
-        moove_forward(scene);
-    else if (key_code == XK_Down)
-        moove_backwards(scene);
-    else if (key_code == XK_space)
-        moove_up(scene);
-    else if (key_code == XK_Control_L || key_code == XK_Control_R)
-        moove_down(scene);
-    return (0);
+	if (key_code == XK_Escape)
+		ft_exit(scene);
+	else if (key_code == XK_Right)
+		moove_right(scene);
+	else if (key_code == XK_Left)
+		moove_left(scene);
+	else if (key_code == XK_Up)
+		moove_forward(scene);
+	else if (key_code == XK_Down)
+		moove_backwards(scene);
+	else if (key_code == XK_space)
+		moove_up(scene);
+	else if (key_code == XK_Control_L || key_code == XK_Control_R)
+		moove_down(scene);
+	return (0);
 }

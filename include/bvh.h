@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:25:35 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 16:53:08 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/27 20:56:34 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_bvh
 {
 	t_aabb				box;
 	int					(*hit)(t_bvh *node, t_ray r, t_interval ray_t,
-							t_hitrecord *rec);
+			t_hitrecord *rec);
 	struct s_bvh		*left;
 	struct s_bvh		*right;
 	t_object			*object;
@@ -74,7 +74,7 @@ void					handle_single_object(t_bvh *node, t_object *objects);
 int						compare_objects(const void *a, const void *b, int axis);
 int						handle_two_objects(t_bvh *node, t_object *objects,
 							int axis);
-void	swap_objects_if_needed(t_object **objects, int axis);
-int	create_bvh_nodes(t_bvh *node, t_object *objects);
+void					swap_objects_if_needed(t_object **objects, int axis);
+int						create_bvh_nodes(t_bvh *node, t_object *objects);
 
 #endif

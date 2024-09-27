@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:40:09 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 16:57:42 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:43:49 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,19 @@ t_vec3	checkerboard(t_material *mat, t_hitrecord *rec)
 
 t_vec3	get_texture_color(t_material *mat, t_hitrecord *rec)
 {
+	t_img	*img;
+	t_vec3	color_vec;
 	int		x;
 	int		y;
 	int		color;
-	t_vec3	color_vec;
-	t_img	*img;
 
 	img = (t_img *)mat->img->image;
-	if (img == NULL || img->data == NULL)
+	if (!img || !img->data)
 		return ((t_vec3){0, 0, 0});
-	rec->u = fmod(rec->u, 1.0);
-	rec->v = fmod(rec->v, 1.0);
-	if (rec->u < 0)
-		rec->u += 1.0;
-	if (rec->v < 0)
-		rec->v += 1.0;
-	x = (int)(rec->u * img->width);
-	y = (int)((1.0 - rec->v) * img->height);
-	if (x >= img->width)
-		x = img->width - 1;
-	if (y >= img->height)
-		y = img->height - 1;
+	rec->u = fmod(rec->u + 1.0, 1.0);
+	rec->v = fmod(rec->v + 1.0, 1.0);
+	x = (int)(rec->u * img->width) % img->width;
+	y = (int)((1.0 - rec->v) * img->height) % img->height;
 	color = *(int *)(img->data + (y * img->size_line + x * img->bpp / 8));
 	color_vec.x = ((color >> 16) & 0xFF) / 255.0;
 	color_vec.y = ((color >> 8) & 0xFF) / 255.0;

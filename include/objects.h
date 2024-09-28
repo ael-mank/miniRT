@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:29:30 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/27 21:00:09 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:34:12 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,17 @@ double						hit_cylinder_wrapper(t_ray r, void *object,
 t_sphere					*create_sphere(t_point3 center, double radius,
 								t_material_type type, t_vec3 color);
 t_object					*add_sphere(t_object *head, t_sphere *sphere);
+void						set_face_normal(t_hitrecord *rec, t_ray *r,
+								t_vec3 outward_normal);
+void						get_sphere_uv(t_vec3 p, double *u, double *v);
 
 t_object					*add_triangle(t_object *head, t_triangle *triangle);
 t_triangle					*create_triangle(t_tri3 tri, t_material_type type,
 								t_vec3 color);
+double						hit_triangle(t_ray r, t_triangle triangle,
+								t_interval ray_t, t_hitrecord *rec);
+void						set_face_normal_triangle(t_hitrecord *rec, t_ray *r,
+								t_triangle triangle);
 
 t_plane						*create_plane(t_point3 point, t_vec3 normal,
 								t_material_type type, t_vec3 color);
@@ -145,6 +152,10 @@ t_object					*add_plane(t_object *head, t_plane *plane);
 t_cylinder					*create_cylinder(t_cylinder *cylinder,
 								t_material_type type, t_vec3 color);
 t_object					*add_cylinder(t_object *head, t_cylinder *cylinder);
+double						hit_cylinder(t_ray r, t_cylinder cylinder,
+								t_interval ray_t, t_hitrecord *rec);
+void						set_face_normal_cy(t_hitrecord *rec, t_ray *r,
+								t_vec3 outward_normal);
 
 t_vec3						solid_color(t_material *mat, t_hitrecord *rec);
 t_vec3						show_normal(t_material *mat, t_hitrecord *rec);

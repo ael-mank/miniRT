@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 07:58:29 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 12:18:38 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:38:33 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_triangle	*create_triangle(t_tri3 tri, t_material_type type, t_vec3 color)
 	n = cross_product(vector_subtract(tri.v1, tri.v0), vector_subtract(tri.v2,
 				tri.v0));
 	triangle->normal = unit_vector(n);
-	triangle->d = dot_product(triangle->normal, tri.v0);
+	triangle->d = dot(triangle->normal, tri.v0);
 	return (triangle);
 }
 

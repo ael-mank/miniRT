@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 09:51:52 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 16:55:34 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:47:23 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	open_map(t_scene *scene, char *path)
 	if (path_len < 3)
 		return (0);
 	if (ft_strncmp(&path[path_len - 3], ".rt", ft_strlen(&path[path_len
-					- 4])) != 0)
+				- 4])) != 0)
 		return (0);
 	scene->file_fd = open(path, O_RDONLY);
 	if (scene->file_fd < 0)
@@ -57,15 +57,15 @@ int	check_char(t_scene *scene, char *line)
 	if (*line == 'A' || *line == 'a')
 		return (parse_ambient(scene, line));
 	else if (*line == 'c' && *(line + 1) == 'y')
-		return(parse_cylinder(scene, line));
+		return (parse_cylinder(scene, line));
 	else if (*line == 'C' || *line == 'c')
 		return (parse_camera(scene, line));
 	else if (*line == 'L' || *line == 'l')
-		return(parse_light(scene, line));
+		return (parse_light(scene, line));
 	else if (*line == 's' && *(line + 1) == 'p')
-		return(parse_sphere(scene, line));
+		return (parse_sphere(scene, line));
 	else if (*line == 'p' && *(line + 1) == 'l')
-		return(parse_plane(scene, line));
+		return (parse_plane(scene, line));
 	// else if (*line == 't' && *(line + 1) == 'r')
 	// 	//return(parse_triangle(scene, line));
 	else if (*line == '#')

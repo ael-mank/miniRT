@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:05:41 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 17:22:10 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:47:27 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	parse_light(t_scene *scene, char *line)
 	if (!get_color(&r, &g, &b, line))
 		return (0);
 	add_light(scene, position, vec3(r / 255.0, g / 255.0, b / 255.0),
-		ambient_value);
+			ambient_value);
 	return (1);
 }
 
@@ -101,7 +101,7 @@ t_material_type	get_type(char *line)
 		{
 			ft_printf("\e[1;31mError :");
 			ft_printf("\t%s\n\033[0m",
-				"Unrecognized material type replaced by matte");
+						"Unrecognized material type replaced by matte");
 		}
 		return (MATTE);
 	}

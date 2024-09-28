@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:01:57 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/17 11:12:22 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:38:33 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_plane	*create_plane(t_point3 point, t_vec3 normal, t_material_type type,
 	plane->mat = mat;
 	plane->point = point;
 	plane->normal = unit_vector(normal);
-	plane->d = dot_product(plane->normal, point);
+	plane->d = dot(plane->normal, point);
 	return (plane);
 }
 

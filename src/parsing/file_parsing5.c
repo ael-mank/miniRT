@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 10:19:21 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/25 12:01:28 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:47:34 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static inline int	parse_cylinder_vector(t_cylinder *cylinder, char **line)
 }
 
 static inline void	parse_cylinder_radius_height(t_cylinder *cylinder,
-		char **line)
+												char **line)
 {
 	cylinder->radius = parse_radius(line) / 2.0;
 	while (ft_isdigit(**line) || **line == '.')
@@ -59,7 +59,7 @@ int	parse_cylinder(t_scene *scene, char *line)
 		line++;
 	get_string(line, &type);
 	create_cylinder(cylinder, get_type(type), vec3(r / 255.0, g / 255.0, b
-			/ 255.0));
+				/ 255.0));
 	free(type);
 	scene->objects = add_cylinder(scene->objects, cylinder);
 	return (1);

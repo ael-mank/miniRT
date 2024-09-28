@@ -6,7 +6,7 @@
 #    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 19:43:12 by ael-mank          #+#    #+#              #
-#    Updated: 2024/09/27 21:00:33 by ael-mank         ###   ########.fr        #
+#    Updated: 2024/09/28 20:46:32 by ael-mank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ SRC_FILES = main \
             my_mlx/window_inputs my_mlx/my_mlx_pixel_put\
             my_mlx/write_colors \
             memory/ft_exit \
-            vectors/vectors vectors/ray \
+            vectors/vector_creation vectors/vector_properties vectors/vector_products \
+			vectors/random_vectors vectors/vector_utilities \
+			vectors/ray vectors/ray_sim \
             parsing/file_parsing1 parsing/file_parsing2\
             parsing/file_parsing3 parsing/file_parsing4\
 			parsing/file_parsing5 \
@@ -32,8 +34,8 @@ SRC_FILES = main \
             render/render \
             interval/interval interval/get_intervals\
             utility/utility utility/ft_err\
-            objects/sphere objects/triangle \
-            objects/plane objects/cylinder\
+            objects/sphere objects/sphere2 objects/triangle objects/triangle2\
+            objects/plane objects/cylinder objects/cylinder2\
             materials/materials materials/color_val \
             materials/lights materials/ray_manip\
             aabbbvh/aabb aabbbvh/bvh aabbbvh/bvh_comp aabbbvh/bvh_comp2 \
@@ -58,7 +60,7 @@ NC=\033[0m
 all: CFLAGS += -DSPP=1 -DMD=2
 all: clean $(NAME)
 
-bonus: CFLAGS += -DSPP=10 -DMD=55
+bonus: CFLAGS += -DSPP=500 -DMD=55
 bonus: clean $(BONUS_NAME)
 
 $(NAME): $(OBJ)

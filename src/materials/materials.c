@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:16:14 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/27 20:59:09 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:38:33 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	invisible_scatter(t_scatter_params *params)
 
 	(void)params->mat;
 	*params->attenuation = vec3(1, 1, 1);
-	if (dot_product(params->r->dir, params->rec->normal) > 0)
+	if (dot(params->r->dir, params->rec->normal) > 0)
 	{
 		reflected_dir = reflect(params->r->dir, params->rec->normal);
 		offset_origin = vector_add(params->rec->p,

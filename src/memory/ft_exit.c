@@ -6,100 +6,11 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/27 22:44:40 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:45:08 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-// void	free_scene(t_object *objects)
-// {
-// 	t_object	*current;
-// 	t_object	*next;
-
-// 	current = objects;
-// 	while (current)
-// 	{
-// 		next = current->next;
-// 		free(current->mat);
-// 		free(current->object);
-// 		free(current);
-// 		current = next;
-// 	}
-// }
-//TODO : GIVE EACH OBJECT A FREE FUNCTION
-
-void	free_cylinder(t_bvh *node)
-{
-	t_cylinder	*cylinder;
-
-	cylinder = (t_cylinder *)node->object->object;
-	if (cylinder->mat->img != NULL)
-	{
-		mlx_destroy_image(get_mlx_ptr(), cylinder->mat->img->image);
-		free(cylinder->mat->img);
-	}
-	if (cylinder->mat != NULL)
-		free(cylinder->mat);
-	free(cylinder);
-}
-
-void	free_plane(t_bvh *node)
-{
-	t_plane	*plane;
-
-	plane = (t_plane *)node->object->object;
-	if (plane->mat->img != NULL)
-	{
-		mlx_destroy_image(get_mlx_ptr(), plane->mat->img->image);
-		free(plane->mat->img);
-	}
-	if (plane->mat != NULL)
-		free(plane->mat);
-	free(plane);
-}
-
-void	free_triangle(t_bvh *node)
-{
-	t_triangle	*triangle;
-
-	triangle = (t_triangle *)node->object->object;
-	if (triangle->mat->img != NULL)
-	{
-		mlx_destroy_image(get_mlx_ptr(), triangle->mat->img->image);
-		free(triangle->mat->img);
-	}
-	if (triangle->mat != NULL)
-		free(triangle->mat);
-	free(triangle);
-}
-
-void	free_sphere(t_bvh *node)
-{
-	t_sphere	*sphere;
-
-	if (node == NULL || node->object == NULL || node->object->object == NULL)
-		return ;
-	sphere = (t_sphere *)node->object->object;
-	if (sphere->mat != NULL)
-	{
-		if (sphere->mat->img != NULL)
-		{
-			if (sphere->mat->img->image != NULL)
-				mlx_destroy_image(get_mlx_ptr(), sphere->mat->img->image);
-			free(sphere->mat->img);
-		}
-		if (sphere->mat->normal_map != NULL)
-		{
-			if (sphere->mat->normal_map->image != NULL)
-				mlx_destroy_image(get_mlx_ptr(),
-					sphere->mat->normal_map->image);
-			free(sphere->mat->normal_map);
-		}
-		free(sphere->mat);
-	}
-	free(sphere);
-}
 
 void	free_bvh_tree(t_bvh *node)
 {

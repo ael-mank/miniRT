@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_err.c                                           :+:      :+:    :+:   */
+/*   sphere2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/30 09:52:55 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/28 20:36:36 by ael-mank         ###   ########.fr       */
+/*   Created: 2024/09/28 18:19:49 by ael-mank          #+#    #+#             */
+/*   Updated: 2024/09/28 18:20:32 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	ft_error(t_scene *scene, char *msg)
+void	set_face_normal(t_hitrecord *rec, t_ray *r, t_vec3 outward_normal)
 {
-	ft_printf("\e[1;31mError :");
-	ft_printf("\t%s\n\033[0m", msg);
-	scene->bvh = create_bvh_node(scene->objects);
-	ft_exit(scene);
+	rec->front_face = dot(r->dir, outward_normal) < 0;
+	if (rec->front_face)
+		rec->normal = outward_normal;
+	else
+		rec->normal = vector_scale(outward_normal, -1);
+}
+
+void	get_sphere_uv(t_vec3 p, double *u, double *v)
+{
+	double	theta;
+	double	phi;
+
+	theta = acos(-p.y);
+	phi = atan2(-p.z, p.x) + M_PI;
+	*u = phi / (2 * M_PI);
+	*v = theta / M_PI;
 }

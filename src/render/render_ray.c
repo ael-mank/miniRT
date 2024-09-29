@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 10:16:58 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/29 10:17:04 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/29 20:12:33 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_vec3	ray_color(t_ray *r, int depth, t_bvh *bvh, t_scene *scene)
 		return (vec3(0, 0, 0));
 	if (!bvh_hit(bvh, *r, universe_interval(), &rec))
 		return (scene->bg_color);
+	if (rec.mat == NULL)
+		return (vec3(0, 0, 0));
 	params.r = r;
 	params.rec = &rec;
 	params.attenuation = &vecs[0];

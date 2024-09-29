@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:04 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/28 17:46:47 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:47:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	main(int argc, char **argv)
 	{
 		init_rt(&scene, argv);
 		render_scene(&scene);
-		//save_image(&scene);
 		mlx_key_hook(scene.mlx.win_ptr, keys_handler, &scene);
 		mlx_hook(scene.mlx.win_ptr, 17, 0, ft_exit, &scene);
 		mlx_loop(scene.mlx.mlx_ptr);

@@ -6,7 +6,7 @@
 #    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 19:43:12 by ael-mank          #+#    #+#              #
-#    Updated: 2024/09/28 20:46:32 by ael-mank         ###   ########.fr        #
+#    Updated: 2024/09/29 09:54:43 by ael-mank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,14 +24,15 @@ SRC_FILES = main \
             vectors/vector_creation vectors/vector_properties vectors/vector_products \
 			vectors/random_vectors vectors/vector_utilities \
 			vectors/ray vectors/ray_sim \
-            parsing/file_parsing1 parsing/file_parsing2\
-            parsing/file_parsing3 parsing/file_parsing4\
-			parsing/file_parsing5 \
+            parsing/file_operations parsing/list_operations \
+			parsing/parsing_helpers parsing/parsing_amb_cam \
+			parsing/parsing_objects parsing/get_type\
             init/init_mlx init/init init/init_objects\
             init/init_sphere init/init_triangle\
             init/init_plane init/init_cylinder\
             init/make_mat init/make_mat2 init/init_bvh init/init_bvh2\
-            render/render \
+            render/render_lighting render/render_ray render/render_camera \
+			render/render_tile render/render_utils render/render_main \
             interval/interval interval/get_intervals\
             utility/utility utility/ft_err\
             objects/sphere objects/sphere2 objects/triangle objects/triangle2\
@@ -60,7 +61,7 @@ NC=\033[0m
 all: CFLAGS += -DSPP=1 -DMD=2
 all: clean $(NAME)
 
-bonus: CFLAGS += -DSPP=500 -DMD=55
+bonus: CFLAGS += -DSPP=100 -DMD=55
 bonus: clean $(BONUS_NAME)
 
 $(NAME): $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 16:56:57 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:35:16 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "my_mlx.h"
 # include "objects.h"
 # include "vectors.h"
+# include "parsing.h"
 # include <X11/keysym.h>
 # include <math.h>
 # include <pthread.h>
@@ -121,19 +122,6 @@ int							keys_handler(int key_code, t_scene *scene);
 // Initialization
 void						add_light(t_scene *scene, t_vec3 position,
 								t_vec3 color, double intensity);
-void						parse_file(t_scene *scene, char **argv);
-int							parse_ambient(t_scene *scene, char *line);
-int							parse_plane(t_scene *scene, char *line);
-int							parse_cylinder(t_scene *scene, char *line);
-int							parse_camera(t_scene *scene, char *line);
-int							parse_double(double *value, char **line);
-void						get_string(char *line, char **str);
-t_material_type				get_type(char *line);
-int							parse_position(t_vec3 *position, char **line);
-double						parse_radius(char **line);
-int							parse_color(int *r, int *g, int *b, char **line);
-int							parse_light(t_scene *scene, char *line);
-int							parse_sphere(t_scene *scene, char *line);
 void						init_camera(t_camera *camera);
 t_object					*init_objects(void);
 t_material					*create_material(t_material_type type);
@@ -153,7 +141,6 @@ double						deg_to_rad(double degrees);
 double						rand_double(double min, double max);
 double						random_double(void);
 void						ft_error(t_scene *scene, char *msg);
-int							parse_vector(t_vec3 *vec, char **line);
 int							get_color(int *r, int *g, int *b, char *line);
 
 // Miscellaneous

@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 20:43:37 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/28 20:45:36 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:30:15 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 
 int	near_zero(t_vec3 e)
 {
-	const double	s;
+	const double	s = 1e-8;
 
-	s = 1e-8;
 	return (fabs(e.x) < s && fabs(e.y) < s && fabs(e.z) < s);
 }
 

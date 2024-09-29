@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 09:51:19 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/29 10:11:59 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/29 13:58:03 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,20 @@ typedef struct s_init_params
 	int				*next_tile;
 }					t_init_params;
 
+typedef struct s_tile_params
+{
+	int				width;
+	int				height;
+	int				tile_size;
+}					t_tile_params;
+
 t_vec3				calculate_lighting(t_hitrecord *rec, t_scene *scene);
 t_vec3				ray_color(t_ray *r, int depth, t_bvh *bvh, t_scene *scene);
 t_vec3				defocus_disk_sample(t_camera *camera);
 t_ray				get_ray(int i, int j, t_camera *camera);
 void				*render_tile(void *arg);
-void				create_tiles(t_tile **tiles, int *tile_count, int width,
-						int height, int tile_size);
+void				create_tiles(t_tile **tiles, int *tile_count,
+						t_tile_params *params);
 void				render_scene(t_scene *scene);
 
 #endif

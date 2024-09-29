@@ -6,14 +6,14 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 10:00:00 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/29 10:12:38 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/09/29 13:55:13 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 
 static inline void	initialize_params(t_init_params *init_params,
-		pthread_t *threads)
+										pthread_t *threads)
 {
 	int	t;
 
@@ -46,10 +46,12 @@ void	render_scene(t_scene *scene)
 	t_render_data	render_data;
 	struct timeval	times[2];
 	t_init_params	init_params;
+	t_tile_params	tile_params;
 
 	render_data.ints[1] = 0;
-	create_tiles(&render_data.tiles, &render_data.ints[0],
-		scene->render.image_width, scene->render.image_height, TILE_SIZE);
+	tile_params = (t_tile_params){scene->render.image_width,
+		scene->render.image_height, TILE_SIZE};
+	create_tiles(&render_data.tiles, &render_data.ints[0], &tile_params);
 	gettimeofday(&times[0], NULL);
 	init_params = (t_init_params){render_data.params, scene, render_data.tiles,
 		render_data.ints[0], &render_data.ints[1]};

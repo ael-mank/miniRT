@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:13:52 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/26 16:29:07 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/30 15:07:04 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	parse_element(t_scene *scene, char *line)
 {
 	while (*line && ft_isspace(*line))
 		line++;
-	if (*line == '\0')
+	if (*line == '\0' || *line == '#')
 		return (true);
 	if (!ft_strncmp(line, "C ", 2))
 		return (parse_and_add_camera(++line, scene));

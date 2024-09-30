@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:09:41 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/26 18:23:55 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/30 15:01:02 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ double	light_weight(t_ray *ray, void *obj, t_light *l)
 	if (ray->hit_status == FALSE_HIT && (vector_length
 			(vector_subtract(((t_sphere *)obj)->center, l->org))
 			> ((t_sphere *)obj)->radius))
+		light_weight = 0;
+	else if (ray->hit_status == SHADOWED)
 		light_weight = 0;
 	else
 		light_weight = dot_product(vector_normalize(vector_subtract

@@ -1,0 +1,13 @@
+
+# Light		Position	Ratio		Color	(ahead of the camera)
+	L		0,0,50		0.7			255,255,255
+
+# Ambient	Ratio		Color
+	A		0.3			255,255,255
+
+# Camera	Position	Direction	FOV		(looking downward)
+	C 		0,0,0		0,-1,0		70
+
+# Plane		Point		Normal		Color	(facing upward)
+	pl		10,-50,0	0,1,0		0,0,255
+	

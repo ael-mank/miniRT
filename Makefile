@@ -20,6 +20,9 @@ BLUE=\033[0;34m
 MAGENTA=\033[0;35m
 NC=\033[0m
 
+LENGTH = 960
+HEIGHT = 540
+
 # Phony targets
 .PHONY: all clean fclean re
 
@@ -36,7 +39,7 @@ $(NAME): $(OBJ)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -I$(MLX_DIR) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(MLX_DIR) -c $< -o $@ -D LENGTH=$(LENGTH) -D HEIGHT=$(HEIGHT)
 
 clean:
 	@$(RM) -rf $(OBJ_DIR)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_subutils.c                                   :+:      :+:    :+:   */
+/*   parse_util_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:03:27 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/24 20:46:57 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/30 17:10:40 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ bool	is_float_format(char *s)
 	return (res);
 }
 
-bool	is_vec3_format(char *s, int type)
+bool	is_vec3_format(char *s, t_num_type type)
 {
 	int		nb_parts;
 	char	**parts;

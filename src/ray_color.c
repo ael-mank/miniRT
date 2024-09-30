@@ -6,12 +6,12 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:09:41 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/30 15:01:02 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/30 16:55:32 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
+/*
 t_color	ray_color(t_ray *ray, t_scene *scene)
 {
 	t_color	ambient;
@@ -27,41 +27,43 @@ t_color	ray_color(t_ray *ray, t_scene *scene)
 	else
 		res = ambient;
 	return (res);
-}
-/*	else if (ray->hit_status == SHADOWED)
-	{
-		if (diffuse_ratio == 0)
-			res = ambient;
-		else
-			res = color_multiply(from_obj, ambient);
-	}*/
-/*
-t_color	norm(t_ray *ray, void *obj)
-{
-	t_vec3	to_inter;
-	t_vec3	closest_pt;
-	t_vec3	radial_vector;
-	double	project;
-	t_color	clr;
-
-	clr = color(0, 0, 0);
-	if (ray->object_type == CYLINDER)
-	{
-		to_inter = vector_subtract(ray->intersect, ((t_cylinder *)obj)->center);
-		project = dot_product(to_inter, ((t_cylinder *)obj)->axis);
-		closest_pt = vector_add(((t_cylinder *)obj)->center,
-				vector_scale(((t_cylinder *)obj)->axis, project));
-		radial_vector = vector_subtract(ray->intersect, closest_pt);
-		radial_vector = (vector_normalize(radial_vector));
-	}
-	if (ray->object_type == SPHERE)
-		radial_vector = vector_normalize(vector_subtract(ray->intersect,
-					((t_sphere *)obj)->center));
-	clr.r = radial_vector.x * 255;
-	clr.g = radial_vector.y * 255;
-	clr.b = radial_vector.z * 255;
-	return (clr);
 }*/
+
+t_color	ray_color(t_ray *ray, t_scene *scene)
+{
+	double	light_impact;
+	t_color	light;
+	t_color	obj_with_ambient;
+	t_color	res;
+
+	if (ray->hit_status == NO_HIT)
+		res = color_scale(scene->a->color, scene->a->ratio);
+	else
+	{
+		light_impact = light_weight(ray, ray->object, scene->l);
+		light = color_scale(scene->l->color, scene->l->ratio * light_impact);
+		obj_with_ambient = ambient_on_obj(ray, ray->object, scene->a);
+		res = color_add(light, obj_with_ambient);
+	}
+	return (res);
+}
+
+t_color	ambient_on_obj(t_ray *ray, void *obj, t_ambient *a)
+{
+	t_color	ambient;
+	t_color	obj_color;
+	t_color	res;
+
+	ambient = color_scale(a->color, a->ratio);
+	if (ray->object_type == SPHERE)
+		obj_color = ((t_sphere *)obj)->color;
+	if (ray->object_type == PLANE)
+		obj_color = ((t_plane *)obj)->color;
+	if (ray->object_type == CYLINDER_E || ray->object_type == CYLINDER_I)
+		obj_color = ((t_cylinder *)obj)->color;
+	res = color_multiply(obj_color, ambient);
+	return (res);
+}
 
 t_color	weighted_obj_color(t_ray *ray, void *obj, double diffuse_ratio)
 {

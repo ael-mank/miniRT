@@ -6,13 +6,19 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:13:48 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/26 17:26:16 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/30 17:09:38 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 # include <stdbool.h>
+
+typedef enum e_num_type
+{
+	INTEGER,
+	FLOAT,
+}							t_num_type;
 
 typedef enum e_obj_type
 {
@@ -87,7 +93,6 @@ typedef struct s_ray
 	void					*object;
 	double					hit_distance;
 	t_point3				intersect;
-	// bool					shadow;
 }							t_ray;
 
 typedef struct s_viewport

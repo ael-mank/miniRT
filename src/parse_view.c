@@ -6,7 +6,7 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:13:52 by yrigny            #+#    #+#             */
-/*   Updated: 2024/09/30 15:07:04 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/30 16:00:04 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@ bool	parse_element(t_scene *scene, char *line)
 		line++;
 	if (*line == '\0' || *line == '#')
 		return (true);
-	if (!ft_strncmp(line, "C ", 2))
+	if (!ft_strncmp(line, "C", 1))
 		return (parse_and_add_camera(++line, scene));
-	if (!ft_strncmp(line, "A ", 2))
+	if (!ft_strncmp(line, "A", 1))
 		return (parse_and_add_ambient(++line, scene));
-	if (!ft_strncmp(line, "L ", 2))
+	if (!ft_strncmp(line, "L", 1))
 		return (parse_and_add_light(++line, scene));
-	if (!ft_strncmp(line, "pl ", 3))
+	if (!ft_strncmp(line, "pl", 2))
 		return (parse_and_add_plane(line, scene));
-	if (!ft_strncmp(line, "sp ", 3))
+	if (!ft_strncmp(line, "sp", 2))
 		return (parse_and_add_sphere(line, scene));
-	if (!ft_strncmp(line, "cy ", 3))
+	if (!ft_strncmp(line, "cy", 2))
 		return (parse_and_add_cylinder(line, scene));
 	else
 	{
-		ft_putstr_fd("Error: Wrong type of element.\n", 2);
+		ft_putstr_fd("Error: Unknown type of element.\n", 2);
 		return (false);
 	}
 }

@@ -6,18 +6,20 @@
 /*   By: yrigny <yrigny@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:42:36 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 17:49:18 by yrigny           ###   ########.fr       */
+/*   Updated: 2024/09/30 20:23:41 by yrigny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
-# define LENGTH 960
-# define HEIGHT 540
+# ifndef LENGTH
+#  define LENGTH 960
+# endif
+# ifndef HEIGHT
+#  define HEIGHT 540
+# endif
 # define F_LENGTH 1.0
 # define PI 3.1415927
-# define INTEGER 1
-# define FLOAT 2
 # include "libft.h"
 # include "mlx.h"
 # include "struct.h"
@@ -72,7 +74,7 @@ void			print_cylinder(t_cylinder *cy);
 /* parse  */
 int				count_parts(char *s, char c);
 bool			is_float_format(char *s);
-bool			is_vec3_format(char *s, int type);
+bool			is_vec3_format(char *s, t_num_type type);
 bool			str_is_int(char *s);
 bool			str_is_digit(char *s);
 
@@ -111,6 +113,7 @@ bool			in_cylinder_limit(double root, t_ray *ray,
 
 /* ray_color */
 t_color			ray_color(t_ray *ray, t_scene *scene);
+t_color			ambient_on_obj(t_ray *ray, void *obj, t_ambient *a);
 t_color			weighted_obj_color(t_ray *ray, void *obj, double diffuse_ratio);
 double			light_weight(t_ray *ray, void *obj, t_light *l);
 t_vec3			get_normal(t_ray *ray, void *obj);

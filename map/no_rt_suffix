@@ -1,0 +1,10 @@
+# configuration file no permission parsing test
+
+sp	0,0,0 		2						225,25,25
+
+
+A 	0.2 								200,200,200
+C 	0,10,0 		0.0,-1,0 		90
+L 	0,10,0 		1 						255,255,255
+
+pl	0,0,0		0,1,0					255,255,0

@@ -1,0 +1,12 @@
+
+# Light		Position	Ratio		Color	(to the right of the camera)
+	L		10,0,0		0.7			255,255,255
+
+# Ambient	Ratio		Color
+	A		0.3			255,255,255
+
+# Camera	Position	Direction	FOV		(looking forward)
+	C 		0,0,0		0,0,1		70
+
+# Cylinder	Center		Axis		Diameter	Height		Color	(ahead of the camera)
+	cy		0,0,10		0,1,0		5			10			0,255,0

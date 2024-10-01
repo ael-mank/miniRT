@@ -6,7 +6,7 @@
 #    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 19:43:12 by ael-mank          #+#    #+#              #
-#    Updated: 2024/09/29 09:54:43 by ael-mank         ###   ########.fr        #
+#    Updated: 2024/10/01 12:58:06 by ael-mank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 MLX_DIR = ./minilibx-linux/
 MLX     = mlx_Linux
-CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -Ofast
+CFLAGS = -Wall -Wextra -Werror -Ilibft/include -I$(MLX_DIR) -Iinclude -Ofast -DSPP=100 -DMD=55
 SRC_FILES = main \
             my_mlx/window_inputs my_mlx/my_mlx_pixel_put\
             my_mlx/write_colors \
@@ -44,8 +44,7 @@ SRC_FILES = main \
 
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
-NAME = miniRT
-BONUS_NAME = miniRT_bonus
+NAME = miniRT_bonus
 MAKE := make
 
 GREEN=\033[0;32m
@@ -55,45 +54,33 @@ MAGENTA=\033[0;35m
 NC=\033[0m
 
 # Phony targets
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re
 
 # Rules
-all: CFLAGS += -DSPP=1 -DMD=2
-all: clean $(NAME)
-
-bonus: CFLAGS += -DSPP=100 -DMD=55
-bonus: clean $(BONUS_NAME)
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	@cd $(MLX_DIR) && ./configure > /dev/null 2>&1 
-	@echo -e "$(GREEN)Built MiniLibX ✅ $(NC)"
+	@echo "$(GREEN)Built MiniLibX ✅ $(NC)"
 	@cd ./libft && $(MAKE) > /dev/null && $(MAKE) bonus > /dev/null && $(MAKE) printf > /dev/null
-	@echo -e "$(GREEN)Built Libft ✅ $(NC)"
-	@$(CC) $(CFLAGS) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx -lX11 -lXext -lm -lpthread
-	@echo -e "$(BLUE)Compiled $(NAME) 🎮 $(NC)"
-
-$(BONUS_NAME): $(OBJ)
-	@cd $(MLX_DIR) && ./configure > /dev/null 2>&1 
-	@echo -e "$(GREEN)Built MiniLibX ✅ $(NC)"
-	@cd ./libft && $(MAKE) > /dev/null && $(MAKE) bonus > /dev/null && $(MAKE) printf > /dev/null
-	@echo -e "$(GREEN)Built Libft ✅ $(NC)"
-	@$(CC) $(CFLAGS) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx -lX11 -lXext -lm -lpthread
-	@echo -e "$(BLUE)Compiled $(BONUS_NAME) 🎮 $(NC)"
+	@echo "$(GREEN)Built Libft ✅ $(NC)"
+	@$(CC) -Llibft -L$(MLX_DIR) -o $@ $^ -lft -lmlx $(CFLAGS) -lX11 -lXext -lm -lpthread
+	@echo "$(BLUE)Compiled $(NAME) 🎮 $(NC)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(MLX_DIR) -c $< -o $@
 
 clean:
 	@$(RM) -rf $(OBJ_DIR)
-	@echo -e "$(MAGENTA)Cleaned object files ✅ $(NC)"
+	@echo "$(MAGENTA)Cleaned object files ✅ $(NC)"
 
 fclean: clean
 	@cd ./libft && $(MAKE) fclean > /dev/null
-	@echo -e "$(MAGENTA)Cleaned libft ❎ $(NC)"
+	@echo "$(MAGENTA)Cleaned libft ❎ $(NC)"
 	@cd $(MLX_DIR) && $(MAKE) clean > /dev/null
-	@echo -e "$(MAGENTA)Cleaned mlx ❎ $(NC)"
-	@$(RM) -f $(NAME) $(BONUS_NAME)
-	@echo -e "$(MAGENTA)Cleaned $(NAME) and $(BONUS_NAME) ❎ $(NC)"
+	@echo "$(MAGENTA)Cleaned mlx ❎ $(NC)"
+	@$(RM) -f $(NAME)
+	@echo "$(MAGENTA)Cleaned $(NAME) ❎ $(NC)"
 
 re: fclean all

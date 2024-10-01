@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 08:57:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/28 17:45:08 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:35:58 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	ft_exit(t_scene *scene)
 	}
 	free_ligts(scene->lights);
 	ft_lstclear(&scene->lst_map, free);
+	close(scene->file_fd);
 	printf("\033[1;32mSuccessfuly left miniRT.\033[0m\n");
 	exit(0);
 }

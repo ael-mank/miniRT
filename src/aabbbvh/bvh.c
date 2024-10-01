@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:28:31 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/09/26 16:44:24 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:22:56 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	bvh_hit_node(t_bvh *node, t_ray r, t_interval ray_t, t_hitrecord *rec)
 		*rec = right_rec;
 	else if (hit_left && hit_right && left_rec.t < right_rec.t)
 		*rec = left_rec;
-	else if (hit_left && hit_right && left_rec.t > right_rec.t)
+	else if (hit_left && hit_right && left_rec.t >= right_rec.t)
 		*rec = right_rec;
 	return (hit_left || hit_right);
 }
